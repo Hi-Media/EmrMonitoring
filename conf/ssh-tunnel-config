@@ -1,0 +1,3 @@
+ServerAliveInterval=10
+StrictHostKeyChecking=no
+ConnectTimeout=5

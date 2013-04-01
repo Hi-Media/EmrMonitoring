@@ -1,0 +1,231 @@
+{
+    "hash": "7daf76a64b8cd89fb1a859d7cea59ff1",
+    "packages": [
+        {
+            "name": "geoffroy-aubry/errorhandler",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "git@indefero.hi-media-techno.com:archi-errorhandler.git",
+                "reference": "v1.0.2"
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "geoffroy-aubry/debug": "1.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "GAubry\\ErrorHandler": "src/"
+                }
+            },
+            "license": [
+                "LGPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Geoffroy Aubry",
+                    "email": "gaubry@hi-media.com"
+                }
+            ],
+            "description": "bla bla",
+            "keywords": [
+                "bla"
+            ],
+            "time": "2013-04-01 15:28:47"
+        },
+        {
+            "name": "geoffroy-aubry/logger",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "git@indefero.hi-media-techno.com:archi-logger.git",
+                "reference": "v1.0.1"
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "psr/log": "1.0.0"
+            },
+            "require-dev": {
+                "geoffroy-aubry/debug": "1.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "GAubry\\Logger": "src/"
+                }
+            },
+            "license": [
+                "LGPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Geoffroy Aubry",
+                    "email": "gaubry@hi-media.com"
+                }
+            ],
+            "description": "bla bla",
+            "keywords": [
+                "bla"
+            ],
+            "time": "2013-04-01 23:03:03"
+        },
+        {
+            "name": "geoffroy-aubry/shell",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "git@indefero.hi-media-techno.com:archi-shell.git",
+                "reference": "v1.0.0"
+            },
+            "require": {
+                "geoffroy-aubry/tools": "1.0.*",
+                "php": ">=5.3.3",
+                "psr/log": "1.0.0"
+            },
+            "require-dev": {
+                "geoffroy-aubry/debug": "1.0.*",
+                "geoffroy-aubry/logger": "1.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "GAubry\\Shell": "src/"
+                }
+            },
+            "license": [
+                "LGPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Geoffroy Aubry",
+                    "email": "gaubry@hi-media.com"
+                }
+            ],
+            "description": "bla bla",
+            "keywords": [
+                "bla"
+            ],
+            "time": "2013-04-01 22:12:17"
+        },
+        {
+            "name": "geoffroy-aubry/tools",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "git@indefero.hi-media-techno.com:archi-tools.git",
+                "reference": "v1.0.0"
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "GAubry\\Tools": "src/"
+                }
+            },
+            "license": [
+                "LGPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Geoffroy Aubry",
+                    "email": "gaubry@hi-media.com"
+                }
+            ],
+            "description": "bla bla",
+            "keywords": [
+                "bla"
+            ],
+            "time": "2013-04-01 16:25:12"
+        },
+        {
+            "name": "psr/log",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log",
+                "reference": "1.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/php-fig/log/archive/1.0.0.zip",
+                "reference": "1.0.0",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Psr\\Log\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2012-12-21 11:40:51"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "geoffroy-aubry/debug",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "git@indefero.hi-media-techno.com:archi-debug.git",
+                "reference": "v1.0.1"
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "GAubry\\Debug": "src/"
+                }
+            },
+            "license": [
+                "LGPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Geoffroy Aubry",
+                    "email": "gaubry@hi-media.com"
+                }
+            ],
+            "description": "bla bla",
+            "keywords": [
+                "bla"
+            ],
+            "time": "2013-04-01 14:34:53"
+        }
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": [
+
+    ],
+    "platform": {
+        "php": ">=5.3.3"
+    },
+    "platform-dev": [
+
+    ]
+}

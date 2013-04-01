@@ -1,0 +1,45 @@
+{
+    "name":         "geoffroy-aubry/phpemr",
+    "description":  "bla bla",
+    "keywords":     ["bla"],
+    "type":         "library",
+    "license":      "LGPL-3.0+",
+    "authors":      [
+        {
+            "name":     "Geoffroy Aubry",
+            "email":    "gaubry@hi-media.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "psr/log": "1.0.0",
+        "geoffroy-aubry/errorhandler": "1.0.*",
+        "geoffroy-aubry/shell": "1.0.*",
+        "geoffroy-aubry/logger": "1.0.*"
+    },
+    "require-dev": {
+        "geoffroy-aubry/debug": "1.0.*"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@indefero.hi-media-techno.com:archi-debug.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@indefero.hi-media-techno.com:archi-logger.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@indefero.hi-media-techno.com:archi-tools.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@indefero.hi-media-techno.com:archi-errorhandler.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@indefero.hi-media-techno.com:archi-shell.git"
+        }
+    ]
+}
