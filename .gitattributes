@@ -1,0 +1,44 @@
+# Autodetect text files (convert CRLF => LF)
+* text=auto
+
+# ...Unless the name matches the following overriding patterns
+
+# Definitively text files
+*.c text
+*.clj text
+*.cpp text
+*.css text
+*.h text
+*.htm text
+*.html text
+*.java text
+*.js text
+*.json text
+*.less text
+*.lisp text
+*.php text
+*.py text
+*.rb text
+*.script text
+*.sql text
+*.txt text
+*.xml text
+*.yml text
+
+# Ensure those won't be messed up with
+*.gif binary
+*.jpg binary
+*.png binary
+
+*.jar binary
+
+*.doc binary
+*.DOC binary
+*.docx binary
+*.DOCX binary
+*.dot binary
+*.DOT binary
+*.pdf binary
+*.PDF binary
+*.rtf binary
+*.RTF binary

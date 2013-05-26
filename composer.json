@@ -20,6 +20,10 @@
     "require-dev": {
         "geoffroy-aubry/debug": "1.0.*"
     },
+    "autoload": {
+        "psr-0": {"Himedia": "src/"},
+        "classmap": []
+    },
     "repositories": [
         {
             "type": "vcs",
@@ -28,10 +32,6 @@
         {
             "type": "vcs",
             "url": "git@indefero.hi-media-techno.com:archi-logger.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@indefero.hi-media-techno.com:archi-tools.git"
         },
         {
             "type": "vcs",
