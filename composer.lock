@@ -1,5 +1,9 @@
 {
-    "hash": "7daf76a64b8cd89fb1a859d7cea59ff1",
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "e5573290868ff78b024e817311c94039",
     "packages": [
         {
             "name": "geoffroy-aubry/errorhandler",
@@ -74,11 +78,11 @@
         },
         {
             "name": "geoffroy-aubry/shell",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "git@indefero.hi-media-techno.com:archi-shell.git",
-                "reference": "v1.0.0"
+                "reference": "v1.0.1"
             },
             "require": {
                 "geoffroy-aubry/tools": "1.0.*",
@@ -108,7 +112,7 @@
             "keywords": [
                 "bla"
             ],
-            "time": "2013-04-01 22:12:17"
+            "time": "2013-04-06 18:02:08"
         },
         {
             "name": "geoffroy-aubry/tools",

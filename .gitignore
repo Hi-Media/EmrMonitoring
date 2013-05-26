@@ -5,3 +5,5 @@
 *~
 /vendor/
 composer.phar
+config.*
+conf/phpunit.xml

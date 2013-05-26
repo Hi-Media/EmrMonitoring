@@ -1,0 +1,215 @@
+Array
+(
+    [JobFlows] => Array
+        (
+            [0] => Array
+                (
+                    [VisibleToAllUsers] =>
+                    [SupportedProducts] => Array
+                        (
+                        )
+
+                    [ExecutionStatusDetail] => Array
+                        (
+                            [ReadyDateTime] => 1362497722
+                            [State] => COMPLETED
+                            [CreationDateTime] => 1362497376
+                            [StartDateTime] => 1362497722
+                            [LastStateChangeReason] => Steps completed
+                            [EndDateTime] => 1362498948
+                        )
+
+                    [AmiVersion] => 2.3.3
+                    [LogUri] => s3n://gaubry-test/hadoop-log/
+                    [JobFlowId] => j-IU0IBC7LEGXZ
+                    [JobFlowRole] =>
+                    [BootstrapActions] => Array
+                        (
+                        )
+
+                    [Instances] => Array
+                        (
+                            [MasterInstanceType] => m1.medium
+                            [TerminationProtected] =>
+                            [Placement] => Array
+                                (
+                                    [AvailabilityZone] => eu-west-1a
+                                )
+
+                            [HadoopVersion] => 1.0.3
+                            [MasterPublicDnsName] => ec2-54-228-67-3.eu-west-1.compute.amazonaws.com
+                            [SlaveInstanceType] => m1.medium
+                            [Ec2KeyName] => gaubry
+                            [MasterInstanceId] => i-f0a133ba
+                            [Ec2SubnetId] =>
+                            [InstanceCount] => 5
+                            [KeepJobFlowAliveWhenNoSteps] =>
+                            [InstanceGroups] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [ReadyDateTime] => 1362497644
+                                            [InstanceRequestCount] => 1
+                                            [State] => ENDED
+                                            [CreationDateTime] => 1362497376
+                                            [StartDateTime] => 1362497579
+                                            [InstanceRole] => MASTER
+                                            [InstanceRunningCount] => 0
+                                            [InstanceGroupId] => ig-2RYF3JW2X9F0U
+                                            [Market] => ON_DEMAND
+                                            [BidPrice] =>
+                                            [LastStateChangeReason] => Job flow terminated
+                                            [InstanceType] => m1.medium
+                                            [EndDateTime] => 1362498948
+                                            [Name] => Master Instance Group
+                                            [LaunchGroup] =>
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [ReadyDateTime] => 1362498258
+                                            [InstanceRequestCount] => 4
+                                            [State] => ENDED
+                                            [CreationDateTime] => 1362497376
+                                            [StartDateTime] => 1362498258
+                                            [InstanceRole] => CORE
+                                            [InstanceRunningCount] => 0
+                                            [InstanceGroupId] => ig-JG8QVI9W3VPU
+                                            [Market] => ON_DEMAND
+                                            [BidPrice] =>
+                                            [LastStateChangeReason] => Job flow terminated
+                                            [InstanceType] => m1.medium
+                                            [EndDateTime] => 1362498948
+                                            [Name] => Core Instance Group
+                                            [LaunchGroup] =>
+                                        )
+
+                                )
+
+                            [NormalizedInstanceHours] => 10
+                        )
+
+                    [Name] => gaubry-test
+                    [Steps] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [ExecutionStatusDetail] => Array
+                                        (
+                                            [State] => COMPLETED
+                                            [CreationDateTime] => 1362497376
+                                            [StartDateTime] => 1362497721
+                                            [LastStateChangeReason] =>
+                                            [EndDateTime] => 1362497737
+                                        )
+
+                                    [StepConfig] => Array
+                                        (
+                                            [ActionOnFailure] => TERMINATE_JOB_FLOW
+                                            [HadoopJarStep] => Array
+                                                (
+                                                    [Args] => Array
+                                                        (
+                                                            [0] => s3://eu-west-1.elasticmapreduce/libs/state-pusher/0.1/fetch
+                                                        )
+
+                                                    [Jar] => s3://eu-west-1.elasticmapreduce/libs/script-runner/script-runner.jar
+                                                    [Properties] => Array
+                                                        (
+                                                        )
+
+                                                    [MainClass] =>
+                                                )
+
+                                            [Name] => Setup Hadoop Debugging
+                                        )
+
+                                )
+
+                            [1] => Array
+                                (
+                                    [ExecutionStatusDetail] => Array
+                                        (
+                                            [State] => COMPLETED
+                                            [CreationDateTime] => 1362497376
+                                            [StartDateTime] => 1362497737
+                                            [LastStateChangeReason] =>
+                                            [EndDateTime] => 1362497768
+                                        )
+
+                                    [StepConfig] => Array
+                                        (
+                                            [ActionOnFailure] => TERMINATE_JOB_FLOW
+                                            [HadoopJarStep] => Array
+                                                (
+                                                    [Args] => Array
+                                                        (
+                                                            [0] => s3://eu-west-1.elasticmapreduce/libs/pig/pig-script
+                                                            [1] => --base-path
+                                                            [2] => s3://eu-west-1.elasticmapreduce/libs/pig/
+                                                            [3] => --install-pig
+                                                            [4] => --pig-versions
+                                                            [5] => latest
+                                                        )
+
+                                                    [Jar] => s3://eu-west-1.elasticmapreduce/libs/script-runner/script-runner.jar
+                                                    [Properties] => Array
+                                                        (
+                                                        )
+
+                                                    [MainClass] =>
+                                                )
+
+                                            [Name] => Setup Pig
+                                        )
+
+                                )
+
+                            [2] => Array
+                                (
+                                    [ExecutionStatusDetail] => Array
+                                        (
+                                            [State] => COMPLETED
+                                            [CreationDateTime] => 1362497376
+                                            [StartDateTime] => 1362497768
+                                            [LastStateChangeReason] =>
+                                            [EndDateTime] => 1362498883
+                                        )
+
+                                    [StepConfig] => Array
+                                        (
+                                            [ActionOnFailure] => CANCEL_AND_WAIT
+                                            [HadoopJarStep] => Array
+                                                (
+                                                    [Args] => Array
+                                                        (
+                                                            [0] => s3://eu-west-1.elasticmapreduce/libs/pig/pig-script
+                                                            [1] => --base-path
+                                                            [2] => s3://eu-west-1.elasticmapreduce/libs/pig/
+                                                            [3] => --pig-versions
+                                                            [4] => latest
+                                                            [5] => --run-pig-script
+                                                            [6] => --args
+                                                            [7] => -f
+                                                            [8] => s3://gaubry-test/input/test.pig
+                                                            [9] => -p
+                                                            [10] => INPUT=s3://gaubry-test/input/05b/17-21.log.lzo
+                                                            [11] => -p
+                                                            [12] => OUTPUT=s3://gaubry-test/output/4
+                                                        )
+
+                                                    [Jar] => s3://eu-west-1.elasticmapreduce/libs/script-runner/script-runner.jar
+                                                    [Properties] => Array
+                                                        (
+                                                        )
+
+                                                    [MainClass] =>
+                                                )
+
+                                            [Name] => Run Pig Script
+                                        )
+                                )
+                        )
+                )
+        )
+)
