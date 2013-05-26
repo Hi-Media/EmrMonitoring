@@ -22,7 +22,7 @@ $aConfig = $aDirs + array(
     ),
     'GAubry\ErrorHandler' => array(
         'display_errors' => true,
-        'error_log_path' => '/var/log/php-emr/php-emr.error.log',
+        'error_log_path' => '/var/log/emr-monitoring/emr-monitoring.error.log',
         'error_level' => -1,
         'auth_error_suppr_op' => false
     ),

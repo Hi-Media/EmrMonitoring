@@ -8,8 +8,19 @@ use \GAubry\ErrorHandler\ErrorHandler;
  * @author Geoffroy AUBRY <geoffroy.aubry@hi-media.com>
  */
 
-$aConfig = include_once(dirname(__FILE__) . '/../../conf/config.php');
+// Check config file
+$sConfDir = realpath(dirname(__FILE__) . '/../../conf');
+if ( ! file_exists($sConfDir . '/config.php')) {
+    echo "\033[1m\033[4;33m/!\\\033[0;37m "
+        . "\033[0;31mConfig file missing!" . PHP_EOL
+        . "    \033[0;33mcp '$sConfDir/config-dist.php' '$sConfDir/config.php' \033[0;37mand adapt it." . PHP_EOL
+        . PHP_EOL;
+    exit(1);
+} else {
+    $aConfig = include_once(dirname(__FILE__) . '/../../conf/config.php');
+}
 
+// Check composer dependencies
 if ( ! file_exists($aConfig['vendor_dir'] . '/autoload.php')) {
     echo "\033[1m\033[4;33m/!\\\033[0;37m "
         . "You must set up the project dependencies, run the following commands:" . PHP_EOL
@@ -20,9 +31,9 @@ if ( ! file_exists($aConfig['vendor_dir'] . '/autoload.php')) {
         . "Or check http://getcomposer.org/doc/00-intro.md#installation-nix for more information." . PHP_EOL
         . PHP_EOL;
     exit(1);
+} else {
+    include_once($aConfig['vendor_dir'] . '/autoload.php');
 }
-
-include_once($aConfig['vendor_dir'] . '/autoload.php');
 
 set_include_path(
     $aConfig['root_dir'] . PATH_SEPARATOR .
