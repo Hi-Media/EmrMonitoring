@@ -29,10 +29,11 @@ if ( ! file_exists($aConfig['vendor_dir'] . '/autoload.php')) {
         . PHP_EOL
         . "If needed, to install \033[1;37mcomposer\033[0;37m locally: " . PHP_EOL
         . "    – \033[0;33mcurl -sS https://getcomposer.org/installer | php\033[0;37m" . PHP_EOL
-        . "    – or: \033[0;33mwget --no-check-certificate -q -O- https://getcomposer.org/installer | php" . PHP_EOL
+        . "    – or: \033[0;33mwget --no-check-certificate -q -O- https://getcomposer.org/installer | php"
+        . PHP_EOL . PHP_EOL
         . "\033[0;37mRead http://getcomposer.org/doc/00-intro.md#installation-nix for more information." . PHP_EOL
         . PHP_EOL;
-    exit(1);
+    exit(2);
 } else {
     include_once($aConfig['vendor_dir'] . '/autoload.php');
 }
@@ -48,11 +49,31 @@ if (exec($sCmd) != 'OK') {
         . "    \033[0;37m3. \033[0;33mwget http://elasticmapreduce.s3.amazonaws.com/elastic-mapreduce-ruby.zip"
         . PHP_EOL
         . "    \033[0;37m4. \033[0;33munzip -d /usr/local/lib/elastic-mapreduce-cli elastic-mapreduce-ruby.zip"
-        . PHP_EOL
+        . PHP_EOL . PHP_EOL
         . "\033[0;37mRead http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-cli-install.html"
         . " for more information." . PHP_EOL
         . PHP_EOL;
-    exit(1);
+    exit(3);
+}
+
+// Check s3cmd
+$sCmd1 = "which 's3cmd' 1>/dev/null 2>&1 && echo 'OK' || echo 'NOK'";
+$sCmd2 = "s3cmd --dump-config 1>/dev/null 2>&1 && echo 'OK' || echo 'NOK'";
+if (exec($sCmd1) != 'OK') {
+    echo "\033[1m\033[4;33m/!\\\033[0;37m "
+        . "\033[0;31mCommand Line S3 client 's3cmd' not found!" . PHP_EOL
+        . "    \033[0;37m1. \033[0;33msudo apt-get install s3cmd" . PHP_EOL
+        . "    \033[0;37m2. \033[0;33ms3cmd --configure" . PHP_EOL . PHP_EOL
+        . "\033[0;37mRead http://s3tools.org/s3cmd for more information." . PHP_EOL
+        . PHP_EOL;
+    exit(4);
+} else if (exec($sCmd2) != 'OK') {
+    echo "\033[1m\033[4;33m/!\\\033[0;37m "
+        . "\033[0;31mCommand Line S3 client 's3cmd' is not configured!" . PHP_EOL
+        . "    \033[0;37mPlease run \033[0;33ms3cmd --configure" . PHP_EOL . PHP_EOL
+        . "\033[0;37mRead http://s3tools.org/s3cmd for more information." . PHP_EOL
+        . PHP_EOL;
+    exit(5);
 }
 
 set_include_path(
