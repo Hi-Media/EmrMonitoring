@@ -76,6 +76,16 @@ if (exec($sCmd1) != 'OK') {
     exit(5);
 }
 
+// Check gnuplot
+$sCmd = "which gnuplot 1>/dev/null 2>&1 && echo 'OK' || echo 'NOK'";
+if (exec($sCmd) != 'OK') {
+    echo "\033[1m\033[4;33m/!\\\033[0;37m "
+        . "\033[0;31mgnuplot is required!" . PHP_EOL
+        . "    \033[0;37mPlease run \033[0;33msudo apt-get install gnuplot" . PHP_EOL
+        . PHP_EOL;
+    exit(6);
+}
+
 set_include_path(
     $aConfig['root_dir'] . PATH_SEPARATOR .
     get_include_path()
