@@ -20,16 +20,16 @@ class Rendering
 
     public function displayHelp ()
     {
-        $this->_oLogger->log(LogLevel::INFO, "{C.section}Help+++");
-        $this->_oLogger->log(LogLevel::INFO, 'emr_monitoring.php+++');
+        $this->_oLogger->log(LogLevel::INFO, '{C.section}Help+++');
+        $this->_oLogger->log(LogLevel::INFO, '{C.help_cmd}emr_monitoring.php+++');
         $this->_oLogger->log(LogLevel::INFO, 'Display this help and list all job flows in the last 2 weeks.---');
-        $this->_oLogger->log(LogLevel::INFO, 'emr_monitoring.php <jobflowid>+++');
-        $this->_oLogger->log(LogLevel::INFO, 'Display statistics on any <jobflowid>, finished or in progress.');
-        $this->_oLogger->log(LogLevel::INFO, 'Monitoring a jobflow in real-time: watch -n10 --color emr_monitoring.php <jobflowid>');
-        $this->_oLogger->log(LogLevel::INFO, 'Add -d or --debug to enable debug mode.---');
-        $this->_oLogger->log(LogLevel::INFO, 'emr_monitoring.php <jobflowid> --list-input-files+++');
-        $this->_oLogger->log(LogLevel::INFO, 'List all S3 input files really loaded by Hadoop instance of the completed <jobflowid>.---');
-        $this->_oLogger->log(LogLevel::INFO, '---');
+        $this->_oLogger->log(LogLevel::INFO, '{C.help_cmd}emr_monitoring.php {C.help_param}<jobflowid>+++');
+        $this->_oLogger->log(LogLevel::INFO, 'Display statistics on any {C.help_param}<jobflowid>{C.info}, finished or in progress.');
+        $this->_oLogger->log(LogLevel::INFO, 'Add {C.help_param}-d{C.info} or {C.help_param}--debug{C.info} to enable debug mode.');
+        $this->_oLogger->log(LogLevel::INFO, '⇒ to monitor a jobflow in real-time: {C.help_cmd}watch -n10 --color emr_monitoring.php {C.help_param}<jobflowid>---');
+        $this->_oLogger->log(LogLevel::INFO, '{C.help_cmd}emr_monitoring.php {C.help_param}<jobflowid>{C.help_cmd} --list-input-files+++');
+        $this->_oLogger->log(LogLevel::INFO, 'List all S3 input files really loaded by Hadoop instance of the completed {C.help_param}<jobflowid>{C.info}.---');
+        $this->_oLogger->log(LogLevel::INFO, ' ---');
     }
 
     /**
