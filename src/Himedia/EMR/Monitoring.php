@@ -17,17 +17,13 @@ class Monitoring
 
     private static $_aDefaultConfig = array(
         'ec2_api_tools_dir' => '/path/to/ec2-api-tools-dir',
-        'ec2_access_key' => '…',
-        'ec2_secret_key' => '…',
+        'aws_access_key' => '…',
+        'aws_secret_key' => '…',
         'emr_elastic_mapreduce_cli' => '/path/to/elastic-mapreduce',
         'ssh_options' => '-o ServerAliveInterval=10 -o StrictHostKeyChecking=no -o ConnectTimeout=5 -o BatchMode=yes',
     );
 
     /**
-     * Structure :
-     *     array(
-     *         'emr_elastic_mapreduce_cli' => string
-     *     )
      * @var array
      */
     private $_aConfig;
@@ -51,14 +47,20 @@ class Monitoring
      */
     public function getAllJobs ()
     {
-        $sCmd = $this->_aConfig['emr_elastic_mapreduce_cli'] . ' --list --all --no-step';
+        $sCmd = $this->_aConfig['emr_elastic_mapreduce_cli']
+              . ' --access-id ' . $this->_aConfig['aws_access_key']
+              . ' --private-key ' . $this->_aConfig['aws_secret_key']
+              . ' --list --all --no-step';
         $aRawResult = $this->_oShell->exec($sCmd);
         return $aRawResult;
     }
 
     public function getJobFlow ($sJobFlowID, $sSSHTunnelPort)
     {
-        $sCmd = $this->_aConfig['emr_elastic_mapreduce_cli'] . " --describe $sJobFlowID";
+        $sCmd = $this->_aConfig['emr_elastic_mapreduce_cli']
+              . ' --access-id ' . $this->_aConfig['aws_access_key']
+              . ' --private-key ' . $this->_aConfig['aws_secret_key']
+              . " --describe $sJobFlowID";
         $aRawResult = $this->_oShell->exec($sCmd);
         $aDesc = json_decode(implode("\n", $aRawResult), true);
         $aJob = $aDesc['JobFlows'][0];
@@ -235,8 +237,8 @@ class Monitoring
         if ( ! empty($this->_aConfig['ec2_api_tools_dir']) && ! empty($sZone)) {
             $sCmd = $this->_aConfig['ec2_api_tools_dir']
                   . '/bin/ec2-describe-spot-price-history'
-                  . ' --aws-access-key ' . $this->_aConfig['ec2_access_key']
-                  . ' --aws-secret-key ' . $this->_aConfig['ec2_secret_key']
+                  . ' --aws-access-key ' . $this->_aConfig['aws_access_key']
+                  . ' --aws-secret-key ' . $this->_aConfig['aws_secret_key']
                   . ' --region ' . substr($sZone, 0, -1)
                   . ' --instance-type ' . $aJobIGroup['InstanceType']
                   . ' --start-time ' . date("Y-m-d") . 'T00:00:00.000Z '

@@ -28,7 +28,7 @@ class Rendering
         $this->_oLogger->log(LogLevel::INFO, 'Monitoring a jobflow in real-time: watch -n10 --color emr_monitoring.php <jobflowid>');
         $this->_oLogger->log(LogLevel::INFO, 'Add -d or --debug to enable debug mode.---');
         $this->_oLogger->log(LogLevel::INFO, 'emr_monitoring.php <jobflowid> --list-input-files+++');
-        $this->_oLogger->log(LogLevel::INFO, 'List all S3 input files really loaded by Hadoop instance of the completed <jobflowid>.');
+        $this->_oLogger->log(LogLevel::INFO, 'List all S3 input files really loaded by Hadoop instance of the completed <jobflowid>.---');
         $this->_oLogger->log(LogLevel::INFO, '---');
     }
 

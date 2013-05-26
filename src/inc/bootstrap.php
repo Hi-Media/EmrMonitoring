@@ -30,11 +30,29 @@ if ( ! file_exists($aConfig['vendor_dir'] . '/autoload.php')) {
         . "If needed, to install \033[1;37mcomposer\033[0;37m locally: " . PHP_EOL
         . "    – \033[0;33mcurl -sS https://getcomposer.org/installer | php\033[0;37m" . PHP_EOL
         . "    – or: \033[0;33mwget --no-check-certificate -q -O- https://getcomposer.org/installer | php" . PHP_EOL
-        . "\033[0;37mCheck http://getcomposer.org/doc/00-intro.md#installation-nix for more information." . PHP_EOL
+        . "\033[0;37mRead http://getcomposer.org/doc/00-intro.md#installation-nix for more information." . PHP_EOL
         . PHP_EOL;
     exit(1);
 } else {
     include_once($aConfig['vendor_dir'] . '/autoload.php');
+}
+
+// Check EMR CLI
+$sEMRBin = $aConfig['Himedia\EMR']['emr_elastic_mapreduce_cli'];
+$sCmd = "which '$sEMRBin' 1>/dev/null 2>&1 && echo 'OK' || echo 'NOK'";
+if (exec($sCmd) != 'OK') {
+    echo "\033[1m\033[4;33m/!\\\033[0;37m "
+        . "\033[0;31mThe Amazon EMR Command Line Interface is missing!" . PHP_EOL
+        . "    \033[0;37m1. \033[0;33msudo apt-get install ruby-full" . PHP_EOL
+        . "    \033[0;37m2. \033[0;33mmkdir /usr/local/lib/elastic-mapreduce-cli" . PHP_EOL
+        . "    \033[0;37m3. \033[0;33mwget http://elasticmapreduce.s3.amazonaws.com/elastic-mapreduce-ruby.zip"
+        . PHP_EOL
+        . "    \033[0;37m4. \033[0;33munzip -d /usr/local/lib/elastic-mapreduce-cli elastic-mapreduce-ruby.zip"
+        . PHP_EOL
+        . "\033[0;37mRead http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-cli-install.html"
+        . " for more information." . PHP_EOL
+        . PHP_EOL;
+    exit(1);
 }
 
 set_include_path(
@@ -42,6 +60,7 @@ set_include_path(
     get_include_path()
 );
 
+// Load error/exception handler
 $aEHCfg = $aConfig['GAubry\ErrorHandler'];
 $GLOBALS['oErrorHandler'] = new ErrorHandler(
     $aEHCfg['display_errors'],

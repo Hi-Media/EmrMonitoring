@@ -13,10 +13,10 @@ $aDirs = array(
 
 $aConfig = $aDirs + array(
     'Himedia\EMR' => array(
-        'emr_elastic_mapreduce_cli' => '/usr/local/lib/elastic-mapreduce-cli/elastic-mapreduce-ruby/elastic-mapreduce',
+        'emr_elastic_mapreduce_cli' => '/usr/local/lib/elastic-mapreduce-cli/elastic-mapreduce',
         'ec2_api_tools_dir' => '/usr/local/lib/ec2-api-tools-1.6.7.2',
-        'ec2_access_key' => '…',
-        'ec2_secret_key' => '…',
+        'aws_access_key' => '…',
+        'aws_secret_key' => '…',
         'ssh_options' => '-o ServerAliveInterval=10 -o StrictHostKeyChecking=no -o ConnectTimeout=5 -o BatchMode=yes',
         'default_ssh_tunnel_port' => 12345
     ),
