@@ -19,7 +19,7 @@ class Monitoring
         'ec2_api_tools_dir' => '/path/to/ec2-api-tools-dir',
         'aws_access_key' => '…',
         'aws_secret_key' => '…',
-        'emr_elastic_mapreduce_cli' => '/path/to/elastic-mapreduce',
+        'emr_cli_bin' => '/path/to/elastic-mapreduce',
         'ssh_options' => '-o ServerAliveInterval=10 -o StrictHostKeyChecking=no -o ConnectTimeout=5 -o BatchMode=yes',
     );
 
@@ -47,7 +47,7 @@ class Monitoring
      */
     public function getAllJobs ()
     {
-        $sCmd = $this->_aConfig['emr_elastic_mapreduce_cli']
+        $sCmd = $this->_aConfig['emr_cli_bin']
               . ' --access-id ' . $this->_aConfig['aws_access_key']
               . ' --private-key ' . $this->_aConfig['aws_secret_key']
               . ' --list --all --no-step';
@@ -57,7 +57,7 @@ class Monitoring
 
     public function getJobFlow ($sJobFlowID, $sSSHTunnelPort)
     {
-        $sCmd = $this->_aConfig['emr_elastic_mapreduce_cli']
+        $sCmd = $this->_aConfig['emr_cli_bin']
               . ' --access-id ' . $this->_aConfig['aws_access_key']
               . ' --private-key ' . $this->_aConfig['aws_secret_key']
               . " --describe $sJobFlowID";

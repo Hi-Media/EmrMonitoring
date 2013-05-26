@@ -13,7 +13,7 @@ $aDirs = array(
 
 $aConfig = $aDirs + array(
     'Himedia\EMR' => array(
-        'emr_elastic_mapreduce_cli' => '/usr/local/lib/elastic-mapreduce-cli/elastic-mapreduce',
+        'emr_cli_bin' => '/usr/local/lib/elastic-mapreduce-cli/elastic-mapreduce',
         'ec2_api_tools_dir' => '/usr/local/lib/ec2-api-tools-1.6.7.2',
         'aws_access_key' => '…',
         'aws_secret_key' => '…',

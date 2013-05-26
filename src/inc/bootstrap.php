@@ -39,17 +39,18 @@ if ( ! file_exists($aConfig['vendor_dir'] . '/autoload.php')) {
 }
 
 // Check EMR CLI
-$sEMRBin = $aConfig['Himedia\EMR']['emr_elastic_mapreduce_cli'];
+$sEMRBin = $aConfig['Himedia\EMR']['emr_cli_bin'];
 $sCmd = "which '$sEMRBin' 1>/dev/null 2>&1 && echo 'OK' || echo 'NOK'";
 if (exec($sCmd) != 'OK') {
     echo "\033[1m\033[4;33m/!\\\033[0;37m "
-        . "\033[0;31mThe Amazon EMR Command Line Interface is missing!" . PHP_EOL
+        . "\033[0;31mThe Amazon EMR Command Line Interface is missing! (search for this bin: '$sEMRBin')" . PHP_EOL
         . "    \033[0;37m1. \033[0;33msudo apt-get install ruby-full" . PHP_EOL
         . "    \033[0;37m2. \033[0;33mmkdir /usr/local/lib/elastic-mapreduce-cli" . PHP_EOL
         . "    \033[0;37m3. \033[0;33mwget http://elasticmapreduce.s3.amazonaws.com/elastic-mapreduce-ruby.zip"
         . PHP_EOL
-        . "    \033[0;37m4. \033[0;33munzip -d /usr/local/lib/elastic-mapreduce-cli elastic-mapreduce-ruby.zip"
-        . PHP_EOL . PHP_EOL
+        . "    \033[0;37m4. \033[0;33munzip -d /usr/local/lib/elastic-mapreduce-cli elastic-mapreduce-ruby.zip" . PHP_EOL
+        . "    \033[0;37m5. If necessary, adapt \033[0;33m\$aConfig['Himedia\EMR']['emr_cli_bin']\033[0;37m"
+        . " in \033[0;33mconf/config.php" . PHP_EOL . PHP_EOL
         . "\033[0;37mRead http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-cli-install.html"
         . " for more information." . PHP_EOL
         . PHP_EOL;
@@ -84,6 +85,22 @@ if (exec($sCmd) != 'OK') {
         . "    \033[0;37mPlease run \033[0;33msudo apt-get install gnuplot" . PHP_EOL
         . PHP_EOL;
     exit(6);
+}
+
+// Check EC2 API tools
+$sEC2Dir = $aConfig['Himedia\EMR']['ec2_api_tools_dir'];
+$sCmd = "which '$sEC2Dir/bin/ec2-cmd' 1>/dev/null 2>&1 && echo 'OK' || echo 'NOK'";
+if (exec($sCmd) != 'OK') {
+    echo "\033[1m\033[4;33m/!\\\033[0;37m "
+        . "\033[0;31mEC2 API Tools not found! (search for this bin: '$sEC2Dir/bin/ec2-cmd')" . PHP_EOL
+        . "    \033[0;37m1. \033[0;33mwget http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip" . PHP_EOL
+        . "    \033[0;37m2. \033[0;33munzip -d /usr/local/lib ec2-api-tools.zip" . PHP_EOL
+        . "    \033[0;37m3. Adapt \033[0;33m\$aConfig['Himedia\EMR']['ec2_api_tools_dir']\033[0;37m"
+        . " in \033[0;33mconf/config.php" . PHP_EOL . PHP_EOL
+        . "\033[0;37mRead http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/setting_up_ec2_command_linux.html"
+        . " for more information." . PHP_EOL
+        . PHP_EOL;
+    exit(7);
 }
 
 set_include_path(
