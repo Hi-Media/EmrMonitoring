@@ -133,9 +133,11 @@ class Monitoring
                 // ClusterSummary & SubJobsSummary
                 if ($aJobStep['ExecutionStatusDetail']['State'] == 'RUNNING') {
                     $this->_openSSHTunnel($aJob, $sSSHTunnelPort);
-                    list($aClusterSummary, $aSubJobsSummary) = $this->_getHadoopJobTrackerContent();
+                    list($aClusterSummary, $aSubJobsSummary, $sError) =
+                        $this->_getHadoopJobTrackerContent($sSSHTunnelPort);
                     $aJob['Steps'][$iKey]['ClusterSummary'] = $aClusterSummary;
                     $aJob['Steps'][$iKey]['SubJobsSummary'] = $aSubJobsSummary;
+                    $aJob['Steps'][$iKey]['Error'] = $sError;
                 }
             }
         }
@@ -189,46 +191,55 @@ class Monitoring
         }
     }
 
-    private function _getHadoopJobTrackerContent ()
+    private function _getHadoopJobTrackerContent ($sSSHTunnelPort)
     {
-        $dom_doc = new \DOMDocument();
-        $html_file = file_get_contents('http://localhost:12345/jobtracker.jsp');
-        libxml_use_internal_errors(true);
-        $dom_doc->loadHTML($html_file);
-        libxml_clear_errors();
-        $xpath = new \DOMXPath($dom_doc);
-
         $aClusterSummary = array();
-        $trs = $xpath->query('//table/tr[th="Running Map Tasks"]/following-sibling::tr[1]');
-        if ( ! empty($trs)) {
-            $tr = $trs->item(0);
-            foreach($tr->childNodes as $cell) {
-                $aClusterSummary[] = $cell->nodeValue;
-            }
-        }
-
         $aSubJobsSummary = array();
-        $aSubJobKeys = array(
-            'Jobid', 'Started', 'Priority', 'User', 'Name', 'Map % Complete', 'Map Total',
-            'Maps Completed', 'Reduce % Complete', 'Reduce Total', 'Reduces Completed',
-            'Job Scheduling Information', 'Diagnostic Info'
-        );
-        $trs = $xpath->query('//table[preceding-sibling::h2[@id="running_jobs"]]/tr');
-        if ($trs->length > 0) {
-            foreach ($trs as $tr) {
-                $aSubJobValues = array();
-                foreach($tr->childNodes as $cell) {
-                    $aSubJobValues[] = $cell->nodeValue;
-                }
-                if (count($aSubJobValues) == count($aSubJobKeys) && $aSubJobValues[0] != 'Jobid') {
-                    $aSubJob = array_combine($aSubJobKeys, array_map('trim', $aSubJobValues));
-                    $aSubJobsSummary[$aSubJob['Jobid']] = $aSubJob;
-                }
-            }
-            ksort($aSubJobsSummary);
+        $sError = '';
+
+        $dom_doc = new \DOMDocument();
+        try {
+            $html_file = file_get_contents("http://localhost:$sSSHTunnelPort/jobtracker.jsp");
+        } catch(\ErrorException $oException) {
+            $sError = $oException->getMessage();
         }
 
-        return array($aClusterSummary, $aSubJobsSummary);
+        if (empty($sError)) {
+            libxml_use_internal_errors(true);
+            $dom_doc->loadHTML($html_file);
+            libxml_clear_errors();
+            $xpath = new \DOMXPath($dom_doc);
+
+            $trs = $xpath->query('//table/tr[th="Running Map Tasks"]/following-sibling::tr[1]');
+            if ( ! empty($trs)) {
+                $tr = $trs->item(0);
+                foreach($tr->childNodes as $cell) {
+                    $aClusterSummary[] = $cell->nodeValue;
+                }
+            }
+
+            $aSubJobKeys = array(
+                'Jobid', 'Started', 'Priority', 'User', 'Name', 'Map % Complete', 'Map Total',
+                'Maps Completed', 'Reduce % Complete', 'Reduce Total', 'Reduces Completed',
+                'Job Scheduling Information', 'Diagnostic Info'
+            );
+            $trs = $xpath->query('//table[preceding-sibling::h2[@id="running_jobs"]]/tr');
+            if ($trs->length > 0) {
+                foreach ($trs as $tr) {
+                    $aSubJobValues = array();
+                    foreach($tr->childNodes as $cell) {
+                        $aSubJobValues[] = $cell->nodeValue;
+                    }
+                    if (count($aSubJobValues) == count($aSubJobKeys) && $aSubJobValues[0] != 'Jobid') {
+                        $aSubJob = array_combine($aSubJobKeys, array_map('trim', $aSubJobValues));
+                        $aSubJobsSummary[$aSubJob['Jobid']] = $aSubJob;
+                    }
+                }
+                ksort($aSubJobsSummary);
+            }
+        }
+
+        return array($aClusterSummary, $aSubJobsSummary, $sError);
     }
 
     private function _getSpotInstanceCurrentPricing (array $aJobIGroup, $sZone)
@@ -261,14 +272,16 @@ class Monitoring
             $oCreationDate = new \DateTime('@' . (int)$aDates['CreationDateTime']);
             $mTs = ($aDates['StartDateTime'] === null ? null : '@' . (int)$aDates['StartDateTime']);
             $oStartDate = new \DateTime($mTs);
-            $aDates['ElapsedTimeToStartDateTime'] = $oStartDate->getTimestamp() - $oCreationDate->getTimestamp();
+            $aDates['ElapsedTimeToStartDateTime'] =
+                max(0, $oStartDate->getTimestamp() - $oCreationDate->getTimestamp());
 
             if ($aDates['StartDateTime'] === null) {
                 $aDates['ElapsedTimeToEndDateTime'] = null;
             } else {
                 $mTs = ($aDates['EndDateTime'] === null ? null : '@' . (int)$aDates['EndDateTime']);
                 $oEndDate = new \DateTime($mTs);
-                $aDates['ElapsedTimeToEndDateTime'] = $oEndDate->getTimestamp() - $oStartDate->getTimestamp();
+                $aDates['ElapsedTimeToEndDateTime'] =
+                    max(0, $oEndDate->getTimestamp() - $oStartDate->getTimestamp());
             }
         }
     }

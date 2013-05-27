@@ -91,7 +91,9 @@ class Rendering
             }
             $sMsg .= ($aJobSection[$sDateType] === null ? '–' : date('Y-m-d H:i:s', (int)$aJobSection[$sDateType]));
             if ( ! empty($aJobSection["ElapsedTimeTo$sDateType"])) {
-                $sMsg .= ' {C.comment}(+' . gmdate('H:i:s', $aJobSection["ElapsedTimeTo$sDateType"]) . ')';
+                $sMsg .= ' {C.comment}('
+                       . ($aJobSection[$sDateType] === null ? '≈ ' : '')
+                       . '+' . gmdate('H:i:s', $aJobSection["ElapsedTimeTo$sDateType"]) . ')';
             }
         }
 
@@ -226,7 +228,9 @@ class Rendering
 
         $this->_oLogger->log(LogLevel::INFO, '{C.section}Jobs+++');
         $aSubJobsSummary = $aJobStep['SubJobsSummary'];
-        if (count($aSubJobsSummary) == 0) {
+        if ( ! empty($aJobStep['Error'])) {
+            $this->_oLogger->log(LogLevel::ERROR, $aJobStep['Error']);
+        } else if (count($aSubJobsSummary) == 0) {
             $this->_oLogger->log(LogLevel::INFO, 'No job found…');
         } else {
             ksort($aSubJobsSummary);
@@ -271,7 +275,7 @@ class Rendering
         }
 
         $sStatus = $aJob['ExecutionStatusDetail']['State'];
-        if ( ! in_array($sStatus, array('COMPLETED', 'TERMINATED', 'FAILED'))) {
+        if ( ! in_array($sStatus, array('COMPLETED', 'TERMINATED', 'FAILED', 'SHUTTING_DOWN'))) {
             $this->_oLogger->log(LogLevel::INFO, 'Waiting end of job flow for both stats and DAG…');
 
         } else {
