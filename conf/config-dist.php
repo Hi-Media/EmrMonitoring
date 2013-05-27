@@ -13,16 +13,16 @@ $aDirs = array(
 
 $aConfig = $aDirs + array(
     'Himedia\EMR' => array(
-        'emr_elastic_mapreduce_cli' => '/usr/local/lib/elastic-mapreduce-cli/elastic-mapreduce-ruby/elastic-mapreduce',
+        'emr_cli_bin' => '/usr/local/lib/elastic-mapreduce-cli/elastic-mapreduce',
         'ec2_api_tools_dir' => '/usr/local/lib/ec2-api-tools-1.6.7.2',
-        'ec2_access_key' => '…',
-        'ec2_secret_key' => '…',
+        'aws_access_key' => '…',
+        'aws_secret_key' => '…',
         'ssh_options' => '-o ServerAliveInterval=10 -o StrictHostKeyChecking=no -o ConnectTimeout=5 -o BatchMode=yes',
         'default_ssh_tunnel_port' => 12345
     ),
     'GAubry\ErrorHandler' => array(
         'display_errors' => true,
-        'error_log_path' => '/var/log/php-emr/php-emr.error.log',
+        'error_log_path' => '/var/log/emr-monitoring/emr-monitoring.error.log',
         'error_level' => -1,
         'auth_error_suppr_op' => false
     ),
@@ -43,6 +43,8 @@ $aConfig = $aDirs + array(
             'raw_error'     => "\033[0;31m",
             'info'          => "\033[0;37m",
             'price'         => "\033[0;35m",
+            'help_cmd'      => "\033[0;33m",
+            'help_param'    => "\033[1;33m"
         ),
         'tabulation' => "\033[0;30m┆\033[0m   ",
         'indent_tag' => '+++',

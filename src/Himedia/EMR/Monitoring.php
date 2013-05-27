@@ -17,17 +17,13 @@ class Monitoring
 
     private static $_aDefaultConfig = array(
         'ec2_api_tools_dir' => '/path/to/ec2-api-tools-dir',
-        'ec2_access_key' => '…',
-        'ec2_secret_key' => '…',
-        'emr_elastic_mapreduce_cli' => '/path/to/elastic-mapreduce',
+        'aws_access_key' => '…',
+        'aws_secret_key' => '…',
+        'emr_cli_bin' => '/path/to/elastic-mapreduce',
         'ssh_options' => '-o ServerAliveInterval=10 -o StrictHostKeyChecking=no -o ConnectTimeout=5 -o BatchMode=yes',
     );
 
     /**
-     * Structure :
-     *     array(
-     *         'emr_elastic_mapreduce_cli' => string
-     *     )
      * @var array
      */
     private $_aConfig;
@@ -51,14 +47,20 @@ class Monitoring
      */
     public function getAllJobs ()
     {
-        $sCmd = $this->_aConfig['emr_elastic_mapreduce_cli'] . ' --list --all --no-step';
+        $sCmd = $this->_aConfig['emr_cli_bin']
+              . ' --access-id ' . $this->_aConfig['aws_access_key']
+              . ' --private-key ' . $this->_aConfig['aws_secret_key']
+              . ' --list --all --no-step';
         $aRawResult = $this->_oShell->exec($sCmd);
         return $aRawResult;
     }
 
     public function getJobFlow ($sJobFlowID, $sSSHTunnelPort)
     {
-        $sCmd = $this->_aConfig['emr_elastic_mapreduce_cli'] . " --describe $sJobFlowID";
+        $sCmd = $this->_aConfig['emr_cli_bin']
+              . ' --access-id ' . $this->_aConfig['aws_access_key']
+              . ' --private-key ' . $this->_aConfig['aws_secret_key']
+              . " --describe $sJobFlowID";
         $aRawResult = $this->_oShell->exec($sCmd);
         $aDesc = json_decode(implode("\n", $aRawResult), true);
         $aJob = $aDesc['JobFlows'][0];
@@ -131,9 +133,11 @@ class Monitoring
                 // ClusterSummary & SubJobsSummary
                 if ($aJobStep['ExecutionStatusDetail']['State'] == 'RUNNING') {
                     $this->_openSSHTunnel($aJob, $sSSHTunnelPort);
-                    list($aClusterSummary, $aSubJobsSummary) = $this->_getHadoopJobTrackerContent();
+                    list($aClusterSummary, $aSubJobsSummary, $sError) =
+                        $this->_getHadoopJobTrackerContent($sSSHTunnelPort);
                     $aJob['Steps'][$iKey]['ClusterSummary'] = $aClusterSummary;
                     $aJob['Steps'][$iKey]['SubJobsSummary'] = $aSubJobsSummary;
+                    $aJob['Steps'][$iKey]['Error'] = $sError;
                 }
             }
         }
@@ -187,46 +191,55 @@ class Monitoring
         }
     }
 
-    private function _getHadoopJobTrackerContent ()
+    private function _getHadoopJobTrackerContent ($sSSHTunnelPort)
     {
-        $dom_doc = new \DOMDocument();
-        $html_file = file_get_contents('http://localhost:12345/jobtracker.jsp');
-        libxml_use_internal_errors(true);
-        $dom_doc->loadHTML($html_file);
-        libxml_clear_errors();
-        $xpath = new \DOMXPath($dom_doc);
-
         $aClusterSummary = array();
-        $trs = $xpath->query('//table/tr[th="Running Map Tasks"]/following-sibling::tr[1]');
-        if ( ! empty($trs)) {
-            $tr = $trs->item(0);
-            foreach($tr->childNodes as $cell) {
-                $aClusterSummary[] = $cell->nodeValue;
-            }
-        }
-
         $aSubJobsSummary = array();
-        $aSubJobKeys = array(
-            'Jobid', 'Started', 'Priority', 'User', 'Name', 'Map % Complete', 'Map Total',
-            'Maps Completed', 'Reduce % Complete', 'Reduce Total', 'Reduces Completed',
-            'Job Scheduling Information', 'Diagnostic Info'
-        );
-        $trs = $xpath->query('//table[preceding-sibling::h2[@id="running_jobs"]]/tr');
-        if ($trs->length > 0) {
-            foreach ($trs as $tr) {
-                $aSubJobValues = array();
-                foreach($tr->childNodes as $cell) {
-                    $aSubJobValues[] = $cell->nodeValue;
-                }
-                if (count($aSubJobValues) == count($aSubJobKeys) && $aSubJobValues[0] != 'Jobid') {
-                    $aSubJob = array_combine($aSubJobKeys, array_map('trim', $aSubJobValues));
-                    $aSubJobsSummary[$aSubJob['Jobid']] = $aSubJob;
-                }
-            }
-            ksort($aSubJobsSummary);
+        $sError = '';
+
+        $dom_doc = new \DOMDocument();
+        try {
+            $html_file = file_get_contents("http://localhost:$sSSHTunnelPort/jobtracker.jsp");
+        } catch(\ErrorException $oException) {
+            $sError = $oException->getMessage();
         }
 
-        return array($aClusterSummary, $aSubJobsSummary);
+        if (empty($sError)) {
+            libxml_use_internal_errors(true);
+            $dom_doc->loadHTML($html_file);
+            libxml_clear_errors();
+            $xpath = new \DOMXPath($dom_doc);
+
+            $trs = $xpath->query('//table/tr[th="Running Map Tasks"]/following-sibling::tr[1]');
+            if ( ! empty($trs)) {
+                $tr = $trs->item(0);
+                foreach($tr->childNodes as $cell) {
+                    $aClusterSummary[] = $cell->nodeValue;
+                }
+            }
+
+            $aSubJobKeys = array(
+                'Jobid', 'Started', 'Priority', 'User', 'Name', 'Map % Complete', 'Map Total',
+                'Maps Completed', 'Reduce % Complete', 'Reduce Total', 'Reduces Completed',
+                'Job Scheduling Information', 'Diagnostic Info'
+            );
+            $trs = $xpath->query('//table[preceding-sibling::h2[@id="running_jobs"]]/tr');
+            if ($trs->length > 0) {
+                foreach ($trs as $tr) {
+                    $aSubJobValues = array();
+                    foreach($tr->childNodes as $cell) {
+                        $aSubJobValues[] = $cell->nodeValue;
+                    }
+                    if (count($aSubJobValues) == count($aSubJobKeys) && $aSubJobValues[0] != 'Jobid') {
+                        $aSubJob = array_combine($aSubJobKeys, array_map('trim', $aSubJobValues));
+                        $aSubJobsSummary[$aSubJob['Jobid']] = $aSubJob;
+                    }
+                }
+                ksort($aSubJobsSummary);
+            }
+        }
+
+        return array($aClusterSummary, $aSubJobsSummary, $sError);
     }
 
     private function _getSpotInstanceCurrentPricing (array $aJobIGroup, $sZone)
@@ -235,8 +248,8 @@ class Monitoring
         if ( ! empty($this->_aConfig['ec2_api_tools_dir']) && ! empty($sZone)) {
             $sCmd = $this->_aConfig['ec2_api_tools_dir']
                   . '/bin/ec2-describe-spot-price-history'
-                  . ' --aws-access-key ' . $this->_aConfig['ec2_access_key']
-                  . ' --aws-secret-key ' . $this->_aConfig['ec2_secret_key']
+                  . ' --aws-access-key ' . $this->_aConfig['aws_access_key']
+                  . ' --aws-secret-key ' . $this->_aConfig['aws_secret_key']
                   . ' --region ' . substr($sZone, 0, -1)
                   . ' --instance-type ' . $aJobIGroup['InstanceType']
                   . ' --start-time ' . date("Y-m-d") . 'T00:00:00.000Z '
@@ -259,14 +272,16 @@ class Monitoring
             $oCreationDate = new \DateTime('@' . (int)$aDates['CreationDateTime']);
             $mTs = ($aDates['StartDateTime'] === null ? null : '@' . (int)$aDates['StartDateTime']);
             $oStartDate = new \DateTime($mTs);
-            $aDates['ElapsedTimeToStartDateTime'] = $oStartDate->getTimestamp() - $oCreationDate->getTimestamp();
+            $aDates['ElapsedTimeToStartDateTime'] =
+                max(0, $oStartDate->getTimestamp() - $oCreationDate->getTimestamp());
 
             if ($aDates['StartDateTime'] === null) {
                 $aDates['ElapsedTimeToEndDateTime'] = null;
             } else {
                 $mTs = ($aDates['EndDateTime'] === null ? null : '@' . (int)$aDates['EndDateTime']);
                 $oEndDate = new \DateTime($mTs);
-                $aDates['ElapsedTimeToEndDateTime'] = $oEndDate->getTimestamp() - $oStartDate->getTimestamp();
+                $aDates['ElapsedTimeToEndDateTime'] =
+                    max(0, $oEndDate->getTimestamp() - $oStartDate->getTimestamp());
             }
         }
     }
