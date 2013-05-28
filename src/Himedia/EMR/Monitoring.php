@@ -6,7 +6,7 @@ use GAubry\Shell\ShellInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use GAubry\Debug\Debug;
-use GAubry\Tools\Tools;
+use GAubry\Helpers\Helpers;
 
 class Monitoring
 {
@@ -37,7 +37,7 @@ class Monitoring
         $this->_oLogger = $oLogger;
         $this->_oShell = $oShell;
         $this->_oEMRInstancePrices = $oEMRInstancePrices;
-        $this->_aConfig = Tools::arrayMergeRecursiveDistinct(self::$_aDefaultConfig, $aConfig);
+        $this->_aConfig = Helpers::arrayMergeRecursiveDistinct(self::$_aDefaultConfig, $aConfig);
     }
 
     /**

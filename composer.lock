@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "e5573290868ff78b024e817311c94039",
+    "hash": "7dfddc724777decadc907ec30bbbb343",
     "packages": [
         {
             "name": "geoffroy-aubry/errorhandler",
@@ -39,6 +39,45 @@
                 "bla"
             ],
             "time": "2013-04-01 15:28:47"
+        },
+        {
+            "name": "geoffroy-aubry/helpers",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/geoffroy-aubry/Helpers.git",
+                "reference": "v1.1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/geoffroy-aubry/Helpers/zipball/v1.1.0",
+                "reference": "v1.1.0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "GAubry\\Helpers": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Geoffroy Aubry",
+                    "email": "geoffroy.aubry@free.fr"
+                }
+            ],
+            "description": "Some helpers used in several personal packages.",
+            "keywords": [
+                "helpers"
+            ],
+            "time": "2013-05-19 22:22:04"
         },
         {
             "name": "geoffroy-aubry/logger",
@@ -78,14 +117,14 @@
         },
         {
             "name": "geoffroy-aubry/shell",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "git@indefero.hi-media-techno.com:archi-shell.git",
-                "reference": "v1.0.1"
+                "reference": "v1.0.2"
             },
             "require": {
-                "geoffroy-aubry/tools": "1.0.*",
+                "geoffroy-aubry/helpers": "1.1.*",
                 "php": ">=5.3.3",
                 "psr/log": "1.0.0"
             },
@@ -112,39 +151,7 @@
             "keywords": [
                 "bla"
             ],
-            "time": "2013-04-06 18:02:08"
-        },
-        {
-            "name": "geoffroy-aubry/tools",
-            "version": "v1.0.0",
-            "source": {
-                "type": "git",
-                "url": "git@indefero.hi-media-techno.com:archi-tools.git",
-                "reference": "v1.0.0"
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "GAubry\\Tools": "src/"
-                }
-            },
-            "license": [
-                "LGPL-3.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Geoffroy Aubry",
-                    "email": "gaubry@hi-media.com"
-                }
-            ],
-            "description": "bla bla",
-            "keywords": [
-                "bla"
-            ],
-            "time": "2013-04-01 16:25:12"
+            "time": "2013-05-28 08:44:05"
         },
         {
             "name": "psr/log",
