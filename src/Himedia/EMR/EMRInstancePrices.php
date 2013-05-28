@@ -2,7 +2,7 @@
 
 namespace Himedia\EMR;
 
-use GAubry\Tools\Tools;
+use GAubry\Helpers\Helpers;
 
 class EMRInstancePrices
 {
@@ -63,7 +63,7 @@ class EMRInstancePrices
 
     public function __construct(array $aConfig=array())
     {
-        $this->_aConfig = Tools::arrayMergeRecursiveDistinct(self::$_aDefaultConfig, $aConfig);
+        $this->_aConfig = Helpers::arrayMergeRecursiveDistinct(self::$_aDefaultConfig, $aConfig);
         $this->_aData = array();
         $this->_loadData();
     }
