@@ -15,7 +15,8 @@
         "psr/log": "1.0.0",
         "geoffroy-aubry/errorhandler": "1.0.*",
         "geoffroy-aubry/shell": "1.0.*",
-        "geoffroy-aubry/logger": "1.0.*"
+        "geoffroy-aubry/logger": "1.0.*",
+        "geoffroy-aubry/helpers": "1.1.*"
     },
     "require-dev": {
         "geoffroy-aubry/debug": "1.0.*"

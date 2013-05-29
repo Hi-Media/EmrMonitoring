@@ -2,13 +2,13 @@
 
 $sRootDir = realpath(__DIR__ . '/..');
 $aDirs = array(
-    'root_dir'  => $sRootDir,
-    'conf_dir'  => $sRootDir . '/conf',
-    'lib_dir'   => $sRootDir . '/lib',
-    'src_dir'   => $sRootDir . '/src',
-    'class_dir' => $sRootDir . '/src/class',
-    'inc_dir'   => $sRootDir . '/src/inc',
-    'vendor_dir'   => $sRootDir . '/vendor'
+    'root_dir'   => $sRootDir,
+    'conf_dir'   => $sRootDir . '/conf',
+    'lib_dir'    => $sRootDir . '/lib',
+    'src_dir'    => $sRootDir . '/src',
+    'class_dir'  => $sRootDir . '/src/class',
+    'inc_dir'    => $sRootDir . '/src/inc',
+    'vendor_dir' => $sRootDir . '/vendor'
 );
 
 $aConfig = $aDirs + array(

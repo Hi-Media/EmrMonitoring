@@ -75,7 +75,13 @@ class Monitoring
 
             if ($aJobIGroup['Market'] == 'SPOT') {
                 $sZone = $aJob['Instances']['Placement']['AvailabilityZone'];
-                $fPrice = $this->_getSpotInstanceCurrentPricing($aJobIGroup, $sZone);
+                try {
+                    $fPrice = $this->_getSpotInstanceCurrentPricing($aJobIGroup, $sZone);
+                    $aJob['Instances']['InstanceGroups'][$iIdx]['AskPriceError'] = null;
+                } catch (\RuntimeException $oException) {
+                    $fPrice = 0;
+                    $aJob['Instances']['InstanceGroups'][$iIdx]['AskPriceError'] = $oException;
+                }
                 $aJob['Instances']['InstanceGroups'][$iIdx]['AskPrice'] = $fPrice;
             }
 
@@ -246,7 +252,8 @@ class Monitoring
     {
         $fCurrentPricing = '';
         if ( ! empty($this->_aConfig['ec2_api_tools_dir']) && ! empty($sZone)) {
-            $sCmd = $this->_aConfig['ec2_api_tools_dir']
+            $sCmd = $_SERVER['SHELL'] . ' -c "set -o pipefail && '
+                  . $this->_aConfig['ec2_api_tools_dir']
                   . '/bin/ec2-describe-spot-price-history'
                   . ' --aws-access-key ' . $this->_aConfig['aws_access_key']
                   . ' --aws-secret-key ' . $this->_aConfig['aws_secret_key']
@@ -255,7 +262,7 @@ class Monitoring
                   . ' --start-time ' . date("Y-m-d") . 'T00:00:00.000Z '
                   . ' --product-description Linux/UNIX'
                   . ' --availability-zone ' . $sZone
-                  . ' | head -n1 | cut -f2';
+                  . ' | head -n1 | cut -f2"';
             $aResult = $this->_oShell->exec($sCmd);
             $fCurrentPricing = (float)$aResult[0];
         }
