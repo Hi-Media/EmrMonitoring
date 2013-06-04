@@ -102,13 +102,30 @@ if (exec($sCmd) != 'OK') {
         . "\033[0;31mEC2 API Tools not found! (search for this bin: '$sEC2Dir/bin/ec2-cmd')" . PHP_EOL
         . "    \033[0;37m1. \033[0;33mwget http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip" . PHP_EOL
         . "    \033[0;37m2. \033[0;33munzip -d /usr/local/lib ec2-api-tools.zip" . PHP_EOL
-        . "    \033[0;37m5. If necessary, adapt \033[0;33mec2_api_tools_dir\033[0;37m, \033[0;33maws_access_key\033[0;37m"
+        . "    \033[0;37m3. If necessary, adapt \033[0;33mec2_api_tools_dir\033[0;37m, \033[0;33maws_access_key\033[0;37m"
         . " and \033[0;33maws_secret_key\033[0;37m keys of \033[0;33m\$aConfig['Himedia\EMR']\033[0;37m"
-        . " in \033[0;33mconf/config.php\033[0;37m." . PHP_EOL . PHP_EOL
+        . " in \033[0;33mconf/config.php\033[0;37m." . PHP_EOL
+        . "    \033[0;37m4. Set and export both \033[0;33mJAVA_HOME\033[0;37m and \033[0;33mEC2_HOME\033[0;37m environment variables." . PHP_EOL
+        . "       \033[0;37mFor example, include these commands in your \033[0;33m~/.bashrc\033[0;37m and reload it:" . PHP_EOL
+        . "           \033[0;33mexport JAVA_HOME=/usr" . PHP_EOL
+        . "           \033[0;33mexport EC2_HOME=/usr/local/lib/ec2-api-tools-1.6.7.2" . PHP_EOL . PHP_EOL
         . "\033[0;37mRead http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/setting_up_ec2_command_linux.html"
         . " for more information." . PHP_EOL
         . PHP_EOL;
     exit(7);
+}
+
+if (empty($_SERVER['EC2_HOME']) || empty($_SERVER['JAVA_HOME'])) {
+    echo "\033[1m\033[4;33m/!\\\033[0;37m "
+        . "\033[0;31mMissing environment variables in order to use EC2 API Tools!" . PHP_EOL
+        . "    \033[0;37mYou must set and export both \033[0;33mJAVA_HOME\033[0;37m and \033[0;33mEC2_HOME\033[0;37m." . PHP_EOL
+        . "    \033[0;37mFor example, include these commands in your \033[0;33m~/.bashrc\033[0;37m and reload it:" . PHP_EOL
+        . "        \033[0;33mexport JAVA_HOME=/usr" . PHP_EOL
+        . "        \033[0;33mexport EC2_HOME=/usr/local/lib/ec2-api-tools-1.6.7.2" . PHP_EOL . PHP_EOL
+        . "\033[0;37mRead http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/setting_up_ec2_command_linux.html"
+        . " for more information." . PHP_EOL
+        . PHP_EOL;
+    exit(8);
 }
 
 set_include_path(

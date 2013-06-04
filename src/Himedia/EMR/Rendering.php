@@ -159,6 +159,12 @@ class Rendering
                 . '{C.' . $this->_getColorAccordingToRatio($fRatio) . '}' . $sMsg
                 . '{C.info} ' . $aJobIGroup['InstanceType']
                 . ', {C.price}' . (empty($fPrice) ? '–' : $fPrice . ' /h/instance'));
+            if (isset($aJobIGroup['AskPriceError']) && $aJobIGroup['AskPriceError'] instanceof \RuntimeException) {
+                $sMsg = 'Error when fetching spot instance pricing!'
+                      . "\n{C.raw_error}"
+                      . str_replace("\n", "\n{C.raw_error}", $aJobIGroup['AskPriceError']);
+                $this->_oLogger->log(LogLevel::ERROR, $sMsg);
+            }
 
             $this->_displayStatusAndDates($aJobIGroup);
             $this->_oLogger->log(LogLevel::INFO, '---');
