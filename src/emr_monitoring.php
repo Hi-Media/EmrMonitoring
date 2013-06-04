@@ -36,10 +36,9 @@ $oLogger = new ColoredIndentedLogger(
     $aLCfg['unindent_tag'],
     $sLogLevel
 );
-$oShell = new ShellAdapter($oLogger, array('ssh_connection_timeout' => 10));
 $oEMRInstancePrices = new EMRInstancePrices();
-$oMonitoring = new Monitoring($oLogger, $oShell, $oEMRInstancePrices, $aConfig['Himedia\EMR']);
-$oRendering = new Rendering($oLogger, $oShell);
+$oMonitoring = new Monitoring($oLogger, $oEMRInstancePrices, $aConfig['Himedia\EMR']);
+$oRendering = new Rendering($oLogger);
 
 if (empty($sJobFlowID)) {
     $oRendering->displayHelp();

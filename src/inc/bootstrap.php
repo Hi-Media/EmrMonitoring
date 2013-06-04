@@ -134,12 +134,6 @@ set_include_path(
 );
 
 // Load error/exception handler
-$aEHCfg = $aConfig['GAubry\ErrorHandler'];
-$GLOBALS['oErrorHandler'] = new ErrorHandler(
-    $aEHCfg['display_errors'],
-    $aEHCfg['error_log_path'],
-    $aEHCfg['error_level'],
-    $aEHCfg['auth_error_suppr_op']
-);
+$GLOBALS['oErrorHandler'] = new ErrorHandler($aConfig['GAubry\ErrorHandler']);
 
 date_default_timezone_set('Europe/Paris');
