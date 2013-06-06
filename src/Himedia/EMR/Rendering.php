@@ -2,20 +2,17 @@
 
 namespace Himedia\EMR;
 
-use GAubry\Shell\ShellInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use GAubry\Debug\Debug;
+use GAubry\Helpers\Helpers;
 
 class Rendering
 {
     private $_oLogger;
-    private $_oShell;
 
-    public function __construct (LoggerInterface $oLogger, ShellInterface $oShell)
+    public function __construct (LoggerInterface $oLogger)
     {
         $this->_oLogger = $oLogger;
-        $this->_oShell = $oShell;
     }
 
     public function displayHelp ()
@@ -159,6 +156,12 @@ class Rendering
                 . '{C.' . $this->_getColorAccordingToRatio($fRatio) . '}' . $sMsg
                 . '{C.info} ' . $aJobIGroup['InstanceType']
                 . ', {C.price}' . (empty($fPrice) ? '–' : $fPrice . ' /h/instance'));
+            if (isset($aJobIGroup['AskPriceError']) && $aJobIGroup['AskPriceError'] instanceof \RuntimeException) {
+                $sMsg = 'Error when fetching spot instance pricing!'
+                      . "\n{C.raw_error}"
+                      . str_replace("\n", "\n{C.raw_error}", $aJobIGroup['AskPriceError']);
+                $this->_oLogger->log(LogLevel::ERROR, $sMsg);
+            }
 
             $this->_displayStatusAndDates($aJobIGroup);
             $this->_oLogger->log(LogLevel::INFO, '---');
@@ -268,7 +271,7 @@ class Rendering
             $sCmd = "gnuplot -e \"csv='$sGnuplotData'\" -e \"output='$sOutput'\""
                   . " -e \"maxts='$iMaxTSWithMargin'\" -e \"maxnbtasks='$iMaxNbTasksWithMargin'\""
                   . ' ' . $GLOBALS['aConfig']['inc_dir'] . "/plot.script";
-            $this->_oShell->exec($sCmd);
+            Helpers::exec($sCmd);
             $this->_oLogger->log(LogLevel::INFO, 'Task timeline: ' . $sOutput);
         } else {
             $this->_oLogger->log(LogLevel::INFO, 'No data for task timeline.');
