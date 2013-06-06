@@ -13,13 +13,12 @@
     "require": {
         "php": ">=5.3.3",
         "psr/log": "1.0.0",
-        "geoffroy-aubry/errorhandler": "1.0.*",
-        "geoffroy-aubry/shell": "1.0.*",
-        "geoffroy-aubry/logger": "1.0.*",
-        "geoffroy-aubry/helpers": "1.1.*"
+        "geoffroy-aubry/errorhandler": "1.*",
+        "geoffroy-aubry/logger": "1.*",
+        "geoffroy-aubry/helpers": "1.*"
     },
     "require-dev": {
-        "geoffroy-aubry/debug": "1.0.*"
+        "geoffroy-aubry/debug": "1.*"
     },
     "autoload": {
         "psr-0": {"Himedia": "src/"},
@@ -33,14 +32,6 @@
         {
             "type": "vcs",
             "url": "git@indefero.hi-media-techno.com:archi-logger.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@indefero.hi-media-techno.com:archi-errorhandler.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@indefero.hi-media-techno.com:archi-shell.git"
         }
     ]
 }

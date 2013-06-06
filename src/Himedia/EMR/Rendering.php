@@ -2,20 +2,17 @@
 
 namespace Himedia\EMR;
 
-use GAubry\Shell\ShellInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use GAubry\Debug\Debug;
+use GAubry\Helpers\Helpers;
 
 class Rendering
 {
     private $_oLogger;
-    private $_oShell;
 
-    public function __construct (LoggerInterface $oLogger, ShellInterface $oShell)
+    public function __construct (LoggerInterface $oLogger)
     {
         $this->_oLogger = $oLogger;
-        $this->_oShell = $oShell;
     }
 
     public function displayHelp ()
@@ -274,7 +271,7 @@ class Rendering
             $sCmd = "gnuplot -e \"csv='$sGnuplotData'\" -e \"output='$sOutput'\""
                   . " -e \"maxts='$iMaxTSWithMargin'\" -e \"maxnbtasks='$iMaxNbTasksWithMargin'\""
                   . ' ' . $GLOBALS['aConfig']['inc_dir'] . "/plot.script";
-            $this->_oShell->exec($sCmd);
+            Helpers::exec($sCmd);
             $this->_oLogger->log(LogLevel::INFO, 'Task timeline: ' . $sOutput);
         } else {
             $this->_oLogger->log(LogLevel::INFO, 'No data for task timeline.');
