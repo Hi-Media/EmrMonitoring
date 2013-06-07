@@ -1,6 +1,8 @@
 #!/usr/bin/php
 <?php
 
+// php vendor/bin/phpcs --standard=PSR2 src/
+// php vendor/bin/phpmd src/ text codesize,design,unusedcode,naming,controversial
 
 use Himedia\EMR\EMRInstancePrices;
 use Himedia\EMR\Monitoring;
@@ -28,14 +30,8 @@ foreach ($argv as $iKey => $sValue) {
 $sJobFlowID = (isset($argv[1]) ? $argv[1] : '');
 $sSSHTunnelPort = (isset($argv[2]) ? (int)$argv[2] : $aConfig['Himedia\EMR']['default_ssh_tunnel_port']);
 
-$aLCfg = $aConfig['GAubry\Logger'];
-$oLogger = new ColoredIndentedLogger(
-    $aLCfg['colors'],
-    $aLCfg['tabulation'],
-    $aLCfg['indent_tag'],
-    $aLCfg['unindent_tag'],
-    $sLogLevel
-);
+$aConfig['GAubry\Logger']['min_message_level'] = $sLogLevel;
+$oLogger = new ColoredIndentedLogger($aConfig['GAubry\Logger']);
 $oEMRInstancePrices = new EMRInstancePrices();
 $oMonitoring = new Monitoring($oLogger, $oEMRInstancePrices, $aConfig['Himedia\EMR']);
 $oRendering = new Rendering($oLogger);
@@ -46,7 +42,7 @@ if (empty($sJobFlowID)) {
     $aAllJobs = $oMonitoring->getAllJobs();
     $oRendering->displayAllJobs($aAllJobs);
 
-} else if ($bListInputFiles) {
+} elseif ($bListInputFiles) {
     $aJob = $oMonitoring->getJobFlow($sJobFlowID, $sSSHTunnelPort);
     $aInputFiles = $oMonitoring->getHadoopInputFiles($sJobFlowID, $aJob);
     $oRendering->displayHadoopInputFiles($aInputFiles);
@@ -58,8 +54,18 @@ if (empty($sJobFlowID)) {
     $oRendering->displayJobInstances($aJob);
     $oRendering->displayJobSteps($aJob);
 
-    list($sRawSummary, $aErrorMsg, $aS3LogSteps, $iMaxTs, $iMaxNbTasks, $sGnuplotData) = $oMonitoring->getLogSummary($sJobFlowID, $aJob);
-    $oRendering->displayJobSummary($aJob, $sRawSummary, $aErrorMsg, $aS3LogSteps, $iMaxTs, $iMaxNbTasks, $sGnuplotData);
+    list($sRawSummary, $aErrorMsg, $aS3LogSteps, $iMaxTs, $iMaxNbTasks, $sGnuplotData)
+        = $oMonitoring->getLogSummary($sJobFlowID, $aJob);
+    $oRendering->displayJobSummary(
+        $aJob,
+        $sRawSummary,
+        $aErrorMsg,
+        $aS3LogSteps,
+        $iMaxTs,
+        $iMaxNbTasks,
+        $sGnuplotData,
+        $GLOBALS['aConfig']['inc_dir'] . '/plot.script'
+    );
 
     echo "\n";
 }

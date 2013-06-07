@@ -10,7 +10,7 @@ use \GAubry\ErrorHandler\ErrorHandler;
 
 // Check config file
 $sConfDir = realpath(dirname(__FILE__) . '/../../conf');
-if ( ! file_exists($sConfDir . '/config.php')) {
+if (! file_exists($sConfDir . '/config.php')) {
     echo "\033[1m\033[4;33m/!\\\033[0;37m "
         . "\033[0;31mConfig file missing!" . PHP_EOL
         . "    \033[0;33mcp '$sConfDir/config-dist.php' '$sConfDir/config.php' \033[0;37mand adapt it." . PHP_EOL
@@ -21,7 +21,7 @@ if ( ! file_exists($sConfDir . '/config.php')) {
 }
 
 // Check composer dependencies
-if ( ! file_exists($aConfig['vendor_dir'] . '/autoload.php')) {
+if (! file_exists($aConfig['vendor_dir'] . '/autoload.php')) {
     echo "\033[1m\033[4;33m/!\\\033[0;37m "
         . "\033[0;31mYou must set up the project dependencies with composer." . PHP_EOL
         . "    \033[0;37mRun the following commands: \033[0;33mcomposer install"
@@ -48,9 +48,10 @@ if (exec($sCmd) != 'OK') {
         . "    \033[0;37m2. \033[0;33mmkdir /usr/local/lib/elastic-mapreduce-cli" . PHP_EOL
         . "    \033[0;37m3. \033[0;33mwget http://elasticmapreduce.s3.amazonaws.com/elastic-mapreduce-ruby.zip"
         . PHP_EOL
-        . "    \033[0;37m4. \033[0;33munzip -d /usr/local/lib/elastic-mapreduce-cli elastic-mapreduce-ruby.zip" . PHP_EOL
-        . "    \033[0;37m5. Create a file named \033[0;33m/usr/local/lib/elastic-mapreduce-cli/credentials.json\033[0;37m"
-        . " with at least the following lines:" . PHP_EOL
+        . "    \033[0;37m4. \033[0;33munzip -d /usr/local/lib/elastic-mapreduce-cli elastic-mapreduce-ruby.zip"
+        . PHP_EOL
+        . "    \033[0;37m5. Create a file named \033[0;33m/usr/local/lib/elastic-mapreduce-cli/credentials.json"
+        . "\033[0;37m with at least the following lines:" . PHP_EOL
         . "          {" . PHP_EOL
         . "              \"keypair\": \"Your key pair name\"," . PHP_EOL
         . "              \"key-pair-file\": \"The path and name of your PEM/private key file\"" . PHP_EOL
@@ -75,7 +76,7 @@ if (exec($sCmd1) != 'OK') {
         . "\033[0;37mRead http://s3tools.org/s3cmd for more information." . PHP_EOL
         . PHP_EOL;
     exit(4);
-} else if (exec($sCmd2) != 'OK') {
+} elseif (exec($sCmd2) != 'OK') {
     echo "\033[1m\033[4;33m/!\\\033[0;37m "
         . "\033[0;31mCommand Line S3 client 's3cmd' is not configured!" . PHP_EOL
         . "    \033[0;37mPlease run \033[0;33ms3cmd --configure" . PHP_EOL . PHP_EOL
@@ -102,11 +103,13 @@ if (exec($sCmd) != 'OK') {
         . "\033[0;31mEC2 API Tools not found! (search for this bin: '$sEC2Dir/bin/ec2-cmd')" . PHP_EOL
         . "    \033[0;37m1. \033[0;33mwget http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip" . PHP_EOL
         . "    \033[0;37m2. \033[0;33munzip -d /usr/local/lib ec2-api-tools.zip" . PHP_EOL
-        . "    \033[0;37m3. If necessary, adapt \033[0;33mec2_api_tools_dir\033[0;37m, \033[0;33maws_access_key\033[0;37m"
-        . " and \033[0;33maws_secret_key\033[0;37m keys of \033[0;33m\$aConfig['Himedia\EMR']\033[0;37m"
+        . "    \033[0;37m3. If necessary, adapt \033[0;33mec2_api_tools_dir\033[0;37m, \033[0;33maws_access_key"
+        . "\033[0;37m and \033[0;33maws_secret_key\033[0;37m keys of \033[0;33m\$aConfig['Himedia\EMR']\033[0;37m"
         . " in \033[0;33mconf/config.php\033[0;37m." . PHP_EOL
-        . "    \033[0;37m4. Set and export both \033[0;33mJAVA_HOME\033[0;37m and \033[0;33mEC2_HOME\033[0;37m environment variables." . PHP_EOL
-        . "       \033[0;37mFor example, include these commands in your \033[0;33m~/.bashrc\033[0;37m and reload it:" . PHP_EOL
+        . "    \033[0;37m4. Set and export both \033[0;33mJAVA_HOME\033[0;37m and \033[0;33mEC2_HOME"
+        . "\033[0;37m environment variables." . PHP_EOL
+        . "       \033[0;37mFor example, include these commands in your \033[0;33m~/.bashrc\033[0;37m and reload it:"
+        . PHP_EOL
         . "           \033[0;33mexport JAVA_HOME=/usr" . PHP_EOL
         . "           \033[0;33mexport EC2_HOME=/usr/local/lib/ec2-api-tools-1.6.7.2" . PHP_EOL . PHP_EOL
         . "\033[0;37mRead http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/setting_up_ec2_command_linux.html"
@@ -118,8 +121,10 @@ if (exec($sCmd) != 'OK') {
 if (empty($_SERVER['EC2_HOME']) || empty($_SERVER['JAVA_HOME'])) {
     echo "\033[1m\033[4;33m/!\\\033[0;37m "
         . "\033[0;31mMissing environment variables in order to use EC2 API Tools!" . PHP_EOL
-        . "    \033[0;37mYou must set and export both \033[0;33mJAVA_HOME\033[0;37m and \033[0;33mEC2_HOME\033[0;37m." . PHP_EOL
-        . "    \033[0;37mFor example, include these commands in your \033[0;33m~/.bashrc\033[0;37m and reload it:" . PHP_EOL
+        . "    \033[0;37mYou must set and export both \033[0;33mJAVA_HOME\033[0;37m and \033[0;33mEC2_HOME\033[0;37m."
+        . PHP_EOL
+        . "    \033[0;37mFor example, include these commands in your \033[0;33m~/.bashrc\033[0;37m and reload it:"
+        . PHP_EOL
         . "        \033[0;33mexport JAVA_HOME=/usr" . PHP_EOL
         . "        \033[0;33mexport EC2_HOME=/usr/local/lib/ec2-api-tools-1.6.7.2" . PHP_EOL . PHP_EOL
         . "\033[0;37mRead http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/setting_up_ec2_command_linux.html"
