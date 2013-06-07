@@ -1,7 +1,7 @@
 {
-    "name":         "geoffroy-aubry/phpemr",
-    "description":  "bla bla",
-    "keywords":     ["bla"],
+    "name":         "himedia/emr-monitoring",
+    "description":  "?",
+    "keywords":     ["?"],
     "type":         "library",
     "license":      "LGPL-3.0+",
     "authors":      [
@@ -18,20 +18,12 @@
         "geoffroy-aubry/helpers": "1.*"
     },
     "require-dev": {
-        "geoffroy-aubry/debug": "1.*"
+        "phpunit/phpunit":           ">=3.7",
+        "phpmd/phpmd":               "1.4.*",
+        "squizlabs/php_codesniffer": "1.4.*",
+        "satooshi/php-coveralls":    "dev-master"
     },
     "autoload": {
-        "psr-0": {"Himedia": "src/"},
-        "classmap": []
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@indefero.hi-media-techno.com:archi-debug.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@indefero.hi-media-techno.com:archi-logger.git"
-        }
-    ]
+        "psr-0": {"Himedia": "src/"}
+    }
 }

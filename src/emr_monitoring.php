@@ -1,6 +1,8 @@
 #!/usr/bin/php
 <?php
 
+// php vendor/bin/phpcs --standard=PSR2 src/
+// php vendor/bin/phpmd src/ text codesize,design,unusedcode,naming,controversial
 
 use Himedia\EMR\EMRInstancePrices;
 use Himedia\EMR\Monitoring;
@@ -46,7 +48,7 @@ if (empty($sJobFlowID)) {
     $aAllJobs = $oMonitoring->getAllJobs();
     $oRendering->displayAllJobs($aAllJobs);
 
-} else if ($bListInputFiles) {
+} elseif ($bListInputFiles) {
     $aJob = $oMonitoring->getJobFlow($sJobFlowID, $sSSHTunnelPort);
     $aInputFiles = $oMonitoring->getHadoopInputFiles($sJobFlowID, $aJob);
     $oRendering->displayHadoopInputFiles($aInputFiles);
@@ -58,8 +60,18 @@ if (empty($sJobFlowID)) {
     $oRendering->displayJobInstances($aJob);
     $oRendering->displayJobSteps($aJob);
 
-    list($sRawSummary, $aErrorMsg, $aS3LogSteps, $iMaxTs, $iMaxNbTasks, $sGnuplotData) = $oMonitoring->getLogSummary($sJobFlowID, $aJob);
-    $oRendering->displayJobSummary($aJob, $sRawSummary, $aErrorMsg, $aS3LogSteps, $iMaxTs, $iMaxNbTasks, $sGnuplotData);
+    list($sRawSummary, $aErrorMsg, $aS3LogSteps, $iMaxTs, $iMaxNbTasks, $sGnuplotData)
+        = $oMonitoring->getLogSummary($sJobFlowID, $aJob);
+    $oRendering->displayJobSummary(
+        $aJob,
+        $sRawSummary,
+        $aErrorMsg,
+        $aS3LogSteps,
+        $iMaxTs,
+        $iMaxNbTasks,
+        $sGnuplotData,
+        $GLOBALS['aConfig']['inc_dir'] . '/plot.script'
+    );
 
     echo "\n";
 }
