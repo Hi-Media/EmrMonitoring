@@ -100,18 +100,28 @@
         },
         {
             "name": "geoffroy-aubry/logger",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
-                "url": "git@indefero.hi-media-techno.com:archi-logger.git",
-                "reference": "v1.0.1"
+                "url": "https://github.com/geoffroy-aubry/Logger.git",
+                "reference": "v1.1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/geoffroy-aubry/Logger/zipball/v1.1.0",
+                "reference": "v1.1.0",
+                "shasum": ""
             },
             "require": {
+                "geoffroy-aubry/helpers": "1.*",
                 "php": ">=5.3.3",
                 "psr/log": "1.0.0"
             },
             "require-dev": {
-                "geoffroy-aubry/debug": "1.0.*"
+                "phpmd/phpmd": "1.4.*",
+                "phpunit/phpunit": ">=3.7",
+                "satooshi/php-coveralls": "dev-master",
+                "squizlabs/php_codesniffer": "1.4.*"
             },
             "type": "library",
             "autoload": {
@@ -119,20 +129,25 @@
                     "GAubry\\Logger": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "LGPL-3.0+"
             ],
             "authors": [
                 {
                     "name": "Geoffroy Aubry",
-                    "email": "gaubry@hi-media.com"
+                    "email": "geoffroy.aubry@free.fr"
                 }
             ],
-            "description": "bla bla",
+            "description": "PSR-3 logger for adding colors and indentation on PHP CLI output.",
             "keywords": [
-                "bla"
+                "bash color logging",
+                "color logging",
+                "indent logging",
+                "logger",
+                "psr-3"
             ],
-            "time": "2013-04-01 23:03:03"
+            "time": "2013-06-06 15:13:12"
         },
         {
             "name": "psr/log",

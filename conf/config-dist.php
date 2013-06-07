@@ -13,17 +13,18 @@ $aDirs = array(
 
 $aConfig = $aDirs + array(
     'Himedia\EMR' => array(
-        'emr_cli_bin' => '/usr/local/lib/elastic-mapreduce-cli/elastic-mapreduce',
-        'ec2_api_tools_dir' => '/usr/local/lib/ec2-api-tools-1.6.7.2',
-        'aws_access_key' => '…',
-        'aws_secret_key' => '…',
-        'ssh_options' => '-o ServerAliveInterval=10 -o StrictHostKeyChecking=no -o ConnectTimeout=5 -o BatchMode=yes',
-        'default_ssh_tunnel_port' => 12345
+        'emr_cli_bin'             => '/usr/local/lib/elastic-mapreduce-cli/elastic-mapreduce',
+        'ec2_api_tools_dir'       => '/usr/local/lib/ec2-api-tools-1.6.7.2',
+        'aws_access_key'          => '…',
+        'aws_secret_key'          => '…',
+        'ssh_options'             => '-o ServerAliveInterval=10 -o StrictHostKeyChecking=no -o ConnectTimeout=5 -o BatchMode=yes',
+        'default_ssh_tunnel_port' => 12345,
+        'shell'                   => $_SERVER['SHELL']
     ),
-    'GAubry\ErrorHandler' => array(
-        'display_errors' => true,
-        'error_log_path' => '/var/log/emr-monitoring/emr-monitoring.error.log',
-        'error_level' => -1,
+    'GAubry\ErrorHandler'     => array(
+        'display_errors'      => true,
+        'error_log_path'      => '/var/log/emr-monitoring/emr-monitoring.error.log',
+        'error_level'         => -1,
         'auth_error_suppr_op' => false
     ),
     'GAubry\Logger' => array(
@@ -46,9 +47,12 @@ $aConfig = $aDirs + array(
             'help_cmd'      => "\033[0;33m",
             'help_param'    => "\033[1;33m"
         ),
-        'tabulation' => "\033[0;30m┆\033[0m   ",
-        'indent_tag' => '+++',
-        'unindent_tag' => '---',
+        'base_indentation'     => "\033[0;30m┆\033[0m   ",
+        'indent_tag'           => '+++',
+        'unindent_tag'         => '---',
+        'min_message_level'    => 'to define…',
+        'reset_color_sequence' => "\033[0m",
+        'color_tag_prefix'     => 'C.'
     )
 );
 

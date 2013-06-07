@@ -30,14 +30,8 @@ foreach ($argv as $iKey => $sValue) {
 $sJobFlowID = (isset($argv[1]) ? $argv[1] : '');
 $sSSHTunnelPort = (isset($argv[2]) ? (int)$argv[2] : $aConfig['Himedia\EMR']['default_ssh_tunnel_port']);
 
-$aLCfg = $aConfig['GAubry\Logger'];
-$oLogger = new ColoredIndentedLogger(
-    $aLCfg['colors'],
-    $aLCfg['tabulation'],
-    $aLCfg['indent_tag'],
-    $aLCfg['unindent_tag'],
-    $sLogLevel
-);
+$aConfig['GAubry\Logger']['min_message_level'] = $sLogLevel;
+$oLogger = new ColoredIndentedLogger($aConfig['GAubry\Logger']);
 $oEMRInstancePrices = new EMRInstancePrices();
 $oMonitoring = new Monitoring($oLogger, $oEMRInstancePrices, $aConfig['Himedia\EMR']);
 $oRendering = new Rendering($oLogger);
