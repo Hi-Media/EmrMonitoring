@@ -64,7 +64,7 @@ class Monitoring
               . ' --access-id ' . $this->aConfig['aws_access_key']
               . ' --private-key ' . $this->aConfig['aws_secret_key']
               . ' --list --all --no-step';
-        $aRawResult = Helpers::exec($sCmd);
+        $aRawResult = $this->exec($sCmd);
         return $aRawResult;
     }
 
@@ -74,7 +74,7 @@ class Monitoring
               . ' --access-id ' . $this->aConfig['aws_access_key']
               . ' --private-key ' . $this->aConfig['aws_secret_key']
               . " --describe $sJobFlowID";
-        $aRawResult = Helpers::exec($sCmd);
+        $aRawResult = $this->exec($sCmd);
         $aDesc = json_decode(implode("\n", $aRawResult), true);
         $aJob = $aDesc['JobFlows'][0];
         $this->computeElapsedTimes($aJob['ExecutionStatusDetail']);
@@ -177,7 +177,7 @@ class Monitoring
             $sFolder,
             $sPattern
         );
-        $aResult = Helpers::exec($sCmd);
+        $aResult = $this->exec($sCmd);
         if ($aResult[0] == '0.000') {
             $sSize = '0';
         } else {
@@ -197,12 +197,12 @@ class Monitoring
     {
         $sCmd = 'ps fax | grep -v \'ps fax\' | grep ssh'
               . ' | grep \'' . $aJob['Instances']['MasterPublicDnsName'] . '\' | wc -l';
-        $aRawResult = Helpers::exec($sCmd);
+        $aRawResult = $this->exec($sCmd);
         if ($aRawResult[0] == 0) {
             $sCmd = 'ssh -N -L ' . $sSSHTunnelPort . ':localhost:9100'
                 . ' hadoop@' . $aJob['Instances']['MasterPublicDnsName']
                 . ' ' . $this->aConfig['ssh_options'] . ' > /dev/null 2>&1 &';
-            Helpers::exec($sCmd);
+            $this->exec($sCmd);
             sleep(3);
             // TODO test with: netcat -z localhost 80 => 0/1
         }
@@ -274,7 +274,7 @@ class Monitoring
                   . ' --product-description Linux/UNIX'
                   . ' --availability-zone ' . $sZone
                   . ' | head -n1 | cut -f2"';
-            $aResult = Helpers::exec($sCmd);
+            $aResult = $this->exec($sCmd);
             $fCurrentPricing = (float)$aResult[0];
         }
         return $fCurrentPricing;
@@ -316,12 +316,12 @@ class Monitoring
             // Get step logs
             $sLogURISteps = $sLogURI . "$sJobFlowID/steps/";
             $sCmd = "s3cmd ls '$sLogURISteps' | grep DIR | sed 's/ *DIR *//'";
-            $aS3LogSteps = Helpers::exec($sCmd);
+            $aS3LogSteps = $this->exec($sCmd);
             if (count($aS3LogSteps) > 0) {
                 foreach ($aS3LogSteps as $sStepURI) {
                     $sTmpFilename = '/tmp' . '/php-emr_' . md5(time().rand());
                     $sCmd = "s3cmd get '{$sStepURI}stderr' '$sTmpFilename'";
-                    Helpers::exec($sCmd);
+                    $this->exec($sCmd);
                     $sContent = file_get_contents($sTmpFilename);
                     $sErrorPattern = '/^([^[]+\s\[[^]]+\]\sERROR\s.*?)'
                                    . '(?:^[^[]+\s\[[^]]+\]|^Command exiting with ret \'255\'$)/sm';
@@ -347,12 +347,12 @@ class Monitoring
         // @TODO s3cmd sync --check-md5 --no-progress --no-delete-removed --exclude='*' --rinclude='.pig$' \
         // 's3://appnexus-us/hadoop-logs/j-1FDGYZI6HJFB7/jobs/' '/tmp/testsync'
         $sCmd = "s3cmd ls '$sLogURIJobs' | grep -v '.xml' | awk '{print $4}' | sort";
-        $aRawResult = Helpers::exec($sCmd);
+        $aRawResult = $this->exec($sCmd);
         $aLocalJobLogPaths = array();
         foreach ($aRawResult as $iIdx => $sS3JobLogPath) {
             $sLocalJobLogPath = '/tmp' . '/php-emr_' . md5(time().rand()) . '_job' . ($iIdx+1);
             $sCmd = "s3cmd get '$sS3JobLogPath' '$sLocalJobLogPath'";
-            Helpers::exec($sCmd);
+            $this->exec($sCmd);
             $aLocalJobLogPaths[] = $sLocalJobLogPath;
         }
 
@@ -494,16 +494,22 @@ class Monitoring
               . " '$sLogURITasks' '$sTmpDirname'";
 
         $sCmd = "mkdir '$sTmpDirname' && $sSyncCmd --dry-run | grep download | wc -l";
-        $aResult = Helpers::exec($sCmd);
+        $aResult = $this->exec($sCmd);
         $iNbS3LogFilesToDl = array_pop($aResult);
         $this->oLogger->info("{C.comment}Nb of S3 files to download: $iNbS3LogFilesToDl");
 
-        Helpers::exec($sSyncCmd);
+        $this->exec($sSyncCmd);
 
         $sBucketURI = substr($sLogURITasks, 0, strpos($sLogURITasks, '/', 5)-1);
         $sCmd = 'grep -rP --color=never --only-matching --no-filename'
               . " \"(?<=Opening '){$sBucketURI}[^']+(?=' for reading)\" '$sTmpDirname' | sort | uniq";
-        $aInputFiles = Helpers::exec($sCmd);
+        $aInputFiles = $this->exec($sCmd);
         return $aInputFiles;
+    }
+
+    private function exec ($sCmd)
+    {
+        $this->oLogger->debug('shell# ' . trim($sCmd, " \t"));
+        return Helpers::exec($sCmd);
     }
 }

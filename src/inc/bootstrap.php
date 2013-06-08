@@ -157,6 +157,6 @@ set_include_path(
 );
 
 // Load error/exception handler
-$GLOBALS['oErrorHandler'] = new ErrorHandler($aConfig['GAubry\ErrorHandler']);
+new ErrorHandler($aConfig['GAubry\ErrorHandler']);
 
 date_default_timezone_set('Europe/Paris');

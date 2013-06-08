@@ -68,7 +68,7 @@ $aConfig = $aDirs + array(
         'base_indentation'     => "\033[0;30m┆\033[0m   ",
         'indent_tag'           => '+++',
         'unindent_tag'         => '---',
-        'min_message_level'    => 'to define…',
+        'min_message_level'    => 'depends on parameters…',
         'reset_color_sequence' => "\033[0m",
         'color_tag_prefix'     => 'C.'
     )
