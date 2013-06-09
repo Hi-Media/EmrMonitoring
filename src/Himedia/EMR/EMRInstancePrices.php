@@ -1,16 +1,34 @@
 <?php
 
+/**
+ * Copyright (c) 2013 Hi-Media SA
+ * Copyright (c) 2013 Geoffroy Aubry <gaubry@hi-media.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
+ * for the specific language governing permissions and limitations under the License.
+ *
+ * @copyright 2013 Hi-Media SA
+ * @copyright 2013 Geoffroy Aubry <gaubry@hi-media.com>
+ * @license http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 namespace Himedia\EMR;
 
 use GAubry\Helpers\Helpers;
 
 class EMRInstancePrices
 {
-    private static $_aDefaultConfig = array(
+    private static $aDefaultConfig = array(
         'pricing_emr_json_url' => 'http://aws.amazon.com/elasticmapreduce/pricing/pricing-emr.json',
     );
 
-    private static $_aInstanceTypeMapping = array(
+    private static $aInstanceTypeMapping = array(
         'clustercompresi' => 'cc1',
         'clustercomputei' => 'cc1',
         'clustergpui' => 'cg1',
@@ -30,7 +48,7 @@ class EMRInstancePrices
         'secgenstdresi' => 'm3'
     );
 
-    private static $_aInstanceSizeMapping = array(
+    private static $aInstanceSizeMapping = array(
         'lg' => 'large',
         'med' => 'medium',
         'sm' => 'small',
@@ -41,7 +59,7 @@ class EMRInstancePrices
         'xxxxxxxxl' => '8xlarge'
     );
 
-    private static $_aRegionMapping = array(
+    private static $aRegionMapping = array(
         'apac-sin' => 'ap-southeast-1',
         'apac-syd' => 'ap-southeast-2',
         'apac-tokyo' => 'ap-northeast-1',
@@ -58,37 +76,38 @@ class EMRInstancePrices
         'us-west-2' => 'us-west-2'
     );
 
-    private $_aConfig;
-    private $_aData;
+    private $aConfig;
+    private $aData;
 
-    public function __construct(array $aConfig=array())
+    public function __construct(array $aConfig = array())
     {
-        $this->_aConfig = Helpers::arrayMergeRecursiveDistinct(self::$_aDefaultConfig, $aConfig);
-        $this->_aData = array();
-        $this->_loadData();
+        $this->aConfig = Helpers::arrayMergeRecursiveDistinct(self::$aDefaultConfig, $aConfig);
+        $this->aData = array();
+        $this->loadData();
     }
 
-    private function _loadData () {
-        if (count($this->_aData) == 0) {
-            $sUrl = $this->_aConfig['pricing_emr_json_url'];
+    private function loadData ()
+    {
+        if (count($this->aData) == 0) {
+            $sUrl = $this->aConfig['pricing_emr_json_url'];
             $aData = json_decode(file_get_contents($sUrl), true);
 
             foreach ($aData['config']['regions'] as $iIdx => $aRegion) {
-                $sRegion = self::$_aRegionMapping[$aRegion['region']];
+                $sRegion = self::$aRegionMapping[$aRegion['region']];
                 $aRegion['region'] = $sRegion;
                 $aData['config']['regions'][$sRegion] = $aRegion;
                 unset($aData['config']['regions'][$iIdx]);
 
                 $aNewRegion = &$aData['config']['regions'][$sRegion];
                 foreach ($aNewRegion['instanceTypes'] as $iIdx => $aTypes) {
-                    $sType = self::$_aInstanceTypeMapping[strtolower($aTypes['type'])];
+                    $sType = self::$aInstanceTypeMapping[strtolower($aTypes['type'])];
                     $aTypes['type'] = $sType;
                     $aNewRegion['instanceTypes'][$sType] = $aTypes;
                     unset($aNewRegion['instanceTypes'][$iIdx]);
 
                     $aNewTypes = &$aNewRegion['instanceTypes'][$sType];
                     foreach ($aNewTypes['sizes'] as $iIdx => $aSize) {
-                        $sSize = self::$_aInstanceSizeMapping[$aSize['size']];
+                        $sSize = self::$aInstanceSizeMapping[$aSize['size']];
                         $aSize['size'] = $sSize;
                         $aNewTypes['sizes'][$sSize] = $aSize;
                         unset($aNewTypes['sizes'][$iIdx]);
@@ -108,13 +127,13 @@ class EMRInstancePrices
                 }
             }
         }
-        $this->_aData = $aData;
+        $this->aData = $aData;
     }
 
     public function getUSDPrice ($sRegion, $sInstanceType, $sSize)
     {
-        if (isset($this->_aData['config']['regions'][$sRegion]['instanceTypes'][$sInstanceType]['sizes'][$sSize])) {
-            $aData = $this->_aData['config']['regions'][$sRegion]['instanceTypes'][$sInstanceType]['sizes'][$sSize];
+        if (isset($this->aData['config']['regions'][$sRegion]['instanceTypes'][$sInstanceType]['sizes'][$sSize])) {
+            $aData = $this->aData['config']['regions'][$sRegion]['instanceTypes'][$sInstanceType]['sizes'][$sSize];
             return $aData['valueColumns']['ec2']['prices']['USD'] + $aData['valueColumns']['emr']['prices']['USD'];
         } else {
             return 0;
