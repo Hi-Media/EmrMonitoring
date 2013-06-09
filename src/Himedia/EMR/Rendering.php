@@ -1,5 +1,23 @@
 <?php
 
+/**
+ * Copyright (c) 2013 Hi-Media SA
+ * Copyright (c) 2013 Geoffroy Aubry <gaubry@hi-media.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
+ * for the specific language governing permissions and limitations under the License.
+ *
+ * @copyright 2013 Hi-Media SA
+ * @copyright 2013 Geoffroy Aubry <gaubry@hi-media.com>
+ * @license http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 namespace Himedia\EMR;
 
 use Psr\Log\LoggerInterface;
@@ -14,26 +32,51 @@ class Rendering
         $this->oLogger = $oLogger;
     }
 
-    public function displayHelp ()
+    public function displayHelp ($sErrorMessage = '')
     {
-        $this->oLogger->info('{C.section}Help+++');
-        $this->oLogger->info('{C.help_cmd}emr_monitoring.php+++');
-        $this->oLogger->info('Display this help and list all job flows in the last 2 weeks.---');
-        $this->oLogger->info('{C.help_cmd}emr_monitoring.php {C.help_param}<jobflowid>+++');
+        if (! empty($sErrorMessage)) {
+            $this->oLogger->error("\033[4m/!\\\033[24m $sErrorMessage!");
+        }
+        $this->oLogger->info('{C.section}Usage+++');
+        $this->oLogger->info('{C.help_cmd}emr_monitoring.php {C.info}[{C.help_opt}OPTION{C.info}]…---');
+        $this->oLogger->info(' ');
+
+        $this->oLogger->info('{C.section}Options+++');
+
+        $this->oLogger->info('{C.help_opt}-h{C.info}, {C.help_opt}--help+++');
+        $this->oLogger->info('Display this help.---');
+        $this->oLogger->info(' ');
+
+        $this->oLogger->info('{C.help_opt}-l{C.info}, {C.help_opt}--list-all-jobflows+++');
+        $this->oLogger->info('List all job flows in the last 2 weeks.---');
+        $this->oLogger->info(' ');
+
+        $this->oLogger->info('{C.help_opt}-j{C.info}, {C.help_opt}--jobflow-id {C.help_param}<jobflowid>+++');
         $this->oLogger->info('Display statistics on any {C.help_param}<jobflowid>{C.info}, finished or in progress.');
-        $this->oLogger->info('Add {C.help_param}-d{C.info} or {C.help_param}--debug{C.info} to enable debug mode.');
         $this->oLogger->info(
             '⇒ to monitor a jobflow in real-time: '
-            . '{C.help_cmd}watch -n10 --color emr_monitoring.php {C.help_param}<jobflowid>---'
+            . '{C.help_cmd}watch -n10 --color emr_monitoring.php {C.help_opt}-j {C.help_param}<jobflowid>---'
         );
+        $this->oLogger->info(' ');
+
+        $this->oLogger->info('{C.help_opt}--list-input-files+++');
         $this->oLogger->info(
-            '{C.help_cmd}emr_monitoring.php {C.help_param}<jobflowid>{C.help_cmd} --list-input-files+++'
-        );
-        $this->oLogger->info(
-            'List all S3 input files really loaded by Hadoop instance '
+            'With {C.help_opt}-j{C.info}, list all S3 input files really loaded by Hadoop instance '
             . 'of the completed {C.help_param}<jobflowid>{C.info}.---'
         );
-        $this->oLogger->info(' ---');
+        $this->oLogger->info(' ');
+
+        $this->oLogger->info('{C.help_opt}-p{C.info}, {C.help_opt}--ssh-tunnel-port {C.help_param}<port>+++');
+        $this->oLogger->info(
+            'With {C.help_opt}-j{C.info}, specify the {C.help_param}<port>{C.info} used to establish a connection'
+            . ' to the master node and retrieve data from the Hadoop jobtracker.---'
+        );
+        $this->oLogger->info(' ');
+
+        $this->oLogger->info('{C.help_opt}-d{C.info}, {C.help_opt}--debug+++');
+        $this->oLogger->info('Enable debug mode and list all shell commands.---');
+
+        $this->oLogger->info('--- ');
     }
 
     /**

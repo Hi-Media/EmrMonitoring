@@ -1,5 +1,23 @@
 <?php
 
+/**
+ * Copyright (c) 2013 Hi-Media SA
+ * Copyright (c) 2013 Geoffroy Aubry <gaubry@hi-media.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
+ * for the specific language governing permissions and limitations under the License.
+ *
+ * @copyright 2013 Hi-Media SA
+ * @copyright 2013 Geoffroy Aubry <gaubry@hi-media.com>
+ * @license http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 $sRootDir = realpath(__DIR__ . '/..');
 $aDirs = array(
     'root_dir'   => $sRootDir,
@@ -44,13 +62,14 @@ $aConfig = $aDirs + array(
             'raw_error'     => "\033[0;31m",
             'info'          => "\033[0;37m",
             'price'         => "\033[0;35m",
-            'help_cmd'      => "\033[0;33m",
-            'help_param'    => "\033[1;33m"
+            'help_cmd'      => "\033[0;36m",
+            'help_opt'      => "\033[1;33m",
+            'help_param'    => "\033[1;36m"
         ),
         'base_indentation'     => "\033[0;30m┆\033[0m   ",
         'indent_tag'           => '+++',
         'unindent_tag'         => '---',
-        'min_message_level'    => 'to define…',
+        'min_message_level'    => 'depends on parameters…',
         'reset_color_sequence' => "\033[0m",
         'color_tag_prefix'     => 'C.'
     )
