@@ -37,75 +37,63 @@ class Controller
     private $oMonitoring;
     private $oRendering;
 
-    public function __construct(array $aParameters, array $aConfig)
+    public function __construct(array $aConfig, $bDebugMode)
     {
         $this->aConfig = $aConfig;
-        $this->extractParameters($aParameters);
-
-        $this->aConfig['GAubry\Logger']['min_message_level'] = $this->sLogLevel;
+        $this->aConfig['GAubry\Logger']['min_message_level'] = ($bDebugMode ? LogLevel::DEBUG : LogLevel::INFO);
         $oLogger = new ColoredIndentedLogger($this->aConfig['GAubry\Logger']);
         $oEMRInstancePrices = new EMRInstancePrices();
         $this->oMonitoring = new Monitoring($oLogger, $oEMRInstancePrices, $this->aConfig['Himedia\EMR']);
         $this->oRendering = new Rendering($oLogger);
     }
 
-    private function extractParameters (array $aParameters)
+    public function run (array $aParameters)
     {
-        $this->bListInputFiles = false;
-        $this->sLogLevel = LogLevel::INFO;
-        foreach ($aParameters as $iKey => $sValue) {
-            if ($sValue == '--debug' || $sValue == '-d') {
-                $this->sLogLevel = LogLevel::DEBUG;
-                array_splice($aParameters, $iKey, 1, array());
-            }
-            if ($sValue == '--list-input-files') {
-                $this->bListInputFiles = true;
-                array_splice($aParameters, $iKey, 1, array());
-            }
-        }
-        $this->sJobFlowID = (isset($aParameters[1]) ? $aParameters[1] : '');
-        if (isset($aParameters[2])) {
-            $this->sSSHTunnelPort = (int)$aParameters[2];
-        } else {
-            $this->sSSHTunnelPort = $this->aConfig['Himedia\EMR']['default_ssh_tunnel_port'];
-        }
-    }
-
-    public function run ()
-    {
-        if (empty($this->sJobFlowID)) {
+        if (! empty($aParameters['error']) || isset($aParameters['help'])) {
+            $this->oRendering->displayHelp($aParameters['error']);
+        } elseif (! empty($aParameters['list-all-jobflows'])) {
             $this->displayAllJobs();
-        } elseif ($this->bListInputFiles) {
-            $this->displayHadoopInputFiles();
+        } elseif (! empty($aParameters['jobflow-id'])) {
+            if (! isset($aParameters['ssh-tunnel-port'])) {
+                $aParameters['ssh-tunnel-port'] = $this->aConfig['Himedia\EMR']['default_ssh_tunnel_port'];
+            }
+            if (isset($aParameters['list-input-files'])) {
+                $this->displayHadoopInputFiles($aParameters);
+            } else {
+                $this->displayJobFlow($aParameters);
+            }
         } else {
-            $this->displayJobFlow();
+            $this->oRendering->displayHelp();
         }
     }
 
     private function displayAllJobs ()
     {
-        $this->oRendering->displayHelp();
         $aAllJobs = $this->oMonitoring->getAllJobs();
         $this->oRendering->displayAllJobs($aAllJobs);
     }
 
-    private function displayHadoopInputFiles()
+    private function displayHadoopInputFiles(array $aParameters)
     {
-        $aJob = $this->oMonitoring->getJobFlow($this->sJobFlowID, $this->sSSHTunnelPort);
-        $aInputFiles = $this->oMonitoring->getHadoopInputFiles($this->sJobFlowID, $aJob);
+        $sJobflowId = $aParameters['jobflow-id'];
+        $iSSHTunnelPort = (int)$aParameters['ssh-tunnel-port'];
+        $aJob = $this->oMonitoring->getJobFlow($sJobflowId, $iSSHTunnelPort);
+        $aInputFiles = $this->oMonitoring->getHadoopInputFiles($sJobflowId, $aJob);
         $this->oRendering->displayHadoopInputFiles($aInputFiles);
     }
 
-    private function displayJobFlow ()
+    private function displayJobFlow (array $aParameters)
     {
-        $aJob = $this->oMonitoring->getJobFlow($this->sJobFlowID, $this->sSSHTunnelPort);
+        $sJobflowId = $aParameters['jobflow-id'];
+        $iSSHTunnelPort = (int)$aParameters['ssh-tunnel-port'];
+        $aJob = $this->oMonitoring->getJobFlow($sJobflowId, $iSSHTunnelPort);
         $this->oRendering->displayJobName($aJob['Name']);
         $this->oRendering->displayJobGeneralStatus($aJob);
         $this->oRendering->displayJobInstances($aJob);
         $this->oRendering->displayJobSteps($aJob);
 
         list($sRawSummary, $aErrorMsg, $aS3LogSteps, $iMaxTs, $iMaxNbTasks, $sGnuplotData)
-            = $this->oMonitoring->getLogSummary($this->sJobFlowID, $aJob);
+            = $this->oMonitoring->getLogSummary($sJobflowId, $aJob);
         $this->oRendering->displayJobSummary(
             $aJob,
             $sRawSummary,

@@ -73,7 +73,7 @@ class Monitoring
         $sCmd = $this->aConfig['emr_cli_bin']
               . ' --access-id ' . $this->aConfig['aws_access_key']
               . ' --private-key ' . $this->aConfig['aws_secret_key']
-              . " --describe $sJobFlowID";
+              . " --describe --jobflow $sJobFlowID";
         $aRawResult = $this->exec($sCmd);
         $aDesc = json_decode(implode("\n", $aRawResult), true);
         $aJob = $aDesc['JobFlows'][0];

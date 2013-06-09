@@ -3,20 +3,20 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "95bddd26281241a761305f4ce9e1d72e",
+    "hash": "1e2671c13eef6205f959950a4dd0473b",
     "packages": [
         {
             "name": "geoffroy-aubry/errorhandler",
-            "version": "v1.1.2",
+            "version": "v1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/geoffroy-aubry/ErrorHandler.git",
-                "reference": "v1.1.2"
+                "reference": "v1.1.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/geoffroy-aubry/ErrorHandler/zipball/v1.1.2",
-                "reference": "v1.1.2",
+                "url": "https://api.github.com/repos/geoffroy-aubry/ErrorHandler/zipball/v1.1.3",
+                "reference": "v1.1.3",
                 "shasum": ""
             },
             "require": {
@@ -50,7 +50,7 @@
                 "error handler",
                 "exception handler"
             ],
-            "time": "2013-06-04 21:06:09"
+            "time": "2013-06-07 15:58:38"
         },
         {
             "name": "geoffroy-aubry/helpers",
@@ -186,6 +186,46 @@
                 "psr-3"
             ],
             "time": "2012-12-21 11:40:51"
+        },
+        {
+            "name": "ulrichsg/getopt-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ulrichsg/getopt-php.git",
+                "reference": "6b8f2f011edcce97a7ca8e9ca080a5828f5ebb0e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ulrichsg/getopt-php/zipball/6b8f2f011edcce97a7ca8e9ca080a5828f5ebb0e",
+                "reference": "6b8f2f011edcce97a7ca8e9ca080a5828f5ebb0e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Ulrichsg": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ulrich Schmidt-Goertz",
+                    "email": "ulrich@schmidt-goertz.de"
+                }
+            ],
+            "description": "Command line arguments parser for PHP 5.3",
+            "homepage": "http://github.com/ulrichsg/getopt-php",
+            "time": "2013-06-08 10:37:06"
         }
     ],
     "packages-dev": [
@@ -1132,6 +1172,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "ulrichsg/getopt-php": 20,
         "satooshi/php-coveralls": 20
     },
     "platform": {

@@ -23,8 +23,26 @@
 // php vendor/bin/phpmd src/ text codesize,design,unusedcode,naming,controversial
 
 use Himedia\EMR\Controller;
+use Ulrichsg\Getopt;
 
 require(dirname(__FILE__) . '/inc/bootstrap.php');
 
-$oController = new Controller($argv, $aConfig);
-$oController->run();
+$oGetopt = new Getopt(array(
+    array('h', 'help', Getopt::NO_ARGUMENT),
+    array('d', 'debug', Getopt::NO_ARGUMENT),
+    array('l', 'list-all-jobflows', Getopt::NO_ARGUMENT),
+    array('j', 'jobflow-id', Getopt::REQUIRED_ARGUMENT),
+    array(null, 'list-input-files', Getopt::NO_ARGUMENT),
+    array('p', 'ssh-tunnel-port', Getopt::REQUIRED_ARGUMENT)
+));
+try {
+    $oGetopt->parse();
+    $sError = '';
+} catch (UnexpectedValueException $oException) {
+    $sError = $oException->getMessage();
+}
+$aParameters = $oGetopt->getOptions() + array('error' => $sError);
+
+$bDebugMode = ($oGetopt->getOption('debug') !== null);
+$oController = new Controller($aConfig, $bDebugMode);
+$oController->run($aParameters);
