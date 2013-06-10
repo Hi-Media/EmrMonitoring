@@ -19,14 +19,19 @@
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
-// php vendor/bin/phpcs --standard=PSR2 src/
-// php vendor/bin/phpmd src/ text codesize,design,unusedcode,naming,controversial
-
+use GAubry\Logger\ColoredIndentedLogger;
 use Himedia\EMR\Controller;
+use Himedia\EMR\EMRInstancePrices;
+use Himedia\EMR\Monitoring;
+use Himedia\EMR\Rendering;
+use Psr\Log\LogLevel;
 use Ulrichsg\Getopt;
 
 require(dirname(__FILE__) . '/inc/bootstrap.php');
 
+
+
+// Extract command line parameters
 $oGetopt = new Getopt(array(
     array('h', 'help', Getopt::NO_ARGUMENT),
     array('d', 'debug', Getopt::NO_ARGUMENT),
@@ -43,6 +48,17 @@ try {
 }
 $aParameters = $oGetopt->getOptions() + array('error' => $sError);
 
-$bDebugMode = ($oGetopt->getOption('debug') !== null);
-$oController = new Controller($aConfig, $bDebugMode);
+
+
+// Init.
+$aConfig['GAubry\Logger']['min_message_level']
+    = ($oGetopt->getOption('debug') !== null ? LogLevel::DEBUG : LogLevel::INFO);
+$oLogger = new ColoredIndentedLogger($aConfig['GAubry\Logger']);
+$oMonitoring = new Monitoring($oLogger, new EMRInstancePrices(), $aConfig['Himedia\EMR']);
+$oRendering = new Rendering($oLogger);
+$oController = new Controller($aConfig, $oMonitoring, $oRendering);
+
+
+
+// Run
 $oController->run($aParameters);

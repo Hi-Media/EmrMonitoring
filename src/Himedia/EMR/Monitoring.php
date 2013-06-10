@@ -1,6 +1,17 @@
 <?php
 
+namespace Himedia\EMR;
+
+use Psr\Log\LoggerInterface;
+use GAubry\Helpers\Helpers;
+
+
+
 /**
+ * Retrieve data from various external resources.
+ *
+ *
+ *
  * Copyright (c) 2013 Hi-Media SA
  * Copyright (c) 2013 Geoffroy Aubry <gaubry@hi-media.com>
  *
@@ -17,18 +28,27 @@
  * @copyright 2013 Geoffroy Aubry <gaubry@hi-media.com>
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
-
-namespace Himedia\EMR;
-
-use Psr\Log\LoggerInterface;
-use GAubry\Helpers\Helpers;
-
 class Monitoring
 {
 
+    /**
+     * Logger
+     * @var \Psr\Log\LoggerInterface
+     */
     private $oLogger;
+
+    /**
+     * Extract Amazon Elastic MapReduce Pricing from JSON stream
+     * used by http://aws.amazon.com/elasticmapreduce/pricing/.
+     * @var \Himedia\EMR\EMRInstancePrices
+     */
     private $oEMRInstancePrices;
 
+    /**
+     * Default configuration.
+     * @var array
+     * @see $aConfig
+     */
     private static $aDefaultConfig = array(
         'ec2_api_tools_dir' => '/path/to/ec2-api-tools-dir',
         'aws_access_key' => '…',
@@ -39,10 +59,18 @@ class Monitoring
     );
 
     /**
+     * Current configuration.
      * @var array
      */
     private $aConfig;
 
+    /**
+     * Constructor.
+     *
+     * @param LoggerInterface $oLogger
+     * @param EMRInstancePrices $oEMRInstancePrices
+     * @param array $aConfig configuration, see $aDefaultConfig
+     */
     public function __construct (
         LoggerInterface $oLogger,
         EMRInstancePrices $oEMRInstancePrices,
@@ -54,7 +82,7 @@ class Monitoring
     }
 
     /**
-     * List all job flows created in the last 2 days.
+     * Lists all job flows created in the last 2 days.
      *
      * @return array Array of string "job-id    status    master-node    name".
      */
@@ -68,6 +96,15 @@ class Monitoring
         return $aRawResult;
     }
 
+    /**
+     * Returns detailed description of the specified jobflow.
+     *
+     * @param string $sJobFlowID jobflow id, e.g. 'j-3PEQM17A7419J'
+     * @param string $sSSHTunnelPort port used to establish a connection to the master node
+     * and retrieve data from the Hadoop jobtracker
+     * @return array detailed description of the specified jobflow, see resources/job.log for the job array structure
+     * @see resources/job.log for the returned job array structure
+     */
     public function getJobFlow ($sJobFlowID, $sSSHTunnelPort)
     {
         $sCmd = $this->aConfig['emr_cli_bin']
@@ -89,7 +126,7 @@ class Monitoring
             if ($aJobIGroup['Market'] == 'SPOT') {
                 $sZone = $aJob['Instances']['Placement']['AvailabilityZone'];
                 try {
-                    $fPrice = $this->getSpotInstanceCurrentPricing($aJobIGroup, $sZone);
+                    $fPrice = $this->getSpotInstanceCurrentPricing($aJobIGroup['InstanceType'], $sZone);
                     $aJob['Instances']['InstanceGroups'][$iIdx]['AskPriceError'] = null;
                 } catch (\RuntimeException $oException) {
                     $fPrice = 0;
@@ -160,13 +197,16 @@ class Monitoring
         return $aJob;
     }
 
-    /*
-     * s3://appnexus-us/input/standard_feed/2013/04/03/standard_feed_2013_04_03_*.gz
-     * s3://appnexus-us/output/4
-     * s3cmd du -H …
-     * http://pig.apache.org/docs/r0.7.0/piglatin_ref2.html#LOAD
-     * http://stackoverflow.com/questions/3515481/
-     *   pig-latin-load-multiple-files-from-a-date-range-part-of-the-directory-structur
+    /**
+     * Returns size in bytes of S3 objects concerned by the specified $sPigPattern.
+     *
+     * @TODO http://stackoverflow.com/questions/3515481/ \
+     *       pig-latin-load-multiple-files-from-a-date-range-part-of-the-directory-structur
+     *
+     * @param string $sPigPattern Name of a S3 file or directory, may use Hadoop-supported globing
+     * @see http://pig.apache.org/docs/r0.7.0/piglatin_ref2.html#LOAD
+     * @see http://hadoop.apache.org/docs/current/api/org/apache/hadoop/fs/FileSystem.html \
+     *      #globStatus(org.apache.hadoop.fs.Path)
      */
     private function getS3ObjectSize ($sPigPattern)
     {
@@ -193,6 +233,15 @@ class Monitoring
         return $sSize;
     }
 
+    /**
+     * Opens if needed a new SSH tunnel to the master node.
+     * @TODO test with: netcat -z localhost 80 => 0/1
+     *
+     * @param array $aJob detailed description of a jobflow.
+     * @param string $sSSHTunnelPort port used to establish a connection to the master node
+     * and retrieve data from the Hadoop jobtracker
+     * @see resources/job.log for the job array structure
+     */
     private function openSSHTunnel (array $aJob, $sSSHTunnelPort)
     {
         $sCmd = 'ps fax | grep -v \'ps fax\' | grep ssh'
@@ -204,10 +253,16 @@ class Monitoring
                 . ' ' . $this->aConfig['ssh_options'] . ' > /dev/null 2>&1 &';
             $this->exec($sCmd);
             sleep(3);
-            // TODO test with: netcat -z localhost 80 => 0/1
         }
     }
 
+    /**
+     * Retrieves content of the Hadoop jobtracker running on the master node.
+     *
+     * @param $sSSHTunnelPort port used to establish a connection to the master node
+     * and retrieve data from the Hadoop jobtracker
+     * @return array ($aClusterSummary, $aSubJobsSummary, $sError)
+     */
     private function getHadoopJobTrackerContent ($sSSHTunnelPort)
     {
         $aClusterSummary = array();
@@ -259,7 +314,14 @@ class Monitoring
         return array($aClusterSummary, $aSubJobsSummary, $sError);
     }
 
-    private function getSpotInstanceCurrentPricing (array $aJobIGroup, $sZone)
+    /**
+     * Returns current EC2 pricing of the specified spot instances type.
+     *
+     * @param string $sInstanceType
+     * @param string $sZone
+     * @return float current EC2 pricing of the specified spot instances group.
+     */
+    private function getSpotInstanceCurrentPricing ($sInstanceType, $sZone)
     {
         $fCurrentPricing = '';
         if (! empty($this->aConfig['ec2_api_tools_dir']) && ! empty($sZone)) {
@@ -280,6 +342,26 @@ class Monitoring
         return $fCurrentPricing;
     }
 
+    /**
+     * Computes elapsed times between creation, start and end datetime.
+     * Compares to now if a value is missing.
+     *
+     * Input array structure: Array(
+     *     [CreationDateTime] => 1370507855
+     *     [StartDateTime] => 1370508203
+     *     [EndDateTime] => 1370509068
+     * )
+     *
+     * Output array structure: Array(
+     *     [CreationDateTime] => 1370507855
+     *     [StartDateTime] => 1370508203
+     *     [EndDateTime] => 1370509068
+     *     [ElapsedTimeToStartDateTime] => 348
+     *     [ElapsedTimeToEndDateTime] => 865
+     * )
+     *
+     * @param array &$aDates
+     */
     private function computeElapsedTimes (array &$aDates)
     {
         if ($aDates['CreationDateTime'] === null) {
@@ -304,6 +386,20 @@ class Monitoring
         }
     }
 
+    /**
+     * Returns ordered list containing:
+     *   – string $sSummary content of job stats section of s3://path/to/steps/stderr files
+     *   – array $aErrorsMsg list of error messages (string)
+     *   – array $aS3LogSteps list of s3://path/to/steps/stderr pathes
+     *   – int $iMaxTs elapsed time in seconds since start of job
+     *   – int $iMaxNbTasks max number of effective simultaneous tasks
+     *   – string $sGnuplotData path to CSV file containing data for gnuplot
+     *
+     * @param string $sJobFlowID jobflow id, e.g. 'j-3PEQM17A7419J'
+     * @param array $aJob detailed description of a jobflow.
+     * @see resources/job.log for the job array structure
+     * @return array array($sSummary, $aErrorMsg, $aS3LogSteps, $iMaxTs, $iMaxNbTasks, $sGnuplotData)
+     */
     public function getLogSummary ($sJobFlowID, array $aJob)
     {
         $sSummary = '';
@@ -356,7 +452,7 @@ class Monitoring
             $aLocalJobLogPaths[] = $sLocalJobLogPath;
         }
 
-        $sGnuplotData = '/tmp/toto_result.csv';
+        $sGnuplotData = '/tmp/gnuplot_result.csv';
         if (count($aLocalJobLogPaths) > 0) {
             list($iMaxTs, $iMaxNbTasks) = $this->extractHistory($aLocalJobLogPaths, $sGnuplotData);
         }
@@ -364,6 +460,24 @@ class Monitoring
         return array($sSummary, $aErrorMsg, $aS3LogSteps, $iMaxTs, $iMaxNbTasks, $sGnuplotData);
     }
 
+    /**
+     * Extracts history from XML files into s3://logURI/<sJobFlowID>/jobs/
+     * and generate a CSV timeline as follows:
+     * <pre>
+     *     time maps shuffle merge reduce
+     *     0 1 0 0 0
+     *     1 1 0 0 0
+     *     …
+     *     291 51 8 0 0
+     *     …
+     *     649 0 0 0 0
+     * </pre>
+     *
+     * @param array $aLocalJobLogPaths list of file to extract history from
+     * @param string $sDestPath CSV in which save timeline
+     * @return array a pair containing elapsed time in seconds since start of job (int)
+     * and max number of effective simultaneous tasks (int)
+     */
     private function extractHistory (array $aLocalJobLogPaths, $sDestPath)
     {
         $aMapStartTime = array(-1 => PHP_INT_MAX);
@@ -469,13 +583,26 @@ class Monitoring
         return array($iMaxTs, $iMaxNbTasks);
     }
 
-    // 13 au lieu de 10 char
+    /**
+     * Converts timestamps of XML files into s3://logURI/<sJobFlowID>/jobs/ into Unix timestamps
+     *
+     * @param string timestamps with 13 characters
+     * @return int Unix timestamp (10 digits)
+     * @see extractHistory()
+     */
     private function timestampToInt ($sTs)
     {
         //     return round((int)substr($sTs, 0, -3) + ((int)substr($sTs, -3))/1000.0);
         return (int)substr($sTs, 0, -3);
     }
 
+    /**
+     * Convert 'key1="value1" key2="value2"…' into key/value pairs.
+     *
+     * @param string $sAttributes
+     * @return array key/value pairs
+     * @see extractHistory()
+     */
     private function parseAttributes ($sAttributes)
     {
         preg_match_all('/([^=]++)="([^"]*)" */m', $sAttributes, $aMatches, PREG_PATTERN_ORDER);
@@ -483,6 +610,14 @@ class Monitoring
         return $aAttributes;
     }
 
+    /**
+     * Returns list of all S3 input files really loaded by Hadoop instance of the completed $sJobFlowID.
+     *
+     * @param string $sJobFlowID
+     * @param array $aJob detailed description of the sspecified jobflow
+     * @see resources/job.log for the job array structure
+     * @return array list of all S3 input files really loaded by Hadoop instance of the completed $sJobFlowID.
+     */
     public function getHadoopInputFiles ($sJobFlowID, array $aJob)
     {
         $sTmpDirname = '/tmp' . '/php-emr_' . md5(time().rand());
@@ -507,6 +642,13 @@ class Monitoring
         return $aInputFiles;
     }
 
+    /**
+     * Wrapper around Helpers::exec($sCmd) adding logging.
+     *
+     * @param string $sCmd bash command to execute
+     * @return array array filled with every line of output from the command
+     * @throws \RuntimeException if shell error
+     */
     private function exec ($sCmd)
     {
         $this->oLogger->debug('shell# ' . trim($sCmd, " \t"));

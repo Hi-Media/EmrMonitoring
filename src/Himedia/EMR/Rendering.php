@@ -1,6 +1,17 @@
 <?php
 
+namespace Himedia\EMR;
+
+use Psr\Log\LoggerInterface;
+use GAubry\Helpers\Helpers;
+
+
+
 /**
+ * Output representations of EMR jobflows.
+ *
+ *
+ *
  * Copyright (c) 2013 Hi-Media SA
  * Copyright (c) 2013 Geoffroy Aubry <gaubry@hi-media.com>
  *
@@ -17,21 +28,51 @@
  * @copyright 2013 Geoffroy Aubry <gaubry@hi-media.com>
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
-
-namespace Himedia\EMR;
-
-use Psr\Log\LoggerInterface;
-use GAubry\Helpers\Helpers;
-
 class Rendering
 {
+    /**
+     * Colored status of a jobflow, an instance or a step.
+     * @var array
+     * @see getColoredStatus()
+     */
+    private static $aStatusColors = array(
+        'ARRESTED'      => '',
+        'BOOTSTRAPPING' => 'warm_up',
+        'CANCELLED'     => 'warning',
+        'COMPLETED'     => 'ok',
+        'ENDED'         => 'discreet_ok',
+        'FAILED'        => 'error',
+        'PENDING'       => '',
+        'PROVISIONING'  => 'warm_up',
+        'RESIZING'      => 'warm_up',
+        'RUNNING'       => 'running',
+        'SHUTTING_DOWN' => 'warning',
+        'STARTING'      => 'warm_up',
+        'TERMINATED'    => 'ok',
+        'WAITING'       => 'warning',
+    );
+
+    /**
+     * Logger.
+     * @var \Psr\Log\LoggerInterface
+     */
     private $oLogger;
 
+    /**
+     * Constructor.
+     *
+     * @param LoggerInterface $oLogger
+     */
     public function __construct (LoggerInterface $oLogger)
     {
         $this->oLogger = $oLogger;
     }
 
+    /**
+     * Display help.
+     *
+     * @param string $sErrorMessage optionnal error message.
+     */
     public function displayHelp ($sErrorMessage = '')
     {
         if (! empty($sErrorMessage)) {
@@ -80,7 +121,7 @@ class Rendering
     }
 
     /**
-     *
+     * List all job flows in the last 2 weeks.
      *
      * @param array $aAllJobs Array of string "job-id    status    master-node    name".
      */
@@ -90,11 +131,35 @@ class Rendering
         $this->oLogger->info(implode("\n", $aAllJobs) . '---');
     }
 
+    /**
+     * Display then name of the jobflow.
+     *
+     * @param string $sJobName
+     */
     public function displayJobName ($sJobName)
     {
         $this->oLogger->info("{C.section}Job flow name: $sJobName+++");
     }
 
+    /**
+     * Display general status of the specified job:
+     * master public DNS name, log URI, zone, normalized hours, status, init/start/end date.
+     *
+     * Example of rendering:
+     * <pre>
+     * General
+     *     MasterPublicDnsName:   ec2-54-234-23-37.compute-1.amazonaws.com
+     *     Log URI:               s3://bucket/hadoop-logs/
+     *     Zone:                  us-east-1d
+     *     Norm. hours, price:    100h, ≤ $2.16
+     *     Status:                COMPLETED, Steps completed
+     *     Init/start/end date:   2013-06-06 10:37:35  /  2013-06-06 10:43:23 (+00:05:48)
+     *                                                 /  2013-06-06 10:57:48 (+00:14:25)
+     * </pre>
+     *
+     * @param array $aJob
+     * @see resources/job.log for the job array structure
+     */
     public function displayJobGeneralStatus (array $aJob)
     {
         $this->oLogger->info('{C.subsection}General+++');
@@ -123,6 +188,27 @@ class Rendering
         $this->oLogger->info('---');
     }
 
+    /**
+     * Display status, init/start/end date and elapsed time of a job section.
+     *
+     * Example of rendering:
+     * <pre>
+     *     Status:                COMPLETED
+     *     Init/start/end date:   2013-06-10 13:06:39  /  2013-06-10 13:11:09 (+00:04:30)
+     *                                                 /  2013-06-10 13:11:21 (+00:00:12)
+     * </pre>
+     *
+     * @param array $aJobSection job section with following structure:
+     * Array(
+     *     [StartDateTime] => 1370862669
+     *     [CreationDateTime] => 1370862399
+     *     [LastStateChangeReason] => Steps completed with errors
+     *     [EndDateTime] => 1370862825
+     *     [State] => COMPLETED
+     *     [ElapsedTimeToStartDateTime] => 270
+     *     [ElapsedTimeToEndDateTime] => 156
+     * )
+     */
     private function displayStatusAndDates (array $aJobSection)
     {
         $sStatus = $aJobSection['State'];
@@ -147,31 +233,41 @@ class Rendering
         $this->oLogger->info($sMsg);
     }
 
+    /**
+     * Display colored status of a jobflow, an instance or a step.
+     *
+     * @param string $sStatus
+     * @param string $sStateChangeReason
+     * @see $aStatusColors
+     */
     private function getColoredStatus ($sStatus, $sStateChangeReason)
     {
-        $aStatusColors = array(
-            'ARRESTED' => '',
-            'BOOTSTRAPPING' => 'warm_up',
-            'CANCELLED' => 'warning',
-            'COMPLETED' => 'ok',
-            'ENDED' => 'discreet_ok',
-            'FAILED' => 'error',
-            'PENDING' => '',
-            'PROVISIONING' => 'warm_up',
-            'RESIZING' => 'warm_up',
-            'RUNNING' => 'running',
-            'SHUTTING_DOWN' => 'warning',
-            'STARTING' => 'warm_up',
-            'TERMINATED' => 'ok',
-            'WAITING' => 'warning',
-        );
-
         $sMsg = str_pad('Status: ', 23, ' ')
-              . (! empty($aStatusColors[$sStatus]) ? '{C.' . $aStatusColors[$sStatus] . '}' : '')
+              . (! empty(self::$aStatusColors[$sStatus]) ? '{C.' . self::$aStatusColors[$sStatus] . '}' : '')
               . $sStatus . (! empty($sStateChangeReason) ? ", $sStateChangeReason" : '');
         return $sMsg;
     }
 
+    /**
+     * Display job instances, e.g. master/core/task instance group.
+     *
+     * Example of rendering:
+     * <pre>
+     * Instances
+     *     Master Instance Group
+     *         Detail:                MASTER, ON_DEMAND, 0/1 m1.xlarge, $0.6 /h/instance
+     *         Status:                ENDED, Job flow terminated
+     *         Init/start/end date:   2013-06-10 13:06:39  /  2013-06-10 13:10:00 (+00:03:21)
+     *                                                     /  2013-06-10 13:13:43 (+00:03:43)
+     *     Core Instance Group
+     *         …
+     *     Task Instance Group
+     *         …
+     * </pre>
+     *
+     * @param array $aJob
+     * @see resources/job.log for the job array structure
+     */
     public function displayJobInstances (array $aJob)
     {
         $this->oLogger->info('{C.subsection}Instances+++');
@@ -222,6 +318,13 @@ class Rendering
         $this->oLogger->info('---');
     }
 
+    /**
+     * Returns color code according to specified ratio.
+     * Useful for progression indicators.
+     *
+     * @param float $fRatio between 0 and 1, inclusive
+     * @return string color code according to specified ratio.
+     */
     private function getColorAccordingToRatio ($fRatio)
     {
         $aColors = array(
@@ -234,6 +337,25 @@ class Rendering
         return $aColors[floor($fRatio / 0.25)];
     }
 
+    /**
+     * Display steps details of the specified job.
+     *
+     * Example of rendering:
+     * <pre>
+     * Steps
+     *     Setup Hadoop Debugging
+     *         Status:                COMPLETED
+     *         Init/start/end date:   2013-06-10 13:06:39  /  2013-06-10 13:11:09 (+00:04:30)
+     *                                                     /  2013-06-10 13:11:21 (+00:00:12)
+     *     Setup Pig
+     *         …
+     *     Run Pig Script
+     *         …
+     * </pre>
+     *
+     * @param array $aJob
+     * @see resources/job.log for the job array structure
+     */
     public function displayJobSteps (array $aJob)
     {
         $this->oLogger->info('{C.subsection}Steps+++');
@@ -265,6 +387,12 @@ class Rendering
         $this->oLogger->info('---');
     }
 
+    /**
+     * Display details of a step in progress.
+     *
+     * @param array $aJobStep
+     * @see resources/job.log for the job array structure
+     */
     private function displaySubJobs (array $aJobStep)
     {
         if (count($aJobStep['ClusterSummary']) > 0) {
@@ -311,6 +439,29 @@ class Rendering
         $this->oLogger->info('---');
     }
 
+    /**
+     * Display summary of a job.
+     *
+     * Example of rendering:
+     * <pre>
+     * Summary
+     *     Task timeline: /tmp/php-emr_71f1a752e74c69d14732626c2276b3a8_tasktimeline.png
+     *     Job Stats (time in seconds)
+     *         JobId                  #,Min/Avg/Max Maps  #,Min/Avg/Max Reduces  Alias      Feature            Outputs
+     *         job_201306060840_0001  120,27/246/356      20,294/305/351         A,B,C,D,E  GROUP_BY,COMBINER  …
+     *     Job DAG
+     *         (job_201306060840_) 0001
+     * </pre>
+     *
+     * @param array see $aJob resources/job.log for the job array structure
+     * @param string $sRawSummary content of job stats section of s3://path/to/steps/stderr files
+     * @param array $aErrorsMsg list of error messages (string)
+     * @param array $aS3LogSteps list of s3://path/to/steps/stderr pathes
+     * @param int $iMaxTs elapsed time in seconds since start of job
+     * @param int $iMaxNbTasks max number of effective simultaneous tasks
+     * @param string $sGnuplotData path to CSV file containing data for gnuplot
+     * @param string $sGnuplotScript gnuplot script to execute
+     */
     public function displayJobSummary (
         array $aJob,
         $sRawSummary,
@@ -353,6 +504,11 @@ class Rendering
         $this->oLogger->info('---');
     }
 
+    /**
+     * Display error message.
+     *
+     * @param array $aErrorsMsg list of error messages (string)
+     */
     private function displayErrors (array $aErrorsMsg)
     {
         if (count($aErrorsMsg) > 0) {
@@ -364,6 +520,18 @@ class Rendering
         }
     }
 
+    /**
+     * Display job stats from Hadoop jobtracker.
+     *
+     * Example of rendering:
+     * <pre>
+     *     Job Stats (time in seconds)
+     *         JobId                  #,Min/Avg/Max Maps  #,Min/Avg/Max Reduces  Alias      Feature            Outputs
+     *         job_201306060840_0001  120,27/246/356      20,294/305/351         A,B,C,D,E  GROUP_BY,COMBINER  …
+     * </pre>
+     *
+     * @param string $sRawSummary content of job stats section of s3://path/to/steps/stderr files
+     */
     private function displayJobStats ($sRawSummary)
     {
         $this->oLogger->info('{C.subsubsection}Job Stats (time in seconds)+++');
@@ -395,6 +563,17 @@ class Rendering
         }
     }
 
+    /**
+     * Display job DAG (directed acyclic graph) from Hadoop jobtracker.
+     *
+     * Example of rendering:
+     * <pre>
+     *     Job DAG
+     *         (job_201306060840_) 0001
+     * </pre>
+     *
+     * @param string $sRawSummary content of job stats section of s3://path/to/steps/stderr files
+     */
     private function displayJobDAG ($sRawSummary)
     {
         $this->oLogger->info('{C.subsubsection}Job DAG+++');
@@ -410,8 +589,14 @@ class Rendering
         }
     }
 
-    // first row = headers
-    //
+    /**
+     * Return an HTML-like table in bash using PHP array.
+     * First row contains headers.
+     *
+     * @param array $aData
+     * @param string $sInnerSeparator separator between columns
+     * @return array list of rows of an HTML-like table in bash
+     */
     private function renderArray (array $aData, $sInnerSeparator)
     {
         $aMaxColSize = array();
@@ -434,6 +619,11 @@ class Rendering
         return $aResultArray;
     }
 
+    /**
+     * Display all S3 input files really loaded by Hadoop instance of a completed <jobflowid>.
+     *
+     * @param array $aInputFiles
+     */
     public function displayHadoopInputFiles (array $aInputFiles)
     {
         $this->oLogger->info('{C.subsubsection}Hadoop input files+++');

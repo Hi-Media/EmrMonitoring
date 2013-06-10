@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * Bootstrap.
+ *
  * Copyright (c) 2013 Hi-Media SA
  * Copyright (c) 2013 Geoffroy Aubry <gaubry@hi-media.com>
  *
@@ -20,11 +22,7 @@
 
 use \GAubry\ErrorHandler\ErrorHandler;
 
-/**
- * Bootstrap.
- *
- * @author Geoffroy AUBRY <geoffroy.aubry@hi-media.com>
- */
+
 
 // Check config file
 $sConfDir = realpath(dirname(__FILE__) . '/../../conf');
@@ -136,6 +134,7 @@ if (exec($sCmd) != 'OK') {
     exit(7);
 }
 
+// Check EC2 environment variables
 if (empty($_SERVER['EC2_HOME']) || empty($_SERVER['JAVA_HOME'])) {
     echo "\033[1m\033[4;33m/!\\\033[0;37m "
         . "\033[0;31mMissing environment variables in order to use EC2 API Tools!" . PHP_EOL
