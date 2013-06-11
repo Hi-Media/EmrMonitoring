@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class Himedia\EMR\EMRInstancePrices | Amazon Elastic MapReduce Monitoring</title>
+
+	<script type="text/javascript" src="resources/combined.js?147435902"></script>
+	<script type="text/javascript" src="elementlist.js?2597812675"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li><a href="namespace-GAubry.html">GAubry<span></span></a>
+						<ul>
+				<li><a href="namespace-GAubry.ErrorHandler.html">ErrorHandler</a>
+						</li>
+				<li><a href="namespace-GAubry.Helpers.html">Helpers</a>
+						</li>
+				<li><a href="namespace-GAubry.Logger.html">Logger</a>
+						</li>
+							</ul></li>
+				<li class="active"><a href="namespace-Himedia.html">Himedia<span></span></a>
+						<ul>
+				<li class="active main"><a href="namespace-Himedia.EMR.html">EMR</a>
+						</li>
+							</ul></li>
+				<li><a href="namespace-Psr.html">Psr<span></span></a>
+						<ul>
+				<li><a href="namespace-Psr.Log.html">Log</a>
+						</li>
+							</ul></li>
+				<li><a href="namespace-Ulrichsg.html">Ulrichsg</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Himedia.EMR.Controller.html">Controller</a></li>
+				<li class="active"><a href="class-Himedia.EMR.EMRInstancePrices.html">EMRInstancePrices</a></li>
+				<li><a href="class-Himedia.EMR.Monitoring.html">Monitoring</a></li>
+				<li><a href="class-Himedia.EMR.Rendering.html">Rendering</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Himedia.EMR.html" title="Summary of Himedia\EMR"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+			<li>
+				<a href="deprecated.html" title="List of deprecated elements"><span>Deprecated</span></a>
+			</li>
+			<li>
+				<a href="todo.html" title="Todo list"><span>Todo</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class EMRInstancePrices</h1>
+
+
+	<div class="description">
+	
+<p>Extract Amazon Elastic MapReduce Pricing from JSON stream used by <a
+href="http://aws.amazon.com/elasticmapreduce/pricing/">http://aws.amazon.com/elasticmapreduce/pricing/</a>.</p>
+
+<p>Copyright (c) 2013 Hi-Media SA Copyright (c) 2013 Geoffroy Aubry &lt;<a
+href="mailto:gaubry&#64;hi-media.com">gaubry&#64;<!---->hi-media.com</a>&gt;</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at<br />
+<a
+href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
+for the specific language governing permissions and limitations under the
+License.</p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-Himedia.html">Himedia</a>\<a href="namespace-Himedia.EMR.html">EMR</a><br />
+		
+
+				<b>Copyright:</b>
+				2013 Hi-Media SA<br />
+				<b>Copyright:</b>
+				2013 Geoffroy Aubry &lt;<a
+href="mailto:gaubry&#64;hi-media.com">gaubry&#64;<!---->hi-media.com</a>&gt;<br />
+				<b>License:</b>
+				<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a><br />
+		<b>Located at</b> <a href="source-class-Himedia.EMR.EMRInstancePrices.html#9-194" title="Go to source code">Himedia/EMR/EMRInstancePrices.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-Himedia.EMR.EMRInstancePrices.html#115-125" title="Go to source code">__construct</a>( <span>array <var>$aConfig</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Constructor.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Constructor.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$aConfig</var></dt>
+					<dd><code>array</code><br>$aConfig current configuration</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="loadData" id="_loadData">
+
+		<td class="attributes"><code>
+			 private 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_loadData">#</a>
+		<code><a href="source-class-Himedia.EMR.EMRInstancePrices.html#127-175" title="Go to source code">loadData</a>( )</code>
+
+		<div class="description short">
+			
+<p>Extracts and normalizes data from JSON stream. Called by constructor.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Extracts and normalizes data from JSON stream. Called by constructor.</p>
+
+
+
+
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code>mixed</code><br />
+						resources/raw-princing-emr.json<br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getUSDPrice" id="_getUSDPrice">
+
+		<td class="attributes"><code>
+			 public 
+			float
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getUSDPrice">#</a>
+		<code><a href="source-class-Himedia.EMR.EMRInstancePrices.html#177-193" title="Go to source code">getUSDPrice</a>( <span>string <var>$sRegion</var></span>, <span>string <var>$sInstanceType</var></span>, <span>string <var>$sSize</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Returns EC2 plus the additional EMR price of an instance with the specified
+type, size and region.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns EC2 plus the additional EMR price of an instance with the specified
+type, size and region.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sRegion</var></dt>
+					<dd><code>string</code><br>$sRegion EC2 instance region</dd>
+					<dt><var>$sInstanceType</var></dt>
+					<dd><code>string</code><br>$sInstanceType EC2 instance type</dd>
+					<dt><var>$sSize</var></dt>
+					<dd><code>string</code><br>$sSize EC2 instance size</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>float</code><br>EC2 plus the additional EMR price of an instance with the specified type, size
+and region.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="aDefaultConfig" id="$aDefaultConfig">
+		<td class="attributes"><code>
+			private static 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Himedia.EMR.EMRInstancePrices.html#32-39" title="Go to source code"><var>$aDefaultConfig</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(
+    <span class="php-quote">'pricing_emr_json_url'</span> =&gt; <span class="php-quote">'http://aws.amazon.com/elasticmapreduce/pricing/pricing-emr.json'</span>,
+)</code></td>
+		<td class="description"><div>
+			<a href="#$aDefaultConfig" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Default configuration. Contains only one key specifying the JSON stream URL
+used by <a
+href="http://aws.amazon.com/elasticmapreduce/pricing/">http://aws.amazon.com/elasticmapreduce/pricing/</a>.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Default configuration. Contains only one key specifying the JSON stream URL
+used by <a
+href="http://aws.amazon.com/elasticmapreduce/pricing/">http://aws.amazon.com/elasticmapreduce/pricing/</a>.</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="aInstanceTypeMapping" id="$aInstanceTypeMapping">
+		<td class="attributes"><code>
+			private static 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Himedia.EMR.EMRInstancePrices.html#41-63" title="Go to source code"><var>$aInstanceTypeMapping</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(
+    <span class="php-quote">'clustercompresi'</span> =&gt; <span class="php-quote">'cc1'</span>,
+    <span class="php-quote">'clustercomputei'</span> =&gt; <span class="php-quote">'cc1'</span>,
+    <span class="php-quote">'clustergpui'</span> =&gt; <span class="php-quote">'cg1'</span>,
+    <span class="php-quote">'clustergpuresi'</span> =&gt; <span class="php-quote">'cg1'</span>,
+    <span class="php-quote">'hicpuodi'</span> =&gt; <span class="php-quote">'c1'</span>,
+    <span class="php-quote">'hicpuresi'</span> =&gt; <span class="php-quote">'c1'</span>,
+    <span class="php-quote">'hiioodi'</span> =&gt; <span class="php-quote">'hi1'</span>,
+    <span class="php-quote">'hiioresi'</span> =&gt; <span class="php-quote">'hi1'</span>,
+    <span class="php-quote">'himemodi'</span> =&gt; <span class="php-quote">'m2'</span>,
+    <span class="php-quote">'himemresi'</span> =&gt; <span class="php-quote">'m2'</span>,
+    <span class="php-quote">'historeodi'</span> =&gt; <span class="php-quote">'hs1'</span>,
+    <span class="php-quote">'stdodi'</span> =&gt; <span class="php-quote">'m1'</span>,
+    <span class="php-quote">'stdresi'</span> =&gt; <span class="php-quote">'m1'</span>,
+    <span class="php-quote">'uodi'</span> =&gt; <span class="php-quote">'t1'</span>,
+    <span class="php-quote">'uresi'</span> =&gt; <span class="php-quote">'t1'</span>,
+    <span class="php-quote">'secgenstdodi'</span> =&gt; <span class="php-quote">'m3'</span>,
+    <span class="php-quote">'secgenstdresi'</span> =&gt; <span class="php-quote">'m3'</span>
+)</code></td>
+		<td class="description"><div>
+			<a href="#$aInstanceTypeMapping" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>List of EC2 instance types with mapping between JSON name and official
+name.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>List of EC2 instance types with mapping between JSON name and official
+name.</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="aInstanceSizeMapping" id="$aInstanceSizeMapping">
+		<td class="attributes"><code>
+			private static 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Himedia.EMR.EMRInstancePrices.html#65-78" title="Go to source code"><var>$aInstanceSizeMapping</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(
+    <span class="php-quote">'lg'</span> =&gt; <span class="php-quote">'large'</span>,
+    <span class="php-quote">'med'</span> =&gt; <span class="php-quote">'medium'</span>,
+    <span class="php-quote">'sm'</span> =&gt; <span class="php-quote">'small'</span>,
+    <span class="php-quote">'u'</span> =&gt; <span class="php-quote">'micro'</span>,
+    <span class="php-quote">'xl'</span> =&gt; <span class="php-quote">'xlarge'</span>,
+    <span class="php-quote">'xxl'</span> =&gt; <span class="php-quote">'2xlarge'</span>,
+    <span class="php-quote">'xxxxl'</span> =&gt; <span class="php-quote">'4xlarge'</span>,
+    <span class="php-quote">'xxxxxxxxl'</span> =&gt; <span class="php-quote">'8xlarge'</span>
+)</code></td>
+		<td class="description"><div>
+			<a href="#$aInstanceSizeMapping" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>List of EC2 instance sizes with mapping between JSON name and official
+name.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>List of EC2 instance sizes with mapping between JSON name and official
+name.</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="aRegionMapping" id="$aRegionMapping">
+		<td class="attributes"><code>
+			private static 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Himedia.EMR.EMRInstancePrices.html#80-99" title="Go to source code"><var>$aRegionMapping</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(
+    <span class="php-quote">'apac-sin'</span> =&gt; <span class="php-quote">'ap-southeast-1'</span>,
+    <span class="php-quote">'apac-syd'</span> =&gt; <span class="php-quote">'ap-southeast-2'</span>,
+    <span class="php-quote">'apac-tokyo'</span> =&gt; <span class="php-quote">'ap-northeast-1'</span>,
+    <span class="php-quote">'ap-southeast-1'</span> =&gt; <span class="php-quote">'ap-southeast-1'</span>,
+    <span class="php-quote">'ap-southeast-2'</span> =&gt; <span class="php-quote">'ap-southeast-2'</span>,
+    <span class="php-quote">'ap-northeast-1'</span> =&gt; <span class="php-quote">'ap-northeast-1'</span>,
+    <span class="php-quote">'eu-ireland'</span> =&gt; <span class="php-quote">'eu-west-1'</span>,
+    <span class="php-quote">'eu-west-1'</span> =&gt; <span class="php-quote">'eu-west-1'</span>,
+    <span class="php-quote">'sa-east-1'</span> =&gt; <span class="php-quote">'sa-east-1'</span>,
+    <span class="php-quote">'us-east'</span> =&gt; <span class="php-quote">'us-east-1'</span>,
+    <span class="php-quote">'us-east-1'</span> =&gt; <span class="php-quote">'us-east-1'</span>,
+    <span class="php-quote">'us-west'</span> =&gt; <span class="php-quote">'us-west-1'</span>,
+    <span class="php-quote">'us-west-1'</span> =&gt; <span class="php-quote">'us-west-1'</span>,
+    <span class="php-quote">'us-west-2'</span> =&gt; <span class="php-quote">'us-west-2'</span>
+)</code></td>
+		<td class="description"><div>
+			<a href="#$aRegionMapping" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>List of EC2 regions with mapping between JSON name and official name.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>List of EC2 regions with mapping between JSON name and official name.</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="aConfig" id="$aConfig">
+		<td class="attributes"><code>
+			private  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Himedia.EMR.EMRInstancePrices.html#101-106" title="Go to source code"><var>$aConfig</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$aConfig" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Current configuration.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Current configuration.</p>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code>mixed</code><br />
+					</div>
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="aData" id="$aData">
+		<td class="attributes"><code>
+			private  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Himedia.EMR.EMRInstancePrices.html#108-113" title="Go to source code"><var>$aData</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$aData" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Data extracted from JSON stream, then normalized.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Data extracted from JSON stream, then normalized.</p>
+
+
+					<h4>See</h4>
+					<div class="list">
+							resources/normalized-princing-emr-json-decoded.log<br />
+					</div>
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		Amazon Elastic MapReduce Monitoring API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

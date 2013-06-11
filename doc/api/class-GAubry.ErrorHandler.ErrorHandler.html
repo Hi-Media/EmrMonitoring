@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class GAubry\ErrorHandler\ErrorHandler | Amazon Elastic MapReduce Monitoring</title>
+
+	<script type="text/javascript" src="resources/combined.js?147435902"></script>
+	<script type="text/javascript" src="elementlist.js?2597812675"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li class="active"><a href="namespace-GAubry.html">GAubry<span></span></a>
+						<ul>
+				<li class="active"><a href="namespace-GAubry.ErrorHandler.html">ErrorHandler</a>
+						</li>
+				<li><a href="namespace-GAubry.Helpers.html">Helpers</a>
+						</li>
+				<li><a href="namespace-GAubry.Logger.html">Logger</a>
+						</li>
+							</ul></li>
+				<li><a href="namespace-Himedia.html">Himedia<span></span></a>
+						<ul>
+				<li class="main"><a href="namespace-Himedia.EMR.html">EMR</a>
+						</li>
+							</ul></li>
+				<li><a href="namespace-Psr.html">Psr<span></span></a>
+						<ul>
+				<li><a href="namespace-Psr.Log.html">Log</a>
+						</li>
+							</ul></li>
+				<li><a href="namespace-Ulrichsg.html">Ulrichsg</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-GAubry.ErrorHandler.ErrorHandler.html">ErrorHandler</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-GAubry.ErrorHandler.html" title="Summary of GAubry\ErrorHandler"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+			<li>
+				<a href="deprecated.html" title="List of deprecated elements"><span>Deprecated</span></a>
+			</li>
+			<li>
+				<a href="todo.html" title="Todo list"><span>Todo</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class ErrorHandler</h1>
+
+
+	<div class="description">
+	
+<p>Simple error and exception handler. – wraps the error to an ErrorException
+instance according to error reporting level – when running the PHP CLI,
+reports errors/exceptions to STDERR (even fatal error) and uses exception code
+as exit status – allows to deactivate '@' operator – catches fatal error –
+accepts callback to be executed at the end of the internal shutdown function –
+accepts callback to display an apology when errors are hidden – allows to
+ignore errors on some paths, useful with old libraries and deprecated
+code…</p>
+
+<p>Copyright (c) 2012 Geoffroy Aubry &lt;<a
+href="mailto:geoffroy.aubry&#64;free.fr">geoffroy.aubry&#64;<!---->free.fr</a>&gt;
+Licensed under the GNU Lesser General Public License v3 (LGPL version 3).</p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-GAubry.html">GAubry</a>\<a href="namespace-GAubry.ErrorHandler.html">ErrorHandler</a><br />
+		
+
+				<b>Copyright:</b>
+				2012 Geoffroy Aubry &lt;<a
+href="mailto:geoffroy.aubry&#64;free.fr">geoffroy.aubry&#64;<!---->free.fr</a>&gt;<br />
+				<b>License:</b>
+				<a href="http://www.gnu.org/licenses/lgpl.html">http://www.gnu.org/licenses/lgpl.html</a><br />
+		<b>Located at</b> <a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#7-292" title="Go to source code">errorhandler/src/GAubry/ErrorHandler/ErrorHandler.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#101-138" title="Go to source code">__construct</a>( <span>array <var>$aConfig</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Constructor.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Constructor.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$aConfig</var></dt>
+					<dd><code>array</code><br>$aConfig see self::$aDefaultConfig</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addExcludedPath" id="_addExcludedPath">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addExcludedPath">#</a>
+		<code><a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#140-156" title="Go to source code">addExcludedPath</a>( <span>string <var>$sPath</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Allows to ignore errors on some paths, useful with old libraries and
+deprecated code… Trailing slash is optional.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Allows to ignore errors on some paths, useful with old libraries and
+deprecated code… Trailing slash is optional.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sPath</var></dt>
+					<dd><code>string</code><br>$sPath</dd>
+				</dl></div>
+
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="class-GAubry.ErrorHandler.ErrorHandler.html#_internalErrorHandler">GAubry\ErrorHandler\ErrorHandler::internalErrorHandler()</a></code></code><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setCallbackGenericDisplay" id="_setCallbackGenericDisplay">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setCallbackGenericDisplay">#</a>
+		<code><a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#158-167" title="Go to source code">setCallbackGenericDisplay</a>( <span>callable <var>$cbGenericDisplay</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set callback to display an apology when errors are hidden. Current \Exception
+will be provided in parameter.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set callback to display an apology when errors are hidden. Current \Exception
+will be provided in parameter.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$cbGenericDisplay</var></dt>
+					<dd><code>callable</code><br>$cbGenericDisplay</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setCallbackAdditionalShutdownFct" id="_setCallbackAdditionalShutdownFct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setCallbackAdditionalShutdownFct">#</a>
+		<code><a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#169-177" title="Go to source code">setCallbackAdditionalShutdownFct</a>( <span>callable <var>$cbAddShutdownFct</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set callback to be executed at the end of the internal shutdown function.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set callback to be executed at the end of the internal shutdown function.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$cbAddShutdownFct</var></dt>
+					<dd><code>callable</code><br>$cbAddShutdownFct</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="internalErrorHandler" id="_internalErrorHandler">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_internalErrorHandler">#</a>
+		<code><a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#179-215" title="Go to source code">internalErrorHandler</a>( <span>integer <var>$iErrNo</var></span>, <span>string <var>$sErrStr</var></span>, <span>string <var>$sErrFile</var></span>, <span>integer <var>$iErrLine</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Customized error handler function: throws an Exception with the message error
+if @ operator not used and error source is not in excluded paths.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Customized error handler function: throws an Exception with the message error
+if @ operator not used and error source is not in excluded paths.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$iErrNo</var></dt>
+					<dd><code>integer</code><br>$iErrNo level of the error raised.</dd>
+					<dt><var>$sErrStr</var></dt>
+					<dd><code>string</code><br>$sErrStr the error message.</dd>
+					<dt><var>$sErrFile</var></dt>
+					<dd><code>string</code><br>$sErrFile the filename that the error was raised in.</dd>
+					<dt><var>$iErrLine</var></dt>
+					<dd><code>integer</code><br>$iErrLine the line number the error was raised at.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>true, then the normal error handler does not continues.<br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="class-GAubry.ErrorHandler.ErrorHandler.html#_addExcludedPath">GAubry\ErrorHandler\ErrorHandler::addExcludedPath()</a></code></code><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="internalExceptionHandler" id="_internalExceptionHandler">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_internalExceptionHandler">#</a>
+		<code><a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#217-235" title="Go to source code">internalExceptionHandler</a>( <span>Exception <var>$oException</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Exception handler.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Exception handler.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$oException</var></dt>
+					<dd><code>Exception</code><br>$oException</dd>
+				</dl></div>
+
+
+
+				<h4>SuppressWarnings(ExitExpression)</h4>
+				<div class="list">
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="displayDefaultApologies" id="_displayDefaultApologies">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_displayDefaultApologies">#</a>
+		<code><a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#237-244" title="Go to source code">displayDefaultApologies</a>( )</code>
+
+		<div class="description short">
+			
+<p>Default callback to display an apology when errors are hidden.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Default callback to display an apology when errors are hidden.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="internalShutdownFunction" id="_internalShutdownFunction">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_internalShutdownFunction">#</a>
+		<code><a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#246-266" title="Go to source code">internalShutdownFunction</a>( )</code>
+
+		<div class="description short">
+			
+<p>Registered shutdown function.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Registered shutdown function.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="log" id="_log">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_log">#</a>
+		<code><a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#269-291" title="Go to source code">log</a>( <span>mixed <var>$mError</var></span> )</code>
+
+		<div class="description short">
+			
+<p>According to context, logs specified error into STDERR, STDOUT or via
+error_log().</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>According to context, logs specified error into STDERR, STDOUT or via
+error_log().</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$mError</var></dt>
+					<dd><code>mixed</code><br>$mError Error to log. Can be string, array or object.</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="aErrorTypes" id="$aErrorTypes">
+		<td class="attributes"><code>
+			public static 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#27-46" title="Go to source code"><var>$aErrorTypes</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(
+    E_ERROR             =&gt; <span class="php-quote">'ERROR'</span>,
+    E_WARNING           =&gt; <span class="php-quote">'WARNING'</span>,
+    E_PARSE             =&gt; <span class="php-quote">'PARSING ERROR'</span>,
+    E_NOTICE            =&gt; <span class="php-quote">'NOTICE'</span>,
+    E_CORE_ERROR        =&gt; <span class="php-quote">'CORE ERROR'</span>,
+    E_CORE_WARNING      =&gt; <span class="php-quote">'CORE WARNING'</span>,
+    E_COMPILE_ERROR     =&gt; <span class="php-quote">'COMPILE ERROR'</span>,
+    E_COMPILE_WARNING   =&gt; <span class="php-quote">'COMPILE WARNING'</span>,
+    E_USER_ERROR        =&gt; <span class="php-quote">'USER ERROR'</span>,
+    E_USER_WARNING      =&gt; <span class="php-quote">'USER WARNING'</span>,
+    E_USER_NOTICE       =&gt; <span class="php-quote">'USER NOTICE'</span>,
+    E_STRICT            =&gt; <span class="php-quote">'STRICT NOTICE'</span>,
+    E_RECOVERABLE_ERROR =&gt; <span class="php-quote">'RECOVERABLE ERROR'</span>
+)</code></td>
+		<td class="description"><div>
+			<a href="#$aErrorTypes" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Error codes.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Error codes.</p>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-GAubry.ErrorHandler.ErrorHandler.html#_internalErrorHandler">GAubry\ErrorHandler\ErrorHandler::internalErrorHandler()</a></code></code><br />
+					</div>
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="bIsRunningFromCLI" id="$bIsRunningFromCLI">
+		<td class="attributes"><code>
+			private  
+			boolean
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#48-52" title="Go to source code"><var>$bIsRunningFromCLI</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$bIsRunningFromCLI" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>CLI ?</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>CLI ?</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="aExcludedPaths" id="$aExcludedPaths">
+		<td class="attributes"><code>
+			private  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#54-61" title="Go to source code"><var>$aExcludedPaths</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$aExcludedPaths" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Errors will be ignored on these paths. Useful with old libraries and
+deprecated code.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Errors will be ignored on these paths. Useful with old libraries and
+deprecated code.</p>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-GAubry.ErrorHandler.ErrorHandler.html#_addExcludedPath">GAubry\ErrorHandler\ErrorHandler::addExcludedPath()</a></code></code><br />
+					</div>
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="callbackGenericDisplay" id="$callbackGenericDisplay">
+		<td class="attributes"><code>
+			private  
+			callable
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#63-67" title="Go to source code"><var>$callbackGenericDisplay</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$callbackGenericDisplay" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Callback to display an apology when errors are hidden.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Callback to display an apology when errors are hidden.</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="callbackAdditionalShutdownFct" id="$callbackAdditionalShutdownFct">
+		<td class="attributes"><code>
+			private  
+			callable
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#69-73" title="Go to source code"><var>$callbackAdditionalShutdownFct</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$callbackAdditionalShutdownFct" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Callback to be executed at the end of the internal shutdown function</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Callback to be executed at the end of the internal shutdown function</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="aDefaultConfig" id="$aDefaultConfig">
+		<td class="attributes"><code>
+			private static 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#75-92" title="Go to source code"><var>$aDefaultConfig</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(
+    <span class="php-quote">'display_errors'</span>        =&gt; <span class="php-keyword1">true</span>,
+    <span class="php-quote">'error_log_path'</span>        =&gt; <span class="php-quote">''</span>,
+    <span class="php-quote">'error_reporting_level'</span> =&gt; -<span class="php-num">1</span>,
+    <span class="php-quote">'auth_error_suppr_op'</span>   =&gt; <span class="php-keyword1">false</span>,
+    <span class="php-quote">'default_error_code'</span>    =&gt; <span class="php-num">1</span>
+)</code></td>
+		<td class="description"><div>
+			<a href="#$aDefaultConfig" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Default config.<br />
+– 'display_errors' =&gt; (bool) Determines whether errors should be printed to
+the screen<br />
+as part of the output or if they should be hidden from the user.<br />
+– 'error_log_path' =&gt; (string) Name of the file where script errors should
+be logged.<br />
+– 'error_reporting_level' =&gt; (int) Error reporting level.<br />
+– 'auth_error_suppr_op' =&gt; (bool) Allows to deactivate '@' operator.<br />
+– 'default_error_code' =&gt; (int) Default error code for errors converted
+into exceptions<br />
+or for exceptions without code.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Default config. – 'display_errors' =&gt; (bool) Determines whether errors
+should be printed to the screen as part of the output or if they should be
+hidden from the user. – 'error_log_path' =&gt; (string) Name of the file where
+script errors should be logged. – 'error_reporting_level' =&gt; (int) Error
+reporting level. – 'auth_error_suppr_op' =&gt; (bool) Allows to deactivate '@'
+operator. – 'default_error_code' =&gt; (int) Default error code for errors
+converted into exceptions or for exceptions without code.</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="aConfig" id="$aConfig">
+		<td class="attributes"><code>
+			private  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-GAubry.ErrorHandler.ErrorHandler.html#94-99" title="Go to source code"><var>$aConfig</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$aConfig" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Configuration.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Configuration.</p>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-GAubry.ErrorHandler.ErrorHandler.html#$aDefaultConfig">GAubry\ErrorHandler\ErrorHandler::<var>$aDefaultConfig</var></a></code></code><br />
+					</div>
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		Amazon Elastic MapReduce Monitoring API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>
