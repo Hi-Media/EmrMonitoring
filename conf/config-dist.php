@@ -37,7 +37,8 @@ $aConfig = $aDirs + array(
         'aws_secret_key'          => '…',
         'ssh_options'             => '-o ServerAliveInterval=10 -o StrictHostKeyChecking=no -o ConnectTimeout=5 -o BatchMode=yes',
         'default_ssh_tunnel_port' => 12345,
-        'shell'                   => $_SERVER['SHELL']
+        'shell'                   => $_SERVER['SHELL'],
+        'inc_dir'                 => $aDirs['inc_dir']
     ),
     'GAubry\ErrorHandler'     => array(
         'display_errors'      => true,

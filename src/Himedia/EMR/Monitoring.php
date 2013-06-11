@@ -51,11 +51,13 @@ class Monitoring
      */
     private static $aDefaultConfig = array(
         'ec2_api_tools_dir' => '/path/to/ec2-api-tools-dir',
-        'aws_access_key' => '…',
-        'aws_secret_key' => '…',
-        'emr_cli_bin' => '/path/to/elastic-mapreduce',
-        'ssh_options' => '-o ServerAliveInterval=10 -o StrictHostKeyChecking=no -o ConnectTimeout=5 -o BatchMode=yes',
-        'shell' => '/bin/bash'
+        'aws_access_key'    => '…',
+        'aws_secret_key'    => '…',
+        'emr_cli_bin'       => '/path/to/elastic-mapreduce',
+        'ssh_options'       =>
+            '-o ServerAliveInterval=10 -o StrictHostKeyChecking=no -o ConnectTimeout=5 -o BatchMode=yes',
+        'shell'             => '/bin/bash',
+        'inc_dir'           => '/path/to/inc',
     );
 
     /**
@@ -211,13 +213,17 @@ class Monitoring
      */
     private function getS3ObjectSize ($sPigPattern)
     {
-        $sFolder = substr($sPigPattern, 0, strrpos($sPigPattern, '/')+1);
-        $sPattern = str_replace(array('.', '*'), array('\.', '.*'), $sPigPattern);
-        $sCmd = sprintf(
-            "s3cmd ls %s | grep '%s' | awk 'BEGIN {sum=0} {sum+=$3} END {printf(\"%%.3f\", sum/1024/1024)}'",
-            $sFolder,
-            $sPattern
-        );
+        if (strrpos($sPigPattern, '*') > strrpos($sPigPattern, '/')) {
+            $sFolder = substr($sPigPattern, 0, strrpos($sPigPattern, '/')+1);
+            $sPattern = str_replace(array('.', '*'), array('\.', '.*'), $sPigPattern);
+            $sCmd = sprintf(
+                "s3cmd ls %s | grep '%s' | awk 'BEGIN {sum=0} {sum+=$3} END {printf(\"%%.3f\", sum/1024/1024)}'",
+                $sFolder,
+                $sPattern
+            );
+        } else {
+            $sCmd = $this->aConfig['inc_dir'] . "/getS3ObjectSize.sh '$sPigPattern'";
+        }
         $aResult = $this->exec($sCmd);
         if ($aResult[0] == '0.000') {
             $sSize = '0';
@@ -272,7 +278,7 @@ class Monitoring
 
         $oDomDoc = new \DOMDocument();
         try {
-            $$sHtmlContent = file_get_contents("http://localhost:$sSSHTunnelPort/jobtracker.jsp");
+            $sHtmlContent = file_get_contents("http://localhost:$sSSHTunnelPort/jobtracker.jsp");
         } catch (\ErrorException $oException) {
             $sError = $oException->getMessage();
         }
