@@ -133,6 +133,7 @@ class Monitoring
                     $aJob['Instances']['InstanceGroups'][$iIdx]['AskPriceError'] = $oException;
                 }
                 $aJob['Instances']['InstanceGroups'][$iIdx]['AskPrice'] = $fPrice;
+                $fPrice = min($fPrice, $aJob['Instances']['InstanceGroups'][$iIdx]['OnDemandPrice']);
             }
 
             $this->computeElapsedTimes($aJob['Instances']['InstanceGroups'][$iIdx]);
