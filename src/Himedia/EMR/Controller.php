@@ -121,7 +121,6 @@ class Controller
         $sJobflowId = $aParameters['jobflow-id'];
         $iSSHTunnelPort = (int)$aParameters['ssh-tunnel-port'];
         $aJob = $this->oMonitoring->getJobFlow($sJobflowId, $iSSHTunnelPort);
-        print_r($aJob); exit;
         $this->oRendering->displayJobName($aJob['Name']);
         $this->oRendering->displayJobGeneralStatus($aJob);
         $this->oRendering->displayJobInstances($aJob);

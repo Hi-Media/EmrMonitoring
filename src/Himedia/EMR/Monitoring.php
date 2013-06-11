@@ -331,7 +331,7 @@ class Monitoring
                   . ' --aws-access-key ' . $this->aConfig['aws_access_key']
                   . ' --aws-secret-key ' . $this->aConfig['aws_secret_key']
                   . ' --region ' . substr($sZone, 0, -1)
-                  . ' --instance-type ' . $aJobIGroup['InstanceType']
+                  . ' --instance-type ' . $sInstanceType
                   . ' --start-time ' . date("Y-m-d") . 'T00:00:00.000Z '
                   . ' --product-description Linux/UNIX'
                   . ' --availability-zone ' . $sZone
@@ -419,8 +419,9 @@ class Monitoring
                     $sCmd = "s3cmd get '{$sStepURI}stderr' '$sTmpFilename'";
                     $this->exec($sCmd);
                     $sContent = file_get_contents($sTmpFilename);
-                    $sErrorPattern = '/^([^[]+\s\[[^]]+\]\sERROR\s.*?)'
-                                   . '(?:^[^[]+\s\[[^]]+\]|^Command exiting with ret \'255\'$)/sm';
+                    $sDatePattern = '\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}';
+                    $sErrorPattern = '/^(' . $sDatePattern . '\s\[[^]]+\]\sERROR\s.*?)'
+                                   . '(?:^' . $sDatePattern . '\s\[[^]]+\]|^Command exiting with ret \'255\'$)/sm';
                     if (preg_match('/^(Job Stats \(time in seconds\):.*+)/sm', $sContent, $aMatches) === 1) {
                         $sSummary = $aMatches[1];
                     } elseif (preg_match_all($sErrorPattern, $sContent, $aMatches) != 0) {
