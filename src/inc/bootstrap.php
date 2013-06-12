@@ -59,7 +59,8 @@ $sEMRBin = $aConfig['Himedia\EMR']['emr_cli_bin'];
 $sCmd = "which '$sEMRBin' 1>/dev/null 2>&1 && echo 'OK' || echo 'NOK'";
 if (exec($sCmd) != 'OK') {
     echo "\033[1m\033[4;33m/!\\\033[0;37m "
-        . "\033[0;31mThe Amazon EMR Command Line Interface is missing! (search for this bin: '$sEMRBin')" . PHP_EOL
+        . "\033[0;31mThe Amazon EMR Command Line Interface is missing!" . PHP_EOL
+        . "    \033[0;37mSearch for this bin: '$sEMRBin'" . PHP_EOL . PHP_EOL
         . "    \033[0;37m1. \033[0;33msudo apt-get install ruby-full" . PHP_EOL
         . "    \033[0;37m2. \033[0;33mmkdir /usr/local/lib/elastic-mapreduce-cli" . PHP_EOL
         . "    \033[0;37m3. \033[0;33mwget http://elasticmapreduce.s3.amazonaws.com/elastic-mapreduce-ruby.zip"

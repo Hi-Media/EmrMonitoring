@@ -89,7 +89,7 @@ class Rendering
         $this->oLogger->info(' ');
 
         $this->oLogger->info('{C.help_opt}-l{C.info}, {C.help_opt}--list-all-jobflows+++');
-        $this->oLogger->info('List all job flows in the last 2 weeks.---');
+        $this->oLogger->info('List all jobflows in the last 2 weeks.---');
         $this->oLogger->info(' ');
 
         $this->oLogger->info('{C.help_opt}-j{C.info}, {C.help_opt}--jobflow-id {C.help_param}<jobflowid>+++');
