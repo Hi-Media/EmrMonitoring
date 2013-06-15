@@ -1,0 +1,1730 @@
+Array(
+    [vers] => 0.01
+    [config] => Array(
+            [rate] => perhr
+            [currencies] => Array(
+                    [0] => USD
+                )
+
+            [regions] => Array(
+                    [us-east-1] => Array(
+                            [region] => us-east-1
+                            [footnotes] => Array(
+                                )
+
+                            [instanceTypes] => Array(
+                                    [m1] => Array(
+                                            [type] => m1
+                                            [sizes] => Array(
+                                                    [small] => Array(
+                                                            [size] => small
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.06
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.015
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [large] => Array(
+                                                            [size] => large
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.24
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.06
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.48
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [m2] => Array(
+                                            [type] => m2
+                                            [sizes] => Array(
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.41
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.09
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [2xlarge] => Array(
+                                                            [size] => 2xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.82
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.21
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [4xlarge] => Array(
+                                                            [size] => 4xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 1.64
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.42
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [c1] => Array(
+                                            [type] => c1
+                                            [sizes] => Array(
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.145
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.58
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [cc1] => Array(
+                                            [type] => cc1
+                                            [sizes] => Array(
+                                                    [4xlarge] => Array(
+                                                            [size] => 4xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 1.30
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.27
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [8xlarge] => Array(
+                                                            [size] => 8xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 2.40
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.50
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [cg1] => Array(
+                                            [type] => cg1
+                                            [sizes] => Array(
+                                                    [4xlarge] => Array(
+                                                            [size] => 4xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 2.10
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.42
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [hi1] => Array(
+                                            [type] => hi1
+                                            [sizes] => Array(
+                                                    [4xlarge] => Array(
+                                                            [size] => 4xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 3.10
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.47
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [hs1] => Array(
+                                            [type] => hs1
+                                            [sizes] => Array(
+                                                    [8xlarge] => Array(
+                                                            [size] => 8xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 4.60
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.69
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                )
+                        )
+
+                    [us-west-2] => Array(
+                            [region] => us-west-2
+                            [instanceTypes] => Array(
+                                    [m1] => Array(
+                                            [type] => m1
+                                            [sizes] => Array(
+                                                    [small] => Array(
+                                                            [size] => small
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.06
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.015
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [large] => Array(
+                                                            [size] => large
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.24
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.06
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.48
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [m2] => Array(
+                                            [type] => m2
+                                            [sizes] => Array(
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.41
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.09
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [2xlarge] => Array(
+                                                            [size] => 2xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.82
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.21
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [4xlarge] => Array(
+                                                            [size] => 4xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 1.64
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.42
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [c1] => Array(
+                                            [type] => c1
+                                            [sizes] => Array(
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.145
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.58
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [cc1] => Array(
+                                            [type] => cc1
+                                            [sizes] => Array(
+                                                    [8xlarge] => Array(
+                                                            [size] => 8xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 2.40
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.50
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                )
+                        )
+
+                    [us-west-1] => Array(
+                            [region] => us-west-1
+                            [instanceTypes] => Array(
+                                    [m1] => Array(
+                                            [type] => m1
+                                            [sizes] => Array(
+                                                    [small] => Array(
+                                                            [size] => small
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.065
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.015
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.13
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [large] => Array(
+                                                            [size] => large
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.26
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.06
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.52
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [m2] => Array(
+                                            [type] => m2
+                                            [sizes] => Array(
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.46
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.09
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [2xlarge] => Array(
+                                                            [size] => 2xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.92
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.21
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [4xlarge] => Array(
+                                                            [size] => 4xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 1.84
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.42
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [c1] => Array(
+                                            [type] => c1
+                                            [sizes] => Array(
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.165
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.66
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                )
+                        )
+
+                    [eu-west-1] => Array(
+                            [region] => eu-west-1
+                            [instanceTypes] => Array(
+                                    [m1] => Array(
+                                            [type] => m1
+                                            [sizes] => Array(
+                                                    [small] => Array(
+                                                            [size] => small
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.065
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.015
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.13
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [large] => Array(
+                                                            [size] => large
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.26
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.06
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.52
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [m2] => Array(
+                                            [type] => m2
+                                            [sizes] => Array(
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.46
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.09
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [2xlarge] => Array(
+                                                            [size] => 2xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.92
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.21
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [4xlarge] => Array(
+                                                            [size] => 4xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 1.84
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.42
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [c1] => Array(
+                                            [type] => c1
+                                            [sizes] => Array(
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.165
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.66
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [cc1] => Array(
+                                            [type] => cc1
+                                            [sizes] => Array(
+                                                    [8xlarge] => Array(
+                                                            [size] => 8xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 2.70
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.50
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [hi1] => Array(
+                                            [type] => hi1
+                                            [sizes] => Array(
+                                                    [4xlarge] => Array(
+                                                            [size] => 4xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 3.41
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.51
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                )
+                        )
+
+                    [ap-southeast-1] => Array(
+                            [region] => ap-southeast-1
+                            [instanceTypes] => Array(
+                                    [m1] => Array(
+                                            [type] => m1
+                                            [sizes] => Array(
+                                                    [small] => Array(
+                                                            [size] => small
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.08
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.015
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.16
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [large] => Array(
+                                                            [size] => large
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.32
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.06
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.64
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [m2] => Array(
+                                            [type] => m2
+                                            [sizes] => Array(
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.495
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.09
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [2xlarge] => Array(
+                                                            [size] => 2xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.99
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.21
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [4xlarge] => Array(
+                                                            [size] => 4xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 1.98
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.42
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [c1] => Array(
+                                            [type] => c1
+                                            [sizes] => Array(
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.183
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.73
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                )
+                        )
+
+                    [ap-northeast-1] => Array(
+                            [region] => ap-northeast-1
+                            [instanceTypes] => Array(
+                                    [m1] => Array(
+                                            [type] => m1
+                                            [sizes] => Array(
+                                                    [small] => Array(
+                                                            [size] => small
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.088
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.015
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.175
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [large] => Array(
+                                                            [size] => large
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.35
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.06
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.70
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [m2] => Array(
+                                            [type] => m2
+                                            [sizes] => Array(
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.505
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.09
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [2xlarge] => Array(
+                                                            [size] => 2xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 1.01
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.21
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [4xlarge] => Array(
+                                                            [size] => 4xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 2.02
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.42
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [c1] => Array(
+                                            [type] => c1
+                                            [sizes] => Array(
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.185
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.74
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                )
+                        )
+
+                    [ap-southeast-2] => Array(
+                            [region] => ap-southeast-2
+                            [instanceTypes] => Array(
+                                    [m1] => Array(
+                                            [type] => m1
+                                            [sizes] => Array(
+                                                    [small] => Array(
+                                                            [size] => small
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.08
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.015
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.16
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [large] => Array(
+                                                            [size] => large
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.32
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.06
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.64
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [m2] => Array(
+                                            [type] => m2
+                                            [sizes] => Array(
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.495
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.09
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [2xlarge] => Array(
+                                                            [size] => 2xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.99
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.21
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [4xlarge] => Array(
+                                                            [size] => 4xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 1.98
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.42
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [c1] => Array(
+                                            [type] => c1
+                                            [sizes] => Array(
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.183
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.73
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                )
+                        )
+
+                    [sa-east-1] => Array(
+                            [region] => sa-east-1
+                            [instanceTypes] => Array(
+                                    [m1] => Array(
+                                            [type] => m1
+                                            [sizes] => Array(
+                                                    [small] => Array(
+                                                            [size] => small
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.08
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.015
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.16
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [large] => Array(
+                                                            [size] => large
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.32
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.06
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.64
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [m2] => Array(
+                                            [type] => m2
+                                            [sizes] => Array(
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.54
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.09
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [2xlarge] => Array(
+                                                            [size] => 2xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 1.08
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.21
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [4xlarge] => Array(
+                                                            [size] => 4xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 2.16
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.42
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+
+                                    [c1] => Array(
+                                            [type] => c1
+                                            [sizes] => Array(
+                                                    [medium] => Array(
+                                                            [size] => medium
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.20
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.03
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+
+                                                    [xlarge] => Array(
+                                                            [size] => xlarge
+                                                            [valueColumns] => Array(
+                                                                    [ec2] => Array(
+                                                                            [name] => ec2
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.80
+                                                                                )
+                                                                        )
+
+                                                                    [emr] => Array(
+                                                                            [name] => emr
+                                                                            [prices] => Array(
+                                                                                    [USD] => 0.12
+                                                                                )
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                )
+                        )
+                )
+        )
+
+)

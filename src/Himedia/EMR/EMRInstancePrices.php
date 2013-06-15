@@ -1,6 +1,16 @@
 <?php
 
+namespace Himedia\EMR;
+
+use GAubry\Helpers\Helpers;
+
+
+
 /**
+ * Extract Amazon Elastic MapReduce Pricing from JSON stream used by http://aws.amazon.com/elasticmapreduce/pricing/.
+ *
+ *
+ *
  * Copyright (c) 2013 Hi-Media SA
  * Copyright (c) 2013 Geoffroy Aubry <gaubry@hi-media.com>
  *
@@ -17,17 +27,21 @@
  * @copyright 2013 Geoffroy Aubry <gaubry@hi-media.com>
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
-
-namespace Himedia\EMR;
-
-use GAubry\Helpers\Helpers;
-
 class EMRInstancePrices
 {
+    /**
+     * Default configuration.
+     * Contains only one key specifying the JSON stream URL used by http://aws.amazon.com/elasticmapreduce/pricing/.
+     * @var array
+     */
     private static $aDefaultConfig = array(
         'pricing_emr_json_url' => 'http://aws.amazon.com/elasticmapreduce/pricing/pricing-emr.json',
     );
 
+    /**
+     * List of EC2 instance types with mapping between JSON name and official name.
+     * @var array
+     */
     private static $aInstanceTypeMapping = array(
         'clustercompresi' => 'cc1',
         'clustercomputei' => 'cc1',
@@ -48,6 +62,10 @@ class EMRInstancePrices
         'secgenstdresi' => 'm3'
     );
 
+    /**
+     * List of EC2 instance sizes with mapping between JSON name and official name.
+     * @var array
+     */
     private static $aInstanceSizeMapping = array(
         'lg' => 'large',
         'med' => 'medium',
@@ -59,6 +77,10 @@ class EMRInstancePrices
         'xxxxxxxxl' => '8xlarge'
     );
 
+    /**
+     * List of EC2 regions with mapping between JSON name and official name.
+     * @var array
+     */
     private static $aRegionMapping = array(
         'apac-sin' => 'ap-southeast-1',
         'apac-syd' => 'ap-southeast-2',
@@ -76,9 +98,25 @@ class EMRInstancePrices
         'us-west-2' => 'us-west-2'
     );
 
+    /**
+     * Current configuration.
+     * @var array
+     * @see $aDefaultConfig
+     */
     private $aConfig;
+
+    /**
+     * Data extracted from JSON stream, then normalized.
+     * @var array
+     * @see resources/normalized-princing-emr-json-decoded.log
+     */
     private $aData;
 
+    /**
+     * Constructor.
+     *
+     * @param array $aConfig current configuration
+     */
     public function __construct(array $aConfig = array())
     {
         $this->aConfig = Helpers::arrayMergeRecursiveDistinct(self::$aDefaultConfig, $aConfig);
@@ -86,6 +124,12 @@ class EMRInstancePrices
         $this->loadData();
     }
 
+    /**
+     * Extracts and normalizes data from JSON stream.
+     * Called by constructor.
+     * @see $aData
+     * @see resources/raw-princing-emr.json
+     */
     private function loadData ()
     {
         if (count($this->aData) == 0) {
@@ -130,6 +174,14 @@ class EMRInstancePrices
         $this->aData = $aData;
     }
 
+    /**
+     * Returns EC2 plus the additional EMR price of an instance with the specified type, size and region.
+     *
+     * @param string $sRegion EC2 instance region
+     * @param string $sInstanceType EC2 instance type
+     * @param string $sSize EC2 instance size
+     * @return float EC2 plus the additional EMR price of an instance with the specified type, size and region.
+     */
     public function getUSDPrice ($sRegion, $sInstanceType, $sSize)
     {
         if (isset($this->aData['config']['regions'][$sRegion]['instanceTypes'][$sInstanceType]['sizes'][$sSize])) {
