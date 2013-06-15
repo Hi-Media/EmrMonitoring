@@ -5,7 +5,7 @@ and analyze past jobflows.
 
 ## Overview
 
-![Overview](resources/overview.png "Overview")
+![Overview](doc/images/overview.png "Overview")
 
 ## Description
 
@@ -51,11 +51,11 @@ $ wget http://localhost:12345/jobtracker.jsp
 
 An animation is better than a thousand words:
 
-![Animated monitoring](resources/animated-monitoring.gif "Animated monitoring")
+![Animated monitoring](doc/images/animated-monitoring.gif "Animated monitoring")
 
 Result with a completed jobflow *(click for full resolution image)*:
 
-[![A completed jobflow](resources/completed-jobflow-mini.png "A completed jobflow")](resources/completed-jobflow.png)
+[![A completed jobflow](doc/images/completed-jobflow-mini.png "A completed jobflow")](doc/images/completed-jobflow.png)
 
 #### Some clarifications
 
@@ -81,7 +81,7 @@ the number of remaining tasks divided by the number of completed tasks.
 
 Error messages, if any, are always displayed:
 
-![Jobflow failed](resources/jobflow-failed.png "Jobflow failed")
+![Jobflow failed](doc/images/jobflow-failed.png "Jobflow failed")
 
 ### Task timeline
 
@@ -90,7 +90,7 @@ and giving details on number of mapper, shuffle, merge and reducer tasks.
 
 Animation from generated task timelines throughout jobflow run:
 
-![Animated task timeline](resources/animated-task-timeline.gif "Animated task timeline")
+![Animated task timeline](doc/images/animated-task-timeline.gif "Animated task timeline")
 
 ## Installing
 
@@ -107,7 +107,7 @@ $ git clone git://github.com/Hi-Media/EmrMonitoring.git .
 
 Initialize configuration file from `conf/config-dist.php` and adapt it:
 
-![Config file](resources/dependency-config-file.png "Config file")
+![Config file](doc/images/dependency-config-file.png "Config file")
 
 ```bash
 $ cp '/usr/local/lib/emr-monitoring/conf/config-dist.php' '/usr/local/lib/emr-monitoring/conf/config.php'
@@ -121,7 +121,7 @@ All dependencies are checked at launch and **EMR Monitoring** systematically hel
 
 PHP class autoloading and PHP dependencies are managed by [composer](http://getcomposer.org).
 
-![Composer dependencies](resources/dependency-composer.png "Composer dependencies")
+![Composer dependencies](doc/images/dependency-composer.png "Composer dependencies")
 
 ##### Text version
 
@@ -148,7 +148,7 @@ Read <http://getcomposer.org/doc/00-intro.md#installation-nix> for more informat
 [Amazon Elastic MapReduce Ruby Client](http://aws.amazon.com/developertools/2264) 
 is needed to get description of a jobflow.
 
-![Dependency on EMR CLI](resources/dependency-emr-cli.png "Dependency on EMR CLI")
+![Dependency on EMR CLI](doc/images/dependency-emr-cli.png "Dependency on EMR CLI")
 
 ##### Text version
 
@@ -179,7 +179,7 @@ Read <http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-cli-
 
 [Amazon EC2 API Tools](http://aws.amazon.com/developertools/351) allows to retrieve history of spots instances price.
 
-![Dependency on EC2 API Tools](resources/dependency-ec2.png "Dependency on EC2 API Tools")
+![Dependency on EC2 API Tools](doc/images/dependency-ec2.png "Dependency on EC2 API Tools")
 
 ##### Text version
 
@@ -205,7 +205,7 @@ Read <http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/setting_up_ec2_command_
 [S3cmd](http://s3tools.org/s3cmd) is required to get size of both input and output files,
 to retrieve potential errors and to get log summary.
 
-![Dependency on S3cmd](resources/dependency-s3cmd.png "Dependency on S3cmd")
+![Dependency on S3cmd](doc/images/dependency-s3cmd.png "Dependency on S3cmd")
 
 ##### Text version
 
@@ -223,7 +223,7 @@ Read <http://s3tools.org/s3cmd> for more information.
 Task timelines are generated via [gnuplot](http://www.gnuplot.info/) for **in progress or past jobflow**
 and give details on number of mapper, shuffle, merge and reducer tasks.
 
-![Dependency on Gnuplot](resources/dependency-gnuplot.png "Dependency on Gnuplot")
+![Dependency on Gnuplot](doc/images/dependency-gnuplot.png "Dependency on Gnuplot")
 
 ##### Text version
 
@@ -241,7 +241,7 @@ You can view the options by running:
 $ src/emr-monitoring.php [-h|--help]
 ```
 
-![CLI options](resources/cli-options.png "CLI options")
+![CLI options](doc/images/cli-options.png "CLI options")
 
 ##### Text version
 
@@ -301,7 +301,7 @@ $ /usr/local/lib/elastic-mapreduce-cli/elastic-mapreduce \
 $ src/emr-monitoring.php -l
     ```
     
-    ![All jobflows](resources/list-all-jobflows.png "All jobflows")
+    ![All jobflows](doc/images/list-all-jobflows.png "All jobflows")
     
 3. Start monitoring of the jobflow:
 
