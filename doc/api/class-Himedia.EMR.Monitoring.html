@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class Himedia\EMR\Monitoring | Amazon Elastic MapReduce Monitoring</title>
+
+	<script type="text/javascript" src="resources/combined.js?147435902"></script>
+	<script type="text/javascript" src="elementlist.js?2597812675"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li><a href="namespace-GAubry.html">GAubry<span></span></a>
+						<ul>
+				<li><a href="namespace-GAubry.ErrorHandler.html">ErrorHandler</a>
+						</li>
+				<li><a href="namespace-GAubry.Helpers.html">Helpers</a>
+						</li>
+				<li><a href="namespace-GAubry.Logger.html">Logger</a>
+						</li>
+							</ul></li>
+				<li class="active"><a href="namespace-Himedia.html">Himedia<span></span></a>
+						<ul>
+				<li class="active main"><a href="namespace-Himedia.EMR.html">EMR</a>
+						</li>
+							</ul></li>
+				<li><a href="namespace-Psr.html">Psr<span></span></a>
+						<ul>
+				<li><a href="namespace-Psr.Log.html">Log</a>
+						</li>
+							</ul></li>
+				<li><a href="namespace-Ulrichsg.html">Ulrichsg</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Himedia.EMR.Controller.html">Controller</a></li>
+				<li><a href="class-Himedia.EMR.EMRInstancePrices.html">EMRInstancePrices</a></li>
+				<li class="active"><a href="class-Himedia.EMR.Monitoring.html">Monitoring</a></li>
+				<li><a href="class-Himedia.EMR.Rendering.html">Rendering</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Himedia.EMR.html" title="Summary of Himedia\EMR"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+			<li>
+				<a href="deprecated.html" title="List of deprecated elements"><span>Deprecated</span></a>
+			</li>
+			<li>
+				<a href="todo.html" title="Todo list"><span>Todo</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Monitoring</h1>
+
+
+	<div class="description">
+	
+<p>Retrieve data from various external resources.</p>
+
+<p>Copyright (c) 2013 Hi-Media SA Copyright (c) 2013 Geoffroy Aubry &lt;<a
+href="mailto:gaubry&#64;hi-media.com">gaubry&#64;<!---->hi-media.com</a>&gt;</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at<br />
+<a
+href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
+for the specific language governing permissions and limitations under the
+License.</p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-Himedia.html">Himedia</a>\<a href="namespace-Himedia.EMR.html">EMR</a><br />
+		
+
+				<b>Copyright:</b>
+				2013 Hi-Media SA<br />
+				<b>Copyright:</b>
+				2013 Geoffroy Aubry &lt;<a
+href="mailto:gaubry&#64;hi-media.com">gaubry&#64;<!---->hi-media.com</a>&gt;<br />
+				<b>License:</b>
+				<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a><br />
+		<b>Located at</b> <a href="source-class-Himedia.EMR.Monitoring.html#10-659" title="Go to source code">Himedia/EMR/Monitoring.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-Himedia.EMR.Monitoring.html#67-82" title="Go to source code">__construct</a>( <span><code><a href="class-Psr.Log.LoggerInterface.html">Psr\Log\LoggerInterface</a></code> <var>$oLogger</var></span>, <span><code><a href="class-Himedia.EMR.EMRInstancePrices.html">Himedia\EMR\EMRInstancePrices</a></code> <var>$oEMRInstancePrices</var></span>, <span>array <var>$aConfig</var> = <span class="php-keyword1">array</span>() </span> )</code>
+
+		<div class="description short">
+			
+<p>Constructor.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Constructor.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$oLogger</var></dt>
+					<dd><code><code><a href="class-Psr.Log.LoggerInterface.html">Psr\Log\LoggerInterface</a></code></code><br>$oLogger</dd>
+					<dt><var>$oEMRInstancePrices</var></dt>
+					<dd><code><code><a href="class-Himedia.EMR.EMRInstancePrices.html">Himedia\EMR\EMRInstancePrices</a></code></code><br>$oEMRInstancePrices</dd>
+					<dt><var>$aConfig</var></dt>
+					<dd><code>array</code><br>$aConfig configuration, see $aDefaultConfig</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getAllJobs" id="_getAllJobs">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getAllJobs">#</a>
+		<code><a href="source-class-Himedia.EMR.Monitoring.html#84-97" title="Go to source code">getAllJobs</a>( )</code>
+
+		<div class="description short">
+			
+<p>Lists all job flows created in the last 2 days.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Lists all job flows created in the last 2 days.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>Array of string "job-id status master-node name".<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getJobFlow" id="_getJobFlow">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getJobFlow">#</a>
+		<code><a href="source-class-Himedia.EMR.Monitoring.html#99-199" title="Go to source code">getJobFlow</a>( <span>string <var>$sJobFlowID</var></span>, <span>string <var>$sSSHTunnelPort</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Returns detailed description of the specified jobflow.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns detailed description of the specified jobflow.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sJobFlowID</var></dt>
+					<dd><code>string</code><br>$sJobFlowID jobflow id, e.g. 'j-3PEQM17A7419J'</dd>
+					<dt><var>$sSSHTunnelPort</var></dt>
+					<dd><code>string</code><br>$sSSHTunnelPort port used to establish a connection to the master node and
+retrieve data from the Hadoop jobtracker</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>detailed description of the specified jobflow, see resources/job.log for the job
+array structure<br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						resources/job.log for the returned job array structure<br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getS3ObjectSize" id="_getS3ObjectSize">
+
+		<td class="attributes"><code>
+			 private 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getS3ObjectSize">#</a>
+		<code><a href="source-class-Himedia.EMR.Monitoring.html#201-235" title="Go to source code">getS3ObjectSize</a>( <span>string <var>$sPigPattern</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Returns size in bytes of S3 objects concerned by the specified
+$sPigPattern.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns size in bytes of S3 objects concerned by the specified
+$sPigPattern.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sPigPattern</var></dt>
+					<dd><code>string</code><br>$sPigPattern Name of a S3 file or directory, may use Hadoop-supported globing</dd>
+				</dl></div>
+
+
+
+				<h4>See</h4>
+				<div class="list">
+						<a
+href="http://pig.apache.org/docs/r0.7.0/piglatin_ref2.html#LOAD">http://pig.apache.org/docs/r0.7.0/piglatin_ref2.html#LOAD</a><br />
+						<a
+href="http://hadoop.apache.org/docs/current/api/org/apache/hadoop/fs/FileSystem.html">http://hadoop.apache.org/docs/current/api/org/apache/hadoop/fs/FileSystem.html</a>
+\ #globStatus(org.apache.hadoop.fs.Path)<br />
+				</div>
+				<h4>TODO</h4>
+				<div class="list">
+						<a
+href="http://stackoverflow.com/questions/3515481/">http://stackoverflow.com/questions/3515481/</a>
+\ pig-latin-load-multiple-files-from-a-date-range-part-of-the-directory-structur<br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="openSSHTunnel" id="_openSSHTunnel">
+
+		<td class="attributes"><code>
+			 private 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_openSSHTunnel">#</a>
+		<code><a href="source-class-Himedia.EMR.Monitoring.html#237-258" title="Go to source code">openSSHTunnel</a>( <span>array <var>$aJob</var></span>, <span>string <var>$sSSHTunnelPort</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Opens if needed a new SSH tunnel to the master node.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Opens if needed a new SSH tunnel to the master node.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$aJob</var></dt>
+					<dd><code>array</code><br>$aJob detailed description of a jobflow.</dd>
+					<dt><var>$sSSHTunnelPort</var></dt>
+					<dd><code>string</code><br>$sSSHTunnelPort port used to establish a connection to the master node and
+retrieve data from the Hadoop jobtracker</dd>
+				</dl></div>
+
+
+
+				<h4>See</h4>
+				<div class="list">
+						resources/job.log for the job array structure<br />
+				</div>
+				<h4>TODO</h4>
+				<div class="list">
+						test with: netcat -z localhost 80 =&gt; 0/1<br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getHadoopJobTrackerContent" id="_getHadoopJobTrackerContent">
+
+		<td class="attributes"><code>
+			 private 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getHadoopJobTrackerContent">#</a>
+		<code><a href="source-class-Himedia.EMR.Monitoring.html#260-316" title="Go to source code">getHadoopJobTrackerContent</a>( <span>mixed <var>$sSSHTunnelPort</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Retrieves content of the Hadoop jobtracker running on the master node.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Retrieves content of the Hadoop jobtracker running on the master node.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sSSHTunnelPort</var></dt>
+					<dd><code>mixed</code><br>$sSSHTunnelPort port used to establish a connection to the master node and
+retrieve data from the Hadoop jobtracker</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>($aClusterSummary, $aSubJobsSummary, $sError)<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getSpotInstanceCurrentPricing" id="_getSpotInstanceCurrentPricing">
+
+		<td class="attributes"><code>
+			 private 
+			float
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getSpotInstanceCurrentPricing">#</a>
+		<code><a href="source-class-Himedia.EMR.Monitoring.html#318-344" title="Go to source code">getSpotInstanceCurrentPricing</a>( <span>string <var>$sInstanceType</var></span>, <span>string <var>$sZone</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Returns current EC2 pricing of the specified spot instances type.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns current EC2 pricing of the specified spot instances type.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sInstanceType</var></dt>
+					<dd><code>string</code><br>$sInstanceType</dd>
+					<dt><var>$sZone</var></dt>
+					<dd><code>string</code><br>$sZone</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>float</code><br>current EC2 pricing of the specified spot instances group.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="computeElapsedTimes" id="_computeElapsedTimes">
+
+		<td class="attributes"><code>
+			 private 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_computeElapsedTimes">#</a>
+		<code><a href="source-class-Himedia.EMR.Monitoring.html#346-388" title="Go to source code">computeElapsedTimes</a>( <span>array <var>&amp; $aDates</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Computes elapsed times between creation, start and end datetime. Compares to
+now if a value is missing.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Computes elapsed times between creation, start and end datetime. Compares to
+now if a value is missing.</p>
+
+<p>Input array structure: Array( [CreationDateTime] =&gt; 1370507855
+[StartDateTime] =&gt; 1370508203 [EndDateTime] =&gt; 1370509068 )</p>
+
+<p>Output array structure: Array( [CreationDateTime] =&gt; 1370507855
+[StartDateTime] =&gt; 1370508203 [EndDateTime] =&gt; 1370509068
+[ElapsedTimeToStartDateTime] =&gt; 348 [ElapsedTimeToEndDateTime] =&gt; 865
+)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$aDates</var></dt>
+					<dd><code>array</code><br>&amp;$aDates</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getLogSummary" id="_getLogSummary">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getLogSummary">#</a>
+		<code><a href="source-class-Himedia.EMR.Monitoring.html#390-463" title="Go to source code">getLogSummary</a>( <span>string <var>$sJobFlowID</var></span>, <span>array <var>$aJob</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Returns ordered list containing:<br />
+– string $sSummary content of job stats section of s3://path/to/steps/stderr
+files<br />
+– array $aErrorsMsg list of error messages (string)<br />
+– array $aS3LogSteps list of s3://path/to/steps/stderr pathes<br />
+– int $iMaxTs elapsed time in seconds since start of job<br />
+– int $iMaxNbTasks max number of effective simultaneous tasks<br />
+– string $sGnuplotData path to CSV file containing data for gnuplot</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns ordered list containing: – string $sSummary content of job stats
+section of s3://path/to/steps/stderr files – array $aErrorsMsg list of error
+messages (string) – array $aS3LogSteps list of s3://path/to/steps/stderr
+pathes – int $iMaxTs elapsed time in seconds since start of job – int
+$iMaxNbTasks max number of effective simultaneous tasks – string $sGnuplotData
+path to CSV file containing data for gnuplot</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sJobFlowID</var></dt>
+					<dd><code>string</code><br>$sJobFlowID jobflow id, e.g. 'j-3PEQM17A7419J'</dd>
+					<dt><var>$aJob</var></dt>
+					<dd><code>array</code><br>$aJob detailed description of a jobflow.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>array($sSummary, $aErrorMsg, $aS3LogSteps, $iMaxTs, $iMaxNbTasks, $sGnuplotData)<br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						resources/job.log for the job array structure<br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="extractHistory" id="_extractHistory">
+
+		<td class="attributes"><code>
+			 private 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_extractHistory">#</a>
+		<code><a href="source-class-Himedia.EMR.Monitoring.html#465-586" title="Go to source code">extractHistory</a>( <span>array <var>$aLocalJobLogPaths</var></span>, <span>string <var>$sDestPath</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Extracts history from XML files into s3://logURI/&lt;sJobFlowID&gt;/jobs/ and
+generate a CSV timeline as follows:</p>
+
+<pre>
+    time maps shuffle merge reduce
+    0 1 0 0 0
+    1 1 0 0 0
+    …
+    291 51 8 0 0
+    …
+    649 0 0 0 0
+</pre>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Extracts history from XML files into s3://logURI/&lt;sJobFlowID&gt;/jobs/ and
+generate a CSV timeline as follows:</p>
+
+<pre>
+    time maps shuffle merge reduce
+    0 1 0 0 0
+    1 1 0 0 0
+    …
+    291 51 8 0 0
+    …
+    649 0 0 0 0
+</pre>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$aLocalJobLogPaths</var></dt>
+					<dd><code>array</code><br>$aLocalJobLogPaths list of file to extract history from</dd>
+					<dt><var>$sDestPath</var></dt>
+					<dd><code>string</code><br>$sDestPath CSV in which save timeline</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>a pair containing elapsed time in seconds since start of job (int) and max
+number of effective simultaneous tasks (int)<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="timestampToInt" id="_timestampToInt">
+
+		<td class="attributes"><code>
+			 private 
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_timestampToInt">#</a>
+		<code><a href="source-class-Himedia.EMR.Monitoring.html#588-599" title="Go to source code">timestampToInt</a>( <span>string <var>$sTs</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Converts timestamps of XML files into s3://logURI/&lt;sJobFlowID&gt;/jobs/
+into Unix timestamps</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Converts timestamps of XML files into s3://logURI/&lt;sJobFlowID&gt;/jobs/
+into Unix timestamps</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sTs</var></dt>
+					<dd><code>string</code><br>timestamps with 13 characters</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br>Unix timestamp (10 digits)<br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="class-Himedia.EMR.Monitoring.html#_extractHistory">Himedia\EMR\Monitoring::extractHistory()</a></code></code><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="parseAttributes" id="_parseAttributes">
+
+		<td class="attributes"><code>
+			 private 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_parseAttributes">#</a>
+		<code><a href="source-class-Himedia.EMR.Monitoring.html#601-613" title="Go to source code">parseAttributes</a>( <span>string <var>$sAttributes</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Convert 'key1="value1" key2="value2"…' into key/value pairs.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Convert 'key1="value1" key2="value2"…' into key/value pairs.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sAttributes</var></dt>
+					<dd><code>string</code><br>$sAttributes</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>key/value pairs<br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="class-Himedia.EMR.Monitoring.html#_extractHistory">Himedia\EMR\Monitoring::extractHistory()</a></code></code><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getHadoopInputFiles" id="_getHadoopInputFiles">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getHadoopInputFiles">#</a>
+		<code><a href="source-class-Himedia.EMR.Monitoring.html#615-645" title="Go to source code">getHadoopInputFiles</a>( <span>string <var>$sJobFlowID</var></span>, <span>array <var>$aJob</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Returns list of all S3 input files really loaded by Hadoop instance of the
+completed $sJobFlowID.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns list of all S3 input files really loaded by Hadoop instance of the
+completed $sJobFlowID.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sJobFlowID</var></dt>
+					<dd><code>string</code><br>$sJobFlowID</dd>
+					<dt><var>$aJob</var></dt>
+					<dd><code>array</code><br>$aJob detailed description of the sspecified jobflow</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>list of all S3 input files really loaded by Hadoop instance of the completed
+$sJobFlowID.<br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						resources/job.log for the job array structure<br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="exec" id="_exec">
+
+		<td class="attributes"><code>
+			 private 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_exec">#</a>
+		<code><a href="source-class-Himedia.EMR.Monitoring.html#647-658" title="Go to source code">exec</a>( <span>string <var>$sCmd</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Wrapper around Helpers::exec($sCmd) adding logging.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Wrapper around Helpers::exec($sCmd) adding logging.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sCmd</var></dt>
+					<dd><code>string</code><br>$sCmd bash command to execute</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>array filled with every line of output from the command<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code>RuntimeException</code><br>if shell error<br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="oLogger" id="$oLogger">
+		<td class="attributes"><code>
+			private  
+			<code><a href="class-Psr.Log.LoggerInterface.html">Psr\Log\LoggerInterface</a></code>
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Himedia.EMR.Monitoring.html#34-38" title="Go to source code"><var>$oLogger</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$oLogger" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Logger</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Logger</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="oEMRInstancePrices" id="$oEMRInstancePrices">
+		<td class="attributes"><code>
+			private  
+			<code><a href="class-Himedia.EMR.EMRInstancePrices.html">Himedia\EMR\EMRInstancePrices</a></code>
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Himedia.EMR.Monitoring.html#40-45" title="Go to source code"><var>$oEMRInstancePrices</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$oEMRInstancePrices" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Extract Amazon Elastic MapReduce Pricing from JSON stream used by <a
+href="http://aws.amazon.com/elasticmapreduce/pricing/">http://aws.amazon.com/elasticmapreduce/pricing/</a>.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Extract Amazon Elastic MapReduce Pricing from JSON stream used by <a
+href="http://aws.amazon.com/elasticmapreduce/pricing/">http://aws.amazon.com/elasticmapreduce/pricing/</a>.</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="aDefaultConfig" id="$aDefaultConfig">
+		<td class="attributes"><code>
+			private static 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Himedia.EMR.Monitoring.html#47-59" title="Go to source code"><var>$aDefaultConfig</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(
+    <span class="php-quote">'ec2_api_tools_dir'</span> =&gt; <span class="php-quote">'/path/to/ec2-api-tools-dir'</span>,
+    <span class="php-quote">'aws_access_key'</span> =&gt; <span class="php-quote">'…'</span>,
+    <span class="php-quote">'aws_secret_key'</span> =&gt; <span class="php-quote">'…'</span>,
+    <span class="php-quote">'emr_cli_bin'</span> =&gt; <span class="php-quote">'/path/to/elastic-mapreduce'</span>,
+    <span class="php-quote">'ssh_options'</span> =&gt; <span class="php-quote">'-o ServerAliveInterval=10 -o StrictHostKeyChecking=no -o ConnectTimeout=5 -o BatchMode=yes'</span>,
+    <span class="php-quote">'shell'</span> =&gt; <span class="php-quote">'/bin/bash'</span>
+)</code></td>
+		<td class="description"><div>
+			<a href="#$aDefaultConfig" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Default configuration.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Default configuration.</p>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code>mixed</code><br />
+					</div>
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="aConfig" id="$aConfig">
+		<td class="attributes"><code>
+			private  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Himedia.EMR.Monitoring.html#61-65" title="Go to source code"><var>$aConfig</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$aConfig" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Current configuration.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Current configuration.</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		Amazon Elastic MapReduce Monitoring API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,6 +1,17 @@
 <?php
 
+namespace Himedia\EMR;
+
+use Himedia\EMR\Monitoring;
+use Himedia\EMR\Rendering;
+
+
+
 /**
+ * Unique controller.
+ *
+ *
+ *
  * Copyright (c) 2013 Hi-Media SA
  * Copyright (c) 2013 Geoffroy Aubry <gaubry@hi-media.com>
  *
@@ -17,36 +28,46 @@
  * @copyright 2013 Geoffroy Aubry <gaubry@hi-media.com>
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
-
-namespace Himedia\EMR;
-
-use GAubry\Logger\ColoredIndentedLogger;
-use Himedia\EMR\EMRInstancePrices;
-use Himedia\EMR\Monitoring;
-use Himedia\EMR\Rendering;
-use Psr\Log\LogLevel;
-
 class Controller
 {
+    /**
+     * General configuration.
+     * See conf/config-dist.php
+     * @var array
+     */
+    private $aConfig;
 
-    private $bListInputFiles;
-    private $sLogLevel;
-    private $sJobFlowID;
-    private $sSSHTunnelPort;
-
+    /**
+     * Model.
+     * @var \Himedia\EMR\Monitoring
+     */
     private $oMonitoring;
+
+    /**
+     * View.
+     * @var \Himedia\EMR\Rendering
+     */
     private $oRendering;
 
-    public function __construct(array $aConfig, $bDebugMode)
+    /**
+     * Constructor.
+     *
+     * @param array $aConfig General configuration.
+     * @param \Himedia\EMR\Monitoring $oMonitoring Model
+     * @param \Himedia\EMR\Rendering $oRendering View
+     */
+    public function __construct(array $aConfig, Monitoring $oMonitoring, Rendering $oRendering)
     {
         $this->aConfig = $aConfig;
-        $this->aConfig['GAubry\Logger']['min_message_level'] = ($bDebugMode ? LogLevel::DEBUG : LogLevel::INFO);
-        $oLogger = new ColoredIndentedLogger($this->aConfig['GAubry\Logger']);
-        $oEMRInstancePrices = new EMRInstancePrices();
-        $this->oMonitoring = new Monitoring($oLogger, $oEMRInstancePrices, $this->aConfig['Himedia\EMR']);
-        $this->oRendering = new Rendering($oLogger);
+        $this->oMonitoring = $oMonitoring;
+        $this->oRendering = $oRendering;
     }
 
+    /**
+     * Main method of the controller.
+     *
+     * @param array $aParameters command line parameters
+     */
     public function run (array $aParameters)
     {
         if (! empty($aParameters['error']) || isset($aParameters['help'])) {
@@ -67,12 +88,20 @@ class Controller
         }
     }
 
+    /**
+     * List all job flows in the last 2 weeks.
+     */
     private function displayAllJobs ()
     {
         $aAllJobs = $this->oMonitoring->getAllJobs();
         $this->oRendering->displayAllJobs($aAllJobs);
     }
 
+    /**
+     * List all S3 input files really loaded by Hadoop instance of a completed <jobflowid>.
+     *
+     * @param array $aParameters command line parameters
+     */
     private function displayHadoopInputFiles(array $aParameters)
     {
         $sJobflowId = $aParameters['jobflow-id'];
@@ -82,6 +111,11 @@ class Controller
         $this->oRendering->displayHadoopInputFiles($aInputFiles);
     }
 
+    /**
+     * Display statistics on any <jobflowid>, finished or in progress.
+     *
+     * @param array $aParameters command line parameters
+     */
     private function displayJobFlow (array $aParameters)
     {
         $sJobflowId = $aParameters['jobflow-id'];

@@ -1,0 +1,226 @@
+Array(
+    [AmiVersion] => 2.3.6
+    [LogUri] => s3n://bucket/hadoop-logs/
+    [ExecutionStatusDetail] => Array(
+            [LastStateChangeReason] => Steps completed
+            [EndDateTime] => 1370509068
+            [ReadyDateTime] => 1370508203
+            [CreationDateTime] => 1370507855
+            [State] => COMPLETED
+            [StartDateTime] => 1370508203
+            [ElapsedTimeToStartDateTime] => 348
+            [ElapsedTimeToEndDateTime] => 865
+        )
+
+    [Instances] => Array(
+            [InstanceGroups] => Array(
+                    [0] => Array(
+                            [LastStateChangeReason] => Job flow terminated
+                            [InstanceRole] => MASTER
+                            [EndDateTime] => 1370509068
+                            [Market] => ON_DEMAND
+                            [ReadyDateTime] => 1370508102
+                            [LaunchGroup] =>
+                            [InstanceType] => m1.large
+                            [CreationDateTime] => 1370507855
+                            [InstanceGroupId] => ig-1KQRS5HJA81D0
+                            [State] => ENDED
+                            [BidPrice] =>
+                            [InstanceRunningCount] => 0
+                            [StartDateTime] => 1370508044
+                            [InstanceRequestCount] => 1
+                            [Name] => Master Instance Group
+                            [OnDemandPrice] => 0.3
+                            [ElapsedTimeToStartDateTime] => 189
+                            [ElapsedTimeToEndDateTime] => 1024
+                        )
+
+                    [1] => Array(
+                            [LastStateChangeReason] => Job flow terminated
+                            [InstanceRole] => CORE
+                            [EndDateTime] => 1370509068
+                            [Market] => ON_DEMAND
+                            [ReadyDateTime] => 1370508308
+                            [LaunchGroup] =>
+                            [InstanceType] => m1.large
+                            [CreationDateTime] => 1370507855
+                            [InstanceGroupId] => ig-YQBVPNU0RX86
+                            [State] => ENDED
+                            [BidPrice] =>
+                            [InstanceRunningCount] => 0
+                            [StartDateTime] => 1370508308
+                            [InstanceRequestCount] => 4
+                            [Name] => Core Instance Group
+                            [OnDemandPrice] => 0.3
+                            [ElapsedTimeToStartDateTime] => 453
+                            [ElapsedTimeToEndDateTime] => 760
+                        )
+
+                    [2] => Array(
+                            [LastStateChangeReason] => Job flow terminated
+                            [InstanceRole] => TASK
+                            [EndDateTime] => 1370509068
+                            [Market] => SPOT
+                            [ReadyDateTime] => 1370508420
+                            [LaunchGroup] =>
+                            [InstanceType] => m1.large
+                            [CreationDateTime] => 1370507855
+                            [InstanceGroupId] => ig-ASJLOV4O9R12
+                            [State] => ENDED
+                            [BidPrice] => 0.1
+                            [InstanceRunningCount] => 0
+                            [StartDateTime] => 1370508420
+                            [InstanceRequestCount] => 20
+                            [Name] => Task Instance Group
+                            [OnDemandPrice] => 0.3
+                            [AskPriceError] =>
+                            [AskPrice] => 0.033
+                            [ElapsedTimeToStartDateTime] => 565
+                            [ElapsedTimeToEndDateTime] => 648
+                        )
+                )
+
+            [SlaveInstanceType] => m1.large
+            [MasterInstanceType] => m1.large
+            [MasterInstanceId] => i-5a453036
+            [InstanceCount] => 25
+            [NormalizedInstanceHours] => 100
+            [MasterPublicDnsName] => ec2-54-234-23-37.compute-1.amazonaws.com
+            [KeepJobFlowAliveWhenNoSteps] =>
+            [TerminationProtected] =>
+            [Placement] => Array(
+                    [AvailabilityZone] => us-east-1d
+                )
+
+            [Ec2KeyName] => xyz
+            [HadoopVersion] => 1.0.3
+            [Ec2SubnetId] =>
+            [MaxTotalPrice] => 2.16
+        )
+
+    [BootstrapActions] => Array(
+        )
+
+    [SupportedProducts] => Array(
+        )
+
+    [Steps] => Array(
+            [0] => Array(
+                    [ExecutionStatusDetail] => Array(
+                            [LastStateChangeReason] =>
+                            [EndDateTime] => 1370508215
+                            [CreationDateTime] => 1370507855
+                            [State] => COMPLETED
+                            [StartDateTime] => 1370508203
+                            [ElapsedTimeToStartDateTime] => 348
+                            [ElapsedTimeToEndDateTime] => 12
+                        )
+
+                    [StepConfig] => Array(
+                            [HadoopJarStep] => Array(
+                                    [Properties] => Array(
+                                        )
+
+                                    [MainClass] =>
+                                    [Jar] => s3://us-east-1.elasticmapreduce/libs/script-runner/script-runner.jar
+                                    [Args] => Array(
+                                            [0] => s3://us-east-1.elasticmapreduce/libs/state-pusher/0.1/fetch
+                                        )
+                                )
+
+                            [ActionOnFailure] => TERMINATE_JOB_FLOW
+                            [Name] => Setup Hadoop Debugging
+                        )
+                )
+
+            [1] => Array(
+                    [ExecutionStatusDetail] => Array(
+                            [LastStateChangeReason] =>
+                            [EndDateTime] => 1370508245
+                            [CreationDateTime] => 1370507855
+                            [State] => COMPLETED
+                            [StartDateTime] => 1370508215
+                            [ElapsedTimeToStartDateTime] => 360
+                            [ElapsedTimeToEndDateTime] => 30
+                        )
+
+                    [StepConfig] => Array(
+                            [HadoopJarStep] => Array(
+                                    [Properties] => Array(
+                                        )
+
+                                    [MainClass] =>
+                                    [Jar] => s3://us-east-1.elasticmapreduce/libs/script-runner/script-runner.jar
+                                    [Args] => Array(
+                                            [0] => s3://us-east-1.elasticmapreduce/libs/pig/pig-script
+                                            [1] => --base-path
+                                            [2] => s3://us-east-1.elasticmapreduce/libs/pig/
+                                            [3] => --install-pig
+                                            [4] => --pig-versions
+                                            [5] => latest
+                                        )
+                                )
+
+                            [ActionOnFailure] => TERMINATE_JOB_FLOW
+                            [Name] => Setup Pig
+                        )
+                )
+
+            [2] => Array(
+                    [ExecutionStatusDetail] => Array(
+                            [LastStateChangeReason] =>
+                            [EndDateTime] => 1370508929
+                            [CreationDateTime] => 1370507855
+                            [State] => COMPLETED
+                            [StartDateTime] => 1370508245
+                            [ElapsedTimeToStartDateTime] => 390
+                            [ElapsedTimeToEndDateTime] => 684
+                        )
+
+                    [StepConfig] => Array(
+                            [HadoopJarStep] => Array(
+                                    [Properties] => Array(
+                                        )
+
+                                    [MainClass] =>
+                                    [Jar] => s3://us-east-1.elasticmapreduce/libs/script-runner/script-runner.jar
+                                    [Args] => Array(
+                                            [0] => s3://us-east-1.elasticmapreduce/libs/pig/pig-script
+                                            [1] => --base-path
+                                            [2] => s3://us-east-1.elasticmapreduce/libs/pig/
+                                            [3] => --pig-versions
+                                            [4] => latest
+                                            [5] => --run-pig-script
+                                            [6] => --args
+                                            [7] => -f
+                                            [8] => s3://bucket/input/my_script.pig
+                                            [9] => -p
+                                            [10] => INPUT='s3://bucket/path/to/inputs'
+                                            [11] => -p
+                                            [12] => OUTPUT=s3://bucket/path/to/output
+                                            [13] => -p
+                                            [14] => PARALLEL=20
+                                            [15] => -p
+                                            [16] => SEGMENT=760986
+                                            [17] => -p
+                                            [18] => EXPIRATION=43200
+                                        )
+                                )
+
+                            [ActionOnFailure] => CANCEL_AND_WAIT
+                            [Name] => Run Pig Script
+                        )
+
+                    [PigScript] => s3://bucket/input/my_script.pig
+                    [PigInput] => s3://bucket/path/to/inputs
+                    [PigInputSize] =>  {C.comment}(–)
+                    [PigOutput] => s3://bucket/path/to/output
+                    [PigOutputSize] =>  {C.comment}(171 MiB)
+                )
+        )
+
+    [JobFlowRole] =>
+    [JobFlowId] => j-3EPQM36A7419J
+    [VisibleToAllUsers] => 1
+    [Name] => name_of_jobflow
+)
