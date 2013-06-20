@@ -372,8 +372,11 @@ class Rendering
 
                 $this->oLogger->info(
                     str_pad('Input/output (size):', 23, ' ')
-                    . $aJobStep['PigInput'] . $aJobStep['PigInputSize'] . '{C.section}  ⇒  '
-                    . '{C.info}' . $aJobStep['PigOutput'] . $aJobStep['PigOutputSize']
+                    . $aJobStep['PigInput']
+                    . ' {C.comment}(' . $aJobStep['PigInputSize'] . ')'
+                    . '{C.section}  ⇒  '
+                    . '{C.info}' . $aJobStep['PigOutput']
+                    . ' {C.comment}(' . $aJobStep['PigOutputSize'] . ')'
                 );
 
                 if ($aStepStatus['State'] == 'RUNNING') {

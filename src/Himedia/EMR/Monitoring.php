@@ -164,9 +164,9 @@ class Monitoring
                 }
                 if (! empty($sPigInput)) {
                     $sSize = $this->getS3ObjectSize($sPigInput);
-                    $sPigInputSize = ' {C.comment}(' . ($sSize == '0' ? '–' : $sSize) . ')';
+                    $sPigInputSize = ($sSize == '0' ? '–' : $sSize);
                 } else {
-                    $sPigInputSize = '';
+                    $sPigInputSize = '–';
                 }
                 $aJob['Steps'][$iKey]['PigInput'] = $sPigInput;
                 $aJob['Steps'][$iKey]['PigInputSize'] = $sPigInputSize;
@@ -179,9 +179,9 @@ class Monitoring
                 }
                 if (! empty($sPigOutput)) {
                     $sSize = $this->getS3ObjectSize($sPigOutput . '/part-r-*');
-                    $sPigOutputSize = ' {C.comment}(' . ($sSize == '0' ? '–' : $sSize) . ')';
+                    $sPigOutputSize = ($sSize == '0' ? '–' : $sSize);
                 } else {
-                    $sPigOutputSize = '';
+                    $sPigOutputSize = '–';
                 }
                 $aJob['Steps'][$iKey]['PigOutput'] = $sPigOutput;
                 $aJob['Steps'][$iKey]['PigOutputSize'] = $sPigOutputSize;
