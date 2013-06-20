@@ -80,6 +80,8 @@ class Controller
             }
             if (isset($aParameters['list-input-files'])) {
                 $this->displayHadoopInputFiles($aParameters);
+            } elseif (isset($aParameters['json'])) {
+                $this->displayJsonJobFlow($aParameters);
             } else {
                 $this->displayJobFlow($aParameters);
             }
@@ -139,5 +141,18 @@ class Controller
             $this->aConfig['inc_dir'] . '/plot.script'
         );
         echo PHP_EOL;
+    }
+
+    /**
+     * Display statistics in JSON format on any <jobflowid>, finished or in progress.
+     *
+     * @param array $aParameters command line parameters
+     */
+    private function displayJsonJobFlow (array $aParameters)
+    {
+        $sJobflowId = $aParameters['jobflow-id'];
+        $iSSHTunnelPort = (int)$aParameters['ssh-tunnel-port'];
+        $aJob = $this->oMonitoring->getJobFlow($sJobflowId, $iSSHTunnelPort);
+        echo json_encode($aJob);
     }
 }

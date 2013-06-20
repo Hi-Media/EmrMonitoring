@@ -38,6 +38,7 @@ $oGetopt = new Getopt(array(
     array('l', 'list-all-jobflows', Getopt::NO_ARGUMENT),
     array('j', 'jobflow-id', Getopt::REQUIRED_ARGUMENT),
     array(null, 'list-input-files', Getopt::NO_ARGUMENT),
+    array(null, 'json', Getopt::NO_ARGUMENT),
     array('p', 'ssh-tunnel-port', Getopt::REQUIRED_ARGUMENT)
 ));
 try {
