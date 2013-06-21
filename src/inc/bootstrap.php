@@ -22,8 +22,6 @@
 
 use \GAubry\ErrorHandler\ErrorHandler;
 
-
-
 // Check config file
 $sConfDir = realpath(dirname(__FILE__) . '/../../conf');
 if (! file_exists($sConfDir . '/config.php')) {

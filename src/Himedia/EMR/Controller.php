@@ -5,8 +5,6 @@ namespace Himedia\EMR;
 use Himedia\EMR\Monitoring;
 use Himedia\EMR\Rendering;
 
-
-
 /**
  * Unique controller.
  *

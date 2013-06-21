@@ -4,8 +4,6 @@ namespace Himedia\EMR;
 
 use GAubry\Helpers\Helpers;
 
-
-
 /**
  * Extract Amazon Elastic MapReduce Pricing from JSON stream used by http://aws.amazon.com/elasticmapreduce/pricing/.
  *
