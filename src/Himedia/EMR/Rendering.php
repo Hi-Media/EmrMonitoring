@@ -5,8 +5,6 @@ namespace Himedia\EMR;
 use Psr\Log\LoggerInterface;
 use GAubry\Helpers\Helpers;
 
-
-
 /**
  * Output representations of EMR jobflows.
  *
@@ -370,11 +368,25 @@ class Rendering
             if ($sName == 'Run Pig Script') {
                 $this->oLogger->info(str_pad('Script:', 23, ' ') . $aJobStep['PigScript']);
 
+                // Input/output:
                 $this->oLogger->info(
                     str_pad('Input/output (size):', 23, ' ')
-                    . $aJobStep['PigInput'] . $aJobStep['PigInputSize'] . '{C.section}  ⇒  '
-                    . '{C.info}' . $aJobStep['PigOutput'] . $aJobStep['PigOutputSize']
+                    . $aJobStep['PigInput'] . $aJobStep['PigInputSize']
+                    . '{C.section}  ⇒  {C.info}'
+                    . $aJobStep['PigOutput'] . $aJobStep['PigOutputSize']
                 );
+
+                // Other parameters:
+                if (count($aJobStep['PigOtherParameters']) > 0) {
+                    $aMsg = array();
+                    foreach ($aJobStep['PigOtherParameters'] as $sName => $sValue) {
+                        $aMsg[] = "$sName=$sValue";
+                    }
+                    $sMsg = implode(', ', $aMsg);
+                } else {
+                    $sMsg = '–';
+                }
+                $this->oLogger->info(str_pad('Other parameters:', 23, ' ') . $sMsg);
 
                 if ($aStepStatus['State'] == 'RUNNING') {
                     $this->displaySubJobs($aJobStep);

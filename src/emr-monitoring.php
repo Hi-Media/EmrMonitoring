@@ -32,14 +32,16 @@ require(dirname(__FILE__) . '/inc/bootstrap.php');
 
 
 // Extract command line parameters
-$oGetopt = new Getopt(array(
-    array('h', 'help', Getopt::NO_ARGUMENT),
-    array('d', 'debug', Getopt::NO_ARGUMENT),
-    array('l', 'list-all-jobflows', Getopt::NO_ARGUMENT),
-    array('j', 'jobflow-id', Getopt::REQUIRED_ARGUMENT),
-    array(null, 'list-input-files', Getopt::NO_ARGUMENT),
-    array('p', 'ssh-tunnel-port', Getopt::REQUIRED_ARGUMENT)
-));
+$oGetopt = new Getopt(
+    array(
+        array('h', 'help', Getopt::NO_ARGUMENT),
+        array('d', 'debug', Getopt::NO_ARGUMENT),
+        array('l', 'list-all-jobflows', Getopt::NO_ARGUMENT),
+        array('j', 'jobflow-id', Getopt::REQUIRED_ARGUMENT),
+        array(null, 'list-input-files', Getopt::NO_ARGUMENT),
+        array('p', 'ssh-tunnel-port', Getopt::REQUIRED_ARGUMENT)
+    )
+);
 try {
     $oGetopt->parse();
     $sError = '';
