@@ -167,9 +167,9 @@ class Monitoring
                 // PigInput & PigInputSize
                 if (! empty($aPigParams['INPUT'])) {
                     $sSize = $this->getS3ObjectSize($aPigParams['INPUT']);
-                    $sPigInputSize = ' {C.comment}(' . ($sSize == '0' ? '–' : $sSize) . ')';
+                    $sPigInputSize = ($sSize == '0' ? '–' : $sSize);
                 } else {
-                    $sPigInputSize = '';
+                    $sPigInputSize = '–';
                 }
                 $aJob['Steps'][$iKey]['PigInput'] = $aPigParams['INPUT'];
                 $aJob['Steps'][$iKey]['PigInputSize'] = $sPigInputSize;
@@ -177,9 +177,9 @@ class Monitoring
                 // PigOutput & PigOutputSize
                 if (! empty($aPigParams['OUTPUT'])) {
                     $sSize = $this->getS3ObjectSize($aPigParams['OUTPUT'] . '/part-r-*');
-                    $sPigOutputSize = ' {C.comment}(' . ($sSize == '0' ? '–' : $sSize) . ')';
+                    $sPigOutputSize = ($sSize == '0' ? '–' : $sSize);
                 } else {
-                    $sPigOutputSize = '';
+                    $sPigOutputSize = '–';
                 }
                 $aJob['Steps'][$iKey]['PigOutput'] = $aPigParams['OUTPUT'];
                 $aJob['Steps'][$iKey]['PigOutputSize'] = $sPigOutputSize;
