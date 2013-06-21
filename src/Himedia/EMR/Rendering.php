@@ -5,8 +5,6 @@ namespace Himedia\EMR;
 use Psr\Log\LoggerInterface;
 use GAubry\Helpers\Helpers;
 
-
-
 /**
  * Output representations of EMR jobflows.
  *
@@ -103,8 +101,14 @@ class Rendering
         $this->oLogger->info('{C.help_opt}--list-input-files+++');
         $this->oLogger->info(
             'With {C.help_opt}-j{C.info}, list all S3 input files really loaded by Hadoop instance '
-            . 'of the completed {C.help_param}<jobflowid>{C.info}.---'
+            . 'of the completed {C.help_param}<jobflowid>{C.info}.'
         );
+        $this->oLogger->info('Disable {C.help_opt}--json{C.info}.---');
+        $this->oLogger->info(' ');
+
+        $this->oLogger->info('{C.help_opt}--json+++');
+        $this->oLogger->info('With {C.help_opt}-j{C.info}, convert statistics to JSON format.');
+        $this->oLogger->info('Overridden by {C.help_opt}--list-input-files{C.info}.---');
         $this->oLogger->info(' ');
 
         $this->oLogger->info('{C.help_opt}-p{C.info}, {C.help_opt}--ssh-tunnel-port {C.help_param}<port>+++');
@@ -370,11 +374,25 @@ class Rendering
             if ($sName == 'Run Pig Script') {
                 $this->oLogger->info(str_pad('Script:', 23, ' ') . $aJobStep['PigScript']);
 
+                // Input/output:
                 $this->oLogger->info(
                     str_pad('Input/output (size):', 23, ' ')
-                    . $aJobStep['PigInput'] . $aJobStep['PigInputSize'] . '{C.section}  ⇒  '
-                    . '{C.info}' . $aJobStep['PigOutput'] . $aJobStep['PigOutputSize']
+                    . $aJobStep['PigInput'] . ' {C.comment}(' . $aJobStep['PigInputSize'] . ')'
+                    . '{C.section}  ⇒  {C.info}'
+                    . $aJobStep['PigOutput'] . ' {C.comment}(' . $aJobStep['PigOutputSize'] . ')'
                 );
+
+                // Other parameters:
+                if (count($aJobStep['PigOtherParameters']) > 0) {
+                    $aMsg = array();
+                    foreach ($aJobStep['PigOtherParameters'] as $sName => $sValue) {
+                        $aMsg[] = "$sName=$sValue";
+                    }
+                    $sMsg = implode(', ', $aMsg);
+                } else {
+                    $sMsg = '–';
+                }
+                $this->oLogger->info(str_pad('Other parameters:', 23, ' ') . $sMsg);
 
                 if ($aStepStatus['State'] == 'RUNNING') {
                     $this->displaySubJobs($aJobStep);

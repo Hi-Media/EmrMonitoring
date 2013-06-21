@@ -5,8 +5,6 @@ namespace Himedia\EMR;
 use Psr\Log\LoggerInterface;
 use GAubry\Helpers\Helpers;
 
-
-
 /**
  * Retrieve data from various external resources.
  *
@@ -156,35 +154,40 @@ class Monitoring
                 preg_match('/, -f, ([^,]+)/i', $sArgs, $aMatches);
                 $aJob['Steps'][$iKey]['PigScript'] = $aMatches[1];
 
+                // Extract Pig parameters
+                preg_match_all("/, -p, ([A-Za-z_-]+)=('[^']+'|[^'][^,]+)/i", $sArgs, $aMatches, PREG_SET_ORDER);
+                $aPigParams = array('INPUT' => '', 'OUTPUT' => '');
+                foreach ($aMatches as $aMatch) {
+                    if (substr($aMatch[2], 0, 1) == "'") {
+                        $aMatch[2] = substr($aMatch[2], 1, -1);
+                    }
+                    $aPigParams[$aMatch[1]] = $aMatch[2];
+                }
+
                 // PigInput & PigInputSize
-                preg_match("/, -p, INPUT=('[^']+'|[^'][^,]+)/i", $sArgs, $aMatches);
-                $sPigInput = $aMatches[1];
-                if (substr($sPigInput, 0, 1) == "'") {
-                    $sPigInput = substr($sPigInput, 1, -1);
-                }
-                if (! empty($sPigInput)) {
-                    $sSize = $this->getS3ObjectSize($sPigInput);
-                    $sPigInputSize = ' {C.comment}(' . ($sSize == '0' ? '–' : $sSize) . ')';
+                if (! empty($aPigParams['INPUT'])) {
+                    $sSize = $this->getS3ObjectSize($aPigParams['INPUT']);
+                    $sPigInputSize = ($sSize == '0' ? '–' : $sSize);
                 } else {
-                    $sPigInputSize = '';
+                    $sPigInputSize = '–';
                 }
-                $aJob['Steps'][$iKey]['PigInput'] = $sPigInput;
+                $aJob['Steps'][$iKey]['PigInput'] = $aPigParams['INPUT'];
                 $aJob['Steps'][$iKey]['PigInputSize'] = $sPigInputSize;
 
                 // PigOutput & PigOutputSize
-                preg_match("/, -p, OUTPUT=('[^']+'|[^'][^,]+)/i", $sArgs, $aMatches);
-                $sPigOutput = $aMatches[1];
-                if (substr($sPigOutput, 0, 1) == "'") {
-                    $sPigOutput = substr($sPigOutput, 1, -1);
-                }
-                if (! empty($sPigOutput)) {
-                    $sSize = $this->getS3ObjectSize($sPigOutput . '/part-r-*');
-                    $sPigOutputSize = ' {C.comment}(' . ($sSize == '0' ? '–' : $sSize) . ')';
+                if (! empty($aPigParams['OUTPUT'])) {
+                    $sSize = $this->getS3ObjectSize($aPigParams['OUTPUT'] . '/part-r-*');
+                    $sPigOutputSize = ($sSize == '0' ? '–' : $sSize);
                 } else {
-                    $sPigOutputSize = '';
+                    $sPigOutputSize = '–';
                 }
-                $aJob['Steps'][$iKey]['PigOutput'] = $sPigOutput;
+                $aJob['Steps'][$iKey]['PigOutput'] = $aPigParams['OUTPUT'];
                 $aJob['Steps'][$iKey]['PigOutputSize'] = $sPigOutputSize;
+
+                // Save others parameters
+                unset($aPigParams['INPUT']);
+                unset($aPigParams['OUTPUT']);
+                $aJob['Steps'][$iKey]['PigOtherParameters'] = $aPigParams;
 
                 // ClusterSummary & SubJobsSummary
                 if ($aJobStep['ExecutionStatusDetail']['State'] == 'RUNNING') {

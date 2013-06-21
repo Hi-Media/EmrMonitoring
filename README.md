@@ -1,5 +1,7 @@
 # EMR Monitoring
 
+[![Latest stable version](https://poser.pugx.org/himedia/emr-monitoring/v/stable.png "Latest stable version")](https://packagist.org/packages/himedia/emr-monitoring)
+
 Command line tool for monitoring Amazon Elastic MapReduce ([Amazon EMR](http://aws.amazon.com/elasticmapreduce/)) jobflows
 and analyze past jobflows.
 

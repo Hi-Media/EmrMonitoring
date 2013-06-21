@@ -20,6 +20,7 @@
  */
 
 use GAubry\Logger\ColoredIndentedLogger;
+use Himedia\EMR\AccumulatorLogger;
 use Himedia\EMR\Controller;
 use Himedia\EMR\EMRInstancePrices;
 use Himedia\EMR\Monitoring;
@@ -32,14 +33,17 @@ require(dirname(__FILE__) . '/inc/bootstrap.php');
 
 
 // Extract command line parameters
-$oGetopt = new Getopt(array(
-    array('h', 'help', Getopt::NO_ARGUMENT),
-    array('d', 'debug', Getopt::NO_ARGUMENT),
-    array('l', 'list-all-jobflows', Getopt::NO_ARGUMENT),
-    array('j', 'jobflow-id', Getopt::REQUIRED_ARGUMENT),
-    array(null, 'list-input-files', Getopt::NO_ARGUMENT),
-    array('p', 'ssh-tunnel-port', Getopt::REQUIRED_ARGUMENT)
-));
+$oGetopt = new Getopt(
+    array(
+        array('h', 'help', Getopt::NO_ARGUMENT),
+        array('d', 'debug', Getopt::NO_ARGUMENT),
+        array('l', 'list-all-jobflows', Getopt::NO_ARGUMENT),
+        array('j', 'jobflow-id', Getopt::REQUIRED_ARGUMENT),
+        array(null, 'list-input-files', Getopt::NO_ARGUMENT),
+        array(null, 'json', Getopt::NO_ARGUMENT),
+        array('p', 'ssh-tunnel-port', Getopt::REQUIRED_ARGUMENT)
+    )
+);
 try {
     $oGetopt->parse();
     $sError = '';
@@ -53,7 +57,12 @@ $aParameters = $oGetopt->getOptions() + array('error' => $sError);
 // Init.
 $aConfig['GAubry\Logger']['min_message_level']
     = ($oGetopt->getOption('debug') !== null ? LogLevel::DEBUG : LogLevel::INFO);
-$oLogger = new ColoredIndentedLogger($aConfig['GAubry\Logger']);
+if ($oGetopt->getOption('debug') !== null && $oGetopt->getOption('json') !== null) {
+    $oLogger = new AccumulatorLogger($aConfig['GAubry\Logger']['min_message_level']);
+    $aParameters['accumulator-logger'] = $oLogger;    // not the most elegant…
+} else {
+    $oLogger = new ColoredIndentedLogger($aConfig['GAubry\Logger']);
+}
 $oMonitoring = new Monitoring($oLogger, new EMRInstancePrices(), $aConfig['Himedia\EMR']);
 $oRendering = new Rendering($oLogger);
 $oController = new Controller($aConfig, $oMonitoring, $oRendering);
