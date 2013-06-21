@@ -153,6 +153,10 @@ class Controller
         $sJobflowId = $aParameters['jobflow-id'];
         $iSSHTunnelPort = (int)$aParameters['ssh-tunnel-port'];
         $aJob = $this->oMonitoring->getJobFlow($sJobflowId, $iSSHTunnelPort);
+        if (! empty($aParameters['accumulator-logger'])) {
+            $oLogger = $aParameters['accumulator-logger'];
+            $aJob['DebugMessages'] = $oLogger->getAccumulatedMessages();
+        }
         echo json_encode($aJob);
     }
 }

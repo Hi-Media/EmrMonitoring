@@ -20,6 +20,7 @@
  */
 
 use GAubry\Logger\ColoredIndentedLogger;
+use Himedia\EMR\AccumulatorLogger;
 use Himedia\EMR\Controller;
 use Himedia\EMR\EMRInstancePrices;
 use Himedia\EMR\Monitoring;
@@ -54,7 +55,12 @@ $aParameters = $oGetopt->getOptions() + array('error' => $sError);
 // Init.
 $aConfig['GAubry\Logger']['min_message_level']
     = ($oGetopt->getOption('debug') !== null ? LogLevel::DEBUG : LogLevel::INFO);
-$oLogger = new ColoredIndentedLogger($aConfig['GAubry\Logger']);
+if ($oGetopt->getOption('debug') !== null && $oGetopt->getOption('json') !== null) {
+    $oLogger = new AccumulatorLogger($aConfig['GAubry\Logger']['min_message_level']);
+    $aParameters['accumulator-logger'] = $oLogger;    // not the most elegant…
+} else {
+    $oLogger = new ColoredIndentedLogger($aConfig['GAubry\Logger']);
+}
 $oMonitoring = new Monitoring($oLogger, new EMRInstancePrices(), $aConfig['Himedia\EMR']);
 $oRendering = new Rendering($oLogger);
 $oController = new Controller($aConfig, $oMonitoring, $oRendering);
