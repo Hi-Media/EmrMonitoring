@@ -7,3 +7,4 @@
 composer.phar
 config.*
 conf/phpunit.xml
+/.twgit_features_subject

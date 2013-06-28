@@ -493,11 +493,13 @@ class Rendering
         $this->oLogger->info('{C.subsection}Summary+++');
 
         if ($iMaxTs > 0) {
+            $iJobflowId = $aJob['JobFlowId'];
             $iMaxTSWithMargin = round($iMaxTs*1.01);
             $iMaxNbTasksWMargin = 5*(floor($iMaxNbTasks*1.12/5) + 1);
             $sOutput = '/tmp/php-emr_' . md5(time().rand()) . '_tasktimeline.png';
-            $sCmd = "gnuplot -e \"csv='$sGnuplotData'\" -e \"output='$sOutput'\""
-                  . " -e \"maxts='$iMaxTSWithMargin'\" -e \"maxnbtasks='$iMaxNbTasksWMargin'\""
+            $sCmd = "gnuplot -e \"csv='$sGnuplotData'; output='$sOutput'\""
+                  . " -e \"maxts='$iMaxTSWithMargin'; maxnbtasks='$iMaxNbTasksWMargin'\""
+                  . " -e \"; jobflowid='$iJobflowId'\""
                   . ' ' . $sGnuplotScript;
             Helpers::exec($sCmd);
             $this->oLogger->info('Task timeline: ' . $sOutput);

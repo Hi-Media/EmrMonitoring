@@ -17,7 +17,7 @@ set term pngcairo size 1200,800 enhanced
 set termoption dashed
 set encoding utf8
 set output output
-set title "{/*1.5 Task timeline}"
+set title sprintf("{/*1.5 Task timeline of jobflow %s}", jobflowid)
 set grid xtics ytics
 set xlabel "Elapsed time"
 set ylabel "Running tasks"
