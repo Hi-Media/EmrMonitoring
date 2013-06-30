@@ -493,11 +493,45 @@ class Rendering
         $this->oLogger->info('{C.subsection}Summary+++');
 
         if ($iMaxTs > 0) {
+
+            // Retrieve details of instances
+            $aInstances = array();
+            foreach ($aJob['Instances']['InstanceGroups'] as $aJobIGroup) {
+                if ($aJobIGroup['InstanceRole'] != 'MASTER') {
+                    $aInstances[] = $aJobIGroup['InstanceRequestCount'] . '×' . $aJobIGroup['InstanceType']
+                                  . ($aJobIGroup['Market'] == 'SPOT' ? ' ' . strtolower($aJobIGroup['Market']) : '')
+                                  . ' ' . $aJobIGroup['InstanceRole'];
+                }
+            }
+            $sInstances = implode(', ', $aInstances);
+
+            // Retrieve size of input/output and value of user parameters
+            $sSize = '';
+            $sOtherParam = '–';
+            foreach ($aJob['Steps'] as $aJobStep) {
+                if ($aJobStep['StepConfig']['Name'] == 'Run Pig Script') {
+                    $sSize = $aJobStep['PigInputSize'] . ' ⇒ ' . $aJobStep['PigOutputSize'];
+
+                    // Other parameters:
+                    if (count($aJobStep['PigOtherParameters']) > 0) {
+                        $aOtherParam = array();
+                        foreach ($aJobStep['PigOtherParameters'] as $sName => $sValue) {
+                            $aOtherParam[] = "$sName=$sValue";
+                        }
+                        $sOtherParam = implode(', ', $aOtherParam);
+                    }
+                }
+            }
+
             $iMaxTSWithMargin = round($iMaxTs*1.01);
             $iMaxNbTasksWMargin = 5*(floor($iMaxNbTasks*1.12/5) + 1);
             $sOutput = '/tmp/php-emr_' . md5(time().rand()) . '_tasktimeline.png';
-            $sCmd = "gnuplot -e \"csv='$sGnuplotData'\" -e \"output='$sOutput'\""
-                  . " -e \"maxts='$iMaxTSWithMargin'\" -e \"maxnbtasks='$iMaxNbTasksWMargin'\""
+            $sJobflowName = $aJob['Name'];
+            $iJobflowId = $aJob['JobFlowId'];
+            $sCmd = "gnuplot -e \"csv='$sGnuplotData'; output='$sOutput'\""
+                  . " -e \"maxts='$iMaxTSWithMargin'; maxnbtasks='$iMaxNbTasksWMargin'\""
+                  . " -e \"; name='$sJobflowName'; jobflowid='$iJobflowId'; instances='$sInstances'\""
+                  . " -e \"; size='$sSize'; otherparameters='$sOtherParam'\""
                   . ' ' . $sGnuplotScript;
             Helpers::exec($sCmd);
             $this->oLogger->info('Task timeline: ' . $sOutput);

@@ -51,7 +51,7 @@ $ wget http://localhost:12345/jobtracker.jsp
 
 ### All that information is gathered in one screen
 
-An animation is better than a thousand words:
+An *animation* is better than a thousand words:
 
 ![Animated monitoring](doc/images/animated-monitoring.gif "Animated monitoring")
 
@@ -90,9 +90,13 @@ Error messages, if any, are always displayed:
 A task timeline is generated via [gnuplot](http://www.gnuplot.info/) including all jobs of **in progress or past jobflow**
 and giving details on number of mapper, shuffle, merge and reducer tasks.
 
-Animation from generated task timelines throughout jobflow run:
+*Animation* from generated task timelines throughout jobflow run:
 
 ![Animated task timeline](doc/images/animated-task-timeline.gif "Animated task timeline")
+
+Result with a completed jobflow *(click for full resolution image)*:
+
+[![Task timeline of a completed jobflow](doc/images/tasktimeline-mini.png "Task timeline of a completed jobflow")](doc/images/tasktimeline.png)
 
 ## Installing
 
