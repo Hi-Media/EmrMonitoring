@@ -3,7 +3,7 @@
     "description": "Command line tool for monitoring Amazon Elastic MapReduce (Amazon EMR) jobflows and analyze past jobflows.",
     "keywords":    ["amazon elastic mapreduce", "amazon emr", "monitoring", "mapreduce", "hadoop", "cli"],
     "type":        "library",
-    "license":     "LGPL-3.0+",
+    "license":     "Apache-2.0",
     "authors":     [
         {
             "name":  "Geoffroy Aubry",
