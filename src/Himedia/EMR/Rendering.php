@@ -518,7 +518,7 @@ class Rendering
                         foreach ($aJobStep['PigOtherParameters'] as $sName => $sValue) {
                             $aOtherParam[] = "$sName=$sValue";
                         }
-                        $sOtherParam = implode(', ', $aOtherParam);
+                        $sOtherParam = str_replace('_', '\_', implode(', ', $aOtherParam));
                     }
                 }
             }
@@ -526,7 +526,7 @@ class Rendering
             $iMaxTSWithMargin = round($iMaxTs*1.01);
             $iMaxNbTasksWMargin = 5*(floor($iMaxNbTasks*1.12/5) + 1);
             $sOutput = '/tmp/php-emr_' . md5(time().rand()) . '_tasktimeline.png';
-            $sJobflowName = $aJob['Name'];
+            $sJobflowName = str_replace('_', '\_', $aJob['Name']);
             $iJobflowId = $aJob['JobFlowId'];
             $sCmd = "gnuplot -e \"csv='$sGnuplotData'; output='$sOutput'\""
                   . " -e \"maxts='$iMaxTSWithMargin'; maxnbtasks='$iMaxNbTasksWMargin'\""
