@@ -176,7 +176,7 @@ class Monitoring
 
                 // PigOutput & PigOutputSize
                 if (! empty($aPigParams['OUTPUT'])) {
-                    $sSize = $this->getS3ObjectSize($aPigParams['OUTPUT'] . '/part-r-*');
+                    $sSize = $this->getS3ObjectSize($aPigParams['OUTPUT'] . '/part-(m|r)-*');
                     $sPigOutputSize = ($sSize == '0' ? '–' : $sSize);
                 } else {
                     $sPigOutputSize = '–';
@@ -220,7 +220,7 @@ class Monitoring
             $sFolder = substr($sPigPattern, 0, strrpos($sPigPattern, '/')+1);
             $sPattern = str_replace(array('.', '*'), array('\.', '.*'), $sPigPattern);
             $sCmd = sprintf(
-                "s3cmd ls %s | grep '%s' | awk 'BEGIN {sum=0} {sum+=$3} END {printf(\"%%.3f\", sum/1024/1024)}'",
+                "s3cmd ls %s | grep -E '%s' | awk 'BEGIN {sum=0} {sum+=$3} END {printf(\"%%.3f\", sum/1024/1024)}'",
                 $sFolder,
                 $sPattern
             );
