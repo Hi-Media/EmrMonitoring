@@ -555,13 +555,17 @@ class Monitoring
             for ($t=$aReduceStartTime[$sReduce]; $t<$iMaxTime; $t++) {
                 $aShufflingReduces[$t] += 1;
             }
-            $iMaxTime = (isset($aReduceSortTime[$sReduce]) ? $aReduceSortTime[$sReduce] : $iEndTime);
-            for ($t=$aReduceShuffleTime[$sReduce]; $t<$iMaxTime; $t++) {
-                $aSortingReduces[$t] += 1;
+            if (isset($aReduceShuffleTime[$sReduce])) {
+                $iMaxTime = (isset($aReduceSortTime[$sReduce]) ? $aReduceSortTime[$sReduce] : $iEndTime);
+                for ($t=$aReduceShuffleTime[$sReduce]; $t<$iMaxTime; $t++) {
+                    $aSortingReduces[$t] += 1;
+                }
             }
-            $iMaxTime = (isset($aReduceEndTime[$sReduce]) ? $aReduceEndTime[$sReduce] : $iEndTime);
-            for ($t=$aReduceSortTime[$sReduce]; $t<$iMaxTime; $t++) {
-                $aRunningReduces[$t] += 1;
+            if (isset($aReduceSortTime[$sReduce])) {
+                $iMaxTime = (isset($aReduceEndTime[$sReduce]) ? $aReduceEndTime[$sReduce] : $iEndTime);
+                for ($t=$aReduceSortTime[$sReduce]; $t<$iMaxTime; $t++) {
+                    $aRunningReduces[$t] += 1;
+                }
             }
         }
 
