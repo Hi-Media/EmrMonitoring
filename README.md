@@ -119,6 +119,8 @@ Initialize configuration file from `conf/config-dist.php` and adapt it:
 $ cp '/usr/local/lib/emr-monitoring/conf/config-dist.php' '/usr/local/lib/emr-monitoring/conf/config.php'
 ```
 
+If Bash is not your default shell, then fill `$aConfig['Himedia\EMR']['shell']` whith your Bash interpreter path, *e.g.* `/bin/bash`.
+
 ### Dependencies
 
 All dependencies are checked at launch and **EMR Monitoring** systematically helps to resolve them.
@@ -153,6 +155,7 @@ Read <http://getcomposer.org/doc/00-intro.md#installation-nix> for more informat
 
 [Amazon Elastic MapReduce Ruby Client](http://aws.amazon.com/developertools/2264) 
 is needed to get description of a jobflow.
+*Warning: it requires Ruby 1.8.7 and is not compatible with later versions of Ruby.*
 
 ![Dependency on EMR CLI](doc/images/dependency-emr-cli.png "Dependency on EMR CLI")
 
@@ -161,7 +164,7 @@ is needed to get description of a jobflow.
 To install Amazon EMR Command Line Interface:
 
 ```bash
-$ sudo apt-get install ruby-full
+$ sudo apt-get install ruby1.8-full
 $ mkdir /usr/local/lib/elastic-mapreduce-cli
 $ wget http://elasticmapreduce.s3.amazonaws.com/elastic-mapreduce-ruby.zip
 $ unzip -d /usr/local/lib/elastic-mapreduce-cli elastic-mapreduce-ruby.zip
@@ -175,6 +178,8 @@ Create a file named `/usr/local/lib/elastic-mapreduce-cli/credentials.json` with
     "key-pair-file": "The path and name of your PEM/private key file"
 }
 ```
+
+The `key-pair-file` key is especially used to open a SSH tunnel to the master node and consult Hadoop JobTracker.
 
 If necessary, adapt `emr_cli_bin`, `aws_access_key` and `aws_secret_key` keys 
 of `$aConfig['Himedia\EMR']` in `conf/config.php`.
