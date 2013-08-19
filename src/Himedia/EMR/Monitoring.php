@@ -505,18 +505,18 @@ class Monitoring
                 $sEvent = $aWords[0];
                 if ($sEvent == 'MapAttempt') {
                     $aAttrs = $this->parseAttributes($aWords[1]);
-                    if (isset($aAttrs['START_TIME'])) {
+                    if (! empty($aAttrs['START_TIME'])) {
                         $aMapStartTime[$aAttrs['TASKID']] = $this->timestampToInt($aAttrs['START_TIME']);
-                    } elseif (isset($aAttrs['FINISH_TIME'])) {
+                    } elseif (! empty($aAttrs['FINISH_TIME'])) {
                         $aMapEndTime[$aAttrs['TASKID']] = $this->timestampToInt($aAttrs['FINISH_TIME']);
                     }
                 } elseif ($sEvent == 'ReduceAttempt') {
                     $aAttrs = $this->parseAttributes($aWords[1]);
-                    if (isset($aAttrs['START_TIME'])) {
+                    if (! empty($aAttrs['START_TIME'])) {
                         $aReduceStartTime[$aAttrs['TASKID']] = $this->timestampToInt($aAttrs['START_TIME']);
-                    } elseif (isset($aAttrs['SHUFFLE_FINISHED'])
-                              && isset($aAttrs['SORT_FINISHED'])
-                              && isset($aAttrs['FINISH_TIME'])
+                    } elseif (! empty($aAttrs['SHUFFLE_FINISHED'])
+                              && ! empty($aAttrs['SORT_FINISHED'])
+                              && ! empty($aAttrs['FINISH_TIME'])
                     ) {
                         $aReduceShuffleTime[$aAttrs['TASKID']] = $this->timestampToInt($aAttrs['SHUFFLE_FINISHED']);
                         $aReduceSortTime[$aAttrs['TASKID']] = $this->timestampToInt($aAttrs['SORT_FINISHED']);
