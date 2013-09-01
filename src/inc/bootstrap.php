@@ -59,7 +59,7 @@ if (exec($sCmd) != 'OK') {
     echo "\033[1m\033[4;33m/!\\\033[0;37m "
         . "\033[0;31mThe Amazon EMR Command Line Interface is missing!" . PHP_EOL
         . "    \033[0;37mSearch for this bin: '$sEMRBin'" . PHP_EOL . PHP_EOL
-        . "    \033[0;37m1. \033[0;33msudo apt-get install ruby-full" . PHP_EOL
+        . "    \033[0;37m1. \033[0;33msudo apt-get install ruby1.8-full" . PHP_EOL
         . "    \033[0;37m2. \033[0;33mmkdir /usr/local/lib/elastic-mapreduce-cli" . PHP_EOL
         . "    \033[0;37m3. \033[0;33mwget http://elasticmapreduce.s3.amazonaws.com/elastic-mapreduce-ruby.zip"
         . PHP_EOL
@@ -72,8 +72,8 @@ if (exec($sCmd) != 'OK') {
         . "              \"key-pair-file\": \"The path and name of your PEM/private key file\"" . PHP_EOL
         . "          }" . PHP_EOL
         . "    \033[0;37m6. If necessary, adapt \033[0;33memr_cli_bin\033[0;37m, \033[0;33maws_access_key\033[0;37m"
-        . " and \033[0;33maws_secret_key\033[0;37m keys of \033[0;33m\$aConfig['Himedia\EMR']\033[0;37m"
-        . " in \033[0;33mconf/config.php\033[0;37m." . PHP_EOL . PHP_EOL
+        . " and \033[0;33maws_secret_key\033[0;37m keys of \033[0;33m\$aConfig['Himedia\EMR']\033[0;37m" . PHP_EOL
+        . "    \033[0;37m   in \033[0;33mconf/config.php\033[0;37m." . PHP_EOL . PHP_EOL
         . "\033[0;37mRead http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-cli-install.html"
         . " for more information." . PHP_EOL
         . PHP_EOL;

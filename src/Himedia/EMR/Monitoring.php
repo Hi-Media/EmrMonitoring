@@ -55,7 +55,7 @@ class Monitoring
         'ssh_options'       =>
             '-o ServerAliveInterval=10 -o StrictHostKeyChecking=no -o ConnectTimeout=5 -o BatchMode=yes',
         'shell'             => '/bin/bash',
-        'inc_dir'           => '/path/to/inc',
+        'inc_dir'           => '/path/to/inc'
     );
 
     /**
@@ -176,7 +176,7 @@ class Monitoring
 
                 // PigOutput & PigOutputSize
                 if (! empty($aPigParams['OUTPUT'])) {
-                    $sSize = $this->getS3ObjectSize($aPigParams['OUTPUT'] . '/part-r-*');
+                    $sSize = $this->getS3ObjectSize($aPigParams['OUTPUT'] . '/part-(m|r)-*');
                     $sPigOutputSize = ($sSize == '0' ? '–' : $sSize);
                 } else {
                     $sPigOutputSize = '–';
@@ -220,7 +220,7 @@ class Monitoring
             $sFolder = substr($sPigPattern, 0, strrpos($sPigPattern, '/')+1);
             $sPattern = str_replace(array('.', '*'), array('\.', '.*'), $sPigPattern);
             $sCmd = sprintf(
-                "s3cmd ls %s | grep '%s' | awk 'BEGIN {sum=0} {sum+=$3} END {printf(\"%%.3f\", sum/1024/1024)}'",
+                "s3cmd ls %s | grep -E '%s' | awk 'BEGIN {sum=0} {sum+=$3} END {printf(\"%%.3f\", sum/1024/1024)}'",
                 $sFolder,
                 $sPattern
             );
@@ -407,10 +407,11 @@ class Monitoring
      *
      * @param string $sJobFlowID jobflow id, e.g. 'j-3PEQM17A7419J'
      * @param array $aJob detailed description of a jobflow.
+     * @param string $sTmpPath
      * @see resources/job.log for the job array structure
      * @return array array($sSummary, $aErrorMsg, $aS3LogSteps, $iMaxTs, $iMaxNbTasks, $sGnuplotData)
      */
-    public function getLogSummary ($sJobFlowID, array $aJob)
+    public function getLogSummary ($sJobFlowID, array $aJob, $sTmpPath)
     {
         $sSummary = '';
         $aErrorMsg = array();
@@ -425,7 +426,7 @@ class Monitoring
             $aS3LogSteps = $this->exec($sCmd);
             if (count($aS3LogSteps) > 0) {
                 foreach ($aS3LogSteps as $sStepURI) {
-                    $sTmpFilename = '/tmp' . '/php-emr_' . md5(time().rand());
+                    $sTmpFilename = $sTmpPath . '/tmp-log-summary_' . md5(time().rand());
                     $sCmd = "s3cmd get '{$sStepURI}stderr' '$sTmpFilename'";
                     $this->exec($sCmd);
                     $sContent = file_get_contents($sTmpFilename);
@@ -457,13 +458,13 @@ class Monitoring
         $aRawResult = $this->exec($sCmd);
         $aLocalJobLogPaths = array();
         foreach ($aRawResult as $iIdx => $sS3JobLogPath) {
-            $sLocalJobLogPath = '/tmp' . '/php-emr_' . md5(time().rand()) . '_job' . ($iIdx+1);
+            $sLocalJobLogPath = $sTmpPath . '/log_job' . ($iIdx+1);
             $sCmd = "s3cmd get '$sS3JobLogPath' '$sLocalJobLogPath'";
             $this->exec($sCmd);
             $aLocalJobLogPaths[] = $sLocalJobLogPath;
         }
 
-        $sGnuplotData = '/tmp/gnuplot_result.csv';
+        $sGnuplotData = $sTmpPath . '/gnuplot_result.csv';
         if (count($aLocalJobLogPaths) > 0) {
             list($iMaxTs, $iMaxNbTasks) = $this->extractHistory($aLocalJobLogPaths, $sGnuplotData);
         }
@@ -505,18 +506,18 @@ class Monitoring
                 $sEvent = $aWords[0];
                 if ($sEvent == 'MapAttempt') {
                     $aAttrs = $this->parseAttributes($aWords[1]);
-                    if (isset($aAttrs['START_TIME'])) {
+                    if (! empty($aAttrs['START_TIME'])) {
                         $aMapStartTime[$aAttrs['TASKID']] = $this->timestampToInt($aAttrs['START_TIME']);
-                    } elseif (isset($aAttrs['FINISH_TIME'])) {
+                    } elseif (! empty($aAttrs['FINISH_TIME'])) {
                         $aMapEndTime[$aAttrs['TASKID']] = $this->timestampToInt($aAttrs['FINISH_TIME']);
                     }
                 } elseif ($sEvent == 'ReduceAttempt') {
                     $aAttrs = $this->parseAttributes($aWords[1]);
-                    if (isset($aAttrs['START_TIME'])) {
+                    if (! empty($aAttrs['START_TIME'])) {
                         $aReduceStartTime[$aAttrs['TASKID']] = $this->timestampToInt($aAttrs['START_TIME']);
-                    } elseif (isset($aAttrs['SHUFFLE_FINISHED'])
-                              && isset($aAttrs['SORT_FINISHED'])
-                              && isset($aAttrs['FINISH_TIME'])
+                    } elseif (! empty($aAttrs['SHUFFLE_FINISHED'])
+                              && ! empty($aAttrs['SORT_FINISHED'])
+                              && ! empty($aAttrs['FINISH_TIME'])
                     ) {
                         $aReduceShuffleTime[$aAttrs['TASKID']] = $this->timestampToInt($aAttrs['SHUFFLE_FINISHED']);
                         $aReduceSortTime[$aAttrs['TASKID']] = $this->timestampToInt($aAttrs['SORT_FINISHED']);
@@ -555,13 +556,17 @@ class Monitoring
             for ($t=$aReduceStartTime[$sReduce]; $t<$iMaxTime; $t++) {
                 $aShufflingReduces[$t] += 1;
             }
-            $iMaxTime = (isset($aReduceSortTime[$sReduce]) ? $aReduceSortTime[$sReduce] : $iEndTime);
-            for ($t=$aReduceShuffleTime[$sReduce]; $t<$iMaxTime; $t++) {
-                $aSortingReduces[$t] += 1;
+            if (isset($aReduceShuffleTime[$sReduce])) {
+                $iMaxTime = (isset($aReduceSortTime[$sReduce]) ? $aReduceSortTime[$sReduce] : $iEndTime);
+                for ($t=$aReduceShuffleTime[$sReduce]; $t<$iMaxTime; $t++) {
+                    $aSortingReduces[$t] += 1;
+                }
             }
-            $iMaxTime = (isset($aReduceEndTime[$sReduce]) ? $aReduceEndTime[$sReduce] : $iEndTime);
-            for ($t=$aReduceSortTime[$sReduce]; $t<$iMaxTime; $t++) {
-                $aRunningReduces[$t] += 1;
+            if (isset($aReduceSortTime[$sReduce])) {
+                $iMaxTime = (isset($aReduceEndTime[$sReduce]) ? $aReduceEndTime[$sReduce] : $iEndTime);
+                for ($t=$aReduceSortTime[$sReduce]; $t<$iMaxTime; $t++) {
+                    $aRunningReduces[$t] += 1;
+                }
             }
         }
 
@@ -626,12 +631,13 @@ class Monitoring
      *
      * @param string $sJobFlowID
      * @param array $aJob detailed description of the sspecified jobflow
+     * @param string $sTmpPath
      * @see resources/job.log for the job array structure
      * @return array list of all S3 input files really loaded by Hadoop instance of the completed $sJobFlowID.
      */
-    public function getHadoopInputFiles ($sJobFlowID, array $aJob)
+    public function getHadoopInputFiles ($sJobFlowID, array $aJob, $sTmpPath)
     {
-        $sTmpDirname = '/tmp' . '/php-emr_' . md5(time().rand());
+        $sTmpDirname = $sTmpPath . '/hadoop-input-files';
         $sLogURI = str_replace('s3n://', 's3://', $aJob['LogUri']);
         $sLogURITasks = $sLogURI . "$sJobFlowID/task-attempts";
         $sSyncCmd = "s3cmd sync"
@@ -639,10 +645,10 @@ class Monitoring
               . " --rinclude='_m(_[0-9]+)+(\.cleanup)?/syslog'"
               . " '$sLogURITasks' '$sTmpDirname'";
 
-        $sCmd = "mkdir '$sTmpDirname' && $sSyncCmd --dry-run | grep download | wc -l";
+        $sCmd = "mkdir -p '$sTmpDirname' && $sSyncCmd --dry-run | grep download | wc -l";
         $aResult = $this->exec($sCmd);
         $iNbS3LogFilesToDl = array_pop($aResult);
-        $this->oLogger->info("{C.comment}Nb of S3 files to download: $iNbS3LogFilesToDl");
+        $this->oLogger->info("{C.comment}Nb of S3 log files to download: $iNbS3LogFilesToDl");
 
         $this->exec($sSyncCmd);
 

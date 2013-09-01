@@ -17,10 +17,10 @@ set term pngcairo size 1200,800 enhanced
 set termoption dashed
 set encoding utf8
 set output output
-set title "{/*1.5 Task timeline}"
+set title sprintf("{/*2 Task timeline of “%s” jobflow}\n\n%s  |  %s  |  %s\nOther parameters: %s", name, jobflowid, size, instances, otherparameters) font ",9"
 set grid xtics ytics
 set xlabel "Elapsed time"
-set ylabel "Running tasks"
+set ylabel "Running tasks" offset 1.0,0.0
 set ytics nomirror
 set xdata time
 set format x "%Hh%M"

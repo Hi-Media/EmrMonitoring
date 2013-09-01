@@ -51,7 +51,7 @@ $ wget http://localhost:12345/jobtracker.jsp
 
 ### All that information is gathered in one screen
 
-An animation is better than a thousand words:
+An *animation* is better than a thousand words:
 
 ![Animated monitoring](doc/images/animated-monitoring.gif "Animated monitoring")
 
@@ -90,9 +90,13 @@ Error messages, if any, are always displayed:
 A task timeline is generated via [gnuplot](http://www.gnuplot.info/) including all jobs of **in progress or past jobflow**
 and giving details on number of mapper, shuffle, merge and reducer tasks.
 
-Animation from generated task timelines throughout jobflow run:
+*Animation* from generated task timelines throughout jobflow run:
 
 ![Animated task timeline](doc/images/animated-task-timeline.gif "Animated task timeline")
+
+Result with a completed jobflow *(click for full resolution image)*:
+
+[![Task timeline of a completed jobflow](doc/images/tasktimeline-mini.png "Task timeline of a completed jobflow")](doc/images/tasktimeline.png)
 
 ## Installing
 
@@ -114,6 +118,8 @@ Initialize configuration file from `conf/config-dist.php` and adapt it:
 ```bash
 $ cp '/usr/local/lib/emr-monitoring/conf/config-dist.php' '/usr/local/lib/emr-monitoring/conf/config.php'
 ```
+
+If Bash is not your default shell, then fill `$aConfig['Himedia\EMR']['shell']` whith your Bash interpreter path, *e.g.* `/bin/bash`.
 
 ### Dependencies
 
@@ -149,6 +155,7 @@ Read <http://getcomposer.org/doc/00-intro.md#installation-nix> for more informat
 
 [Amazon Elastic MapReduce Ruby Client](http://aws.amazon.com/developertools/2264) 
 is needed to get description of a jobflow.
+*Warning: it requires Ruby 1.8.7 and is not compatible with later versions of Ruby.*
 
 ![Dependency on EMR CLI](doc/images/dependency-emr-cli.png "Dependency on EMR CLI")
 
@@ -157,7 +164,7 @@ is needed to get description of a jobflow.
 To install Amazon EMR Command Line Interface:
 
 ```bash
-$ sudo apt-get install ruby-full
+$ sudo apt-get install ruby1.8-full
 $ mkdir /usr/local/lib/elastic-mapreduce-cli
 $ wget http://elasticmapreduce.s3.amazonaws.com/elastic-mapreduce-ruby.zip
 $ unzip -d /usr/local/lib/elastic-mapreduce-cli elastic-mapreduce-ruby.zip
@@ -171,6 +178,8 @@ Create a file named `/usr/local/lib/elastic-mapreduce-cli/credentials.json` with
     "key-pair-file": "The path and name of your PEM/private key file"
 }
 ```
+
+The `key-pair-file` key is especially used to open a SSH tunnel to the master node and consult Hadoop JobTracker.
 
 If necessary, adapt `emr_cli_bin`, `aws_access_key` and `aws_secret_key` keys 
 of `$aConfig['Himedia\EMR']` in `conf/config.php`.
@@ -264,6 +273,11 @@ Options
      
     --list-input-files
         With -j, list all S3 input files really loaded by Hadoop instance of the completed <jobflowid>.
+        Disable --json.
+        
+    --json
+        With -j, convert statistics to JSON format.
+        Overridden by --list-input-files.
      
     -p, --ssh-tunnel-port <port>
         With -j, specify the <port> used to establish a connection to the master node and retrieve data 
