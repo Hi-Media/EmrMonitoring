@@ -26,7 +26,8 @@ $aDirs = array(
     'src_dir'    => $sRootDir . '/src',
     'class_dir'  => $sRootDir . '/src/class',
     'inc_dir'    => $sRootDir . '/src/inc',
-    'vendor_dir' => $sRootDir . '/vendor'
+    'vendor_dir' => $sRootDir . '/vendor',
+    'tmp_dir'    => '/tmp'
 );
 
 $aConfig = $aDirs + array(

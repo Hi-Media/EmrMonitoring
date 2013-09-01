@@ -73,15 +73,19 @@ class Controller
         } elseif (! empty($aParameters['list-all-jobflows'])) {
             $this->displayAllJobs();
         } elseif (! empty($aParameters['jobflow-id'])) {
+            $sTmpPath = $this->aConfig['tmp_dir'] . '/emr-monitoring_'
+                      . $aParameters['jobflow-id'] . '_'
+                      . date('Ymd-His') . '_'
+                      . str_pad(rand(1, 99999), 5, 0, STR_PAD_LEFT);
             if (! isset($aParameters['ssh-tunnel-port'])) {
                 $aParameters['ssh-tunnel-port'] = $this->aConfig['Himedia\EMR']['default_ssh_tunnel_port'];
             }
             if (isset($aParameters['list-input-files'])) {
-                $this->displayHadoopInputFiles($aParameters);
+                $this->displayHadoopInputFiles($aParameters, $sTmpPath);
             } elseif (isset($aParameters['json'])) {
                 $this->displayJsonJobFlow($aParameters);
             } else {
-                $this->displayJobFlow($aParameters);
+                $this->displayJobFlow($aParameters, $sTmpPath);
             }
         } else {
             $this->oRendering->displayHelp();
@@ -101,13 +105,14 @@ class Controller
      * List all S3 input files really loaded by Hadoop instance of a completed <jobflowid>.
      *
      * @param array $aParameters command line parameters
+     * @param string $sTmpPath
      */
-    private function displayHadoopInputFiles(array $aParameters)
+    private function displayHadoopInputFiles(array $aParameters, $sTmpPath)
     {
         $sJobflowId = $aParameters['jobflow-id'];
         $iSSHTunnelPort = (int)$aParameters['ssh-tunnel-port'];
         $aJob = $this->oMonitoring->getJobFlow($sJobflowId, $iSSHTunnelPort);
-        $aInputFiles = $this->oMonitoring->getHadoopInputFiles($sJobflowId, $aJob);
+        $aInputFiles = $this->oMonitoring->getHadoopInputFiles($sJobflowId, $aJob, $sTmpPath);
         $this->oRendering->displayHadoopInputFiles($aInputFiles);
     }
 
@@ -115,8 +120,9 @@ class Controller
      * Display statistics on any <jobflowid>, finished or in progress.
      *
      * @param array $aParameters command line parameters
+     * @param string $sTmpPath
      */
-    private function displayJobFlow (array $aParameters)
+    private function displayJobFlow (array $aParameters, $sTmpPath)
     {
         $sJobflowId = $aParameters['jobflow-id'];
         $iSSHTunnelPort = (int)$aParameters['ssh-tunnel-port'];
@@ -127,7 +133,7 @@ class Controller
         $this->oRendering->displayJobSteps($aJob);
 
         list($sRawSummary, $aErrorMsg, $aS3LogSteps, $iMaxTs, $iMaxNbTasks, $sGnuplotData)
-            = $this->oMonitoring->getLogSummary($sJobflowId, $aJob);
+            = $this->oMonitoring->getLogSummary($sJobflowId, $aJob, $sTmpPath);
         $this->oRendering->displayJobSummary(
             $aJob,
             $sRawSummary,
@@ -136,7 +142,8 @@ class Controller
             $iMaxTs,
             $iMaxNbTasks,
             $sGnuplotData,
-            $this->aConfig['inc_dir'] . '/plot.script'
+            $this->aConfig['inc_dir'] . '/plot.script',
+            $sTmpPath
         );
         echo PHP_EOL;
     }
