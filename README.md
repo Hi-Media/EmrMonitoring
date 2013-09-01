@@ -273,6 +273,11 @@ Options
      
     --list-input-files
         With -j, list all S3 input files really loaded by Hadoop instance of the completed <jobflowid>.
+        Disable --json.
+        
+    --json
+        With -j, convert statistics to JSON format.
+        Overridden by --list-input-files.
      
     -p, --ssh-tunnel-port <port>
         With -j, specify the <port> used to establish a connection to the master node and retrieve data 
