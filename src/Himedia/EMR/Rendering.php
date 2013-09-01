@@ -463,7 +463,7 @@ class Rendering
      * Example of rendering:
      * <pre>
      * Summary
-     *     Task timeline: /tmp/php-emr_71f1a752e74c69d14732626c2276b3a8_tasktimeline.png
+     *     Task timeline: /tmp/…/tasktimeline.png
      *     Job Stats (time in seconds)
      *         JobId                  #,Min/Avg/Max Maps  #,Min/Avg/Max Reduces  Alias      Feature            Outputs
      *         job_201306060840_0001  120,27/246/356      20,294/305/351         A,B,C,D,E  GROUP_BY,COMBINER  …
@@ -479,6 +479,7 @@ class Rendering
      * @param int $iMaxNbTasks max number of effective simultaneous tasks
      * @param string $sGnuplotData path to CSV file containing data for gnuplot
      * @param string $sGnuplotScript gnuplot script to execute
+     * @param string $sTmpPath
      */
     public function displayJobSummary (
         array $aJob,
@@ -488,7 +489,8 @@ class Rendering
         $iMaxTs,
         $iMaxNbTasks,
         $sGnuplotData,
-        $sGnuplotScript
+        $sGnuplotScript,
+        $sTmpPath
     ) {
         $this->oLogger->info('{C.subsection}Summary+++');
 
@@ -525,7 +527,7 @@ class Rendering
 
             $iMaxTSWithMargin = round($iMaxTs*1.01);
             $iMaxNbTasksWMargin = 5*(floor($iMaxNbTasks*1.12/5) + 1);
-            $sOutput = '/tmp/php-emr_' . md5(time().rand()) . '_tasktimeline.png';
+            $sOutput = $sTmpPath . '/tasktimeline.png';
             $sJobflowName = str_replace('_', '\_', $aJob['Name']);
             $iJobflowId = $aJob['JobFlowId'];
             $sCmd = "gnuplot -e \"csv='$sGnuplotData'; output='$sOutput'\""
