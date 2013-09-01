@@ -55,7 +55,7 @@ if (! file_exists($aConfig['vendor_dir'] . '/autoload.php')) {
 // Check EMR CLI
 $sEMRBin = $aConfig['Himedia\EMR']['emr_cli_bin'];
 $sCmd = "which '$sEMRBin' 1>/dev/null 2>&1 && echo 'OK' || echo 'NOK'";
-if (exec($sCmd) != 'OKcc') {
+if (exec($sCmd) != 'OK') {
     echo "\033[1m\033[4;33m/!\\\033[0;37m "
         . "\033[0;31mThe Amazon EMR Command Line Interface is missing!" . PHP_EOL
         . "    \033[0;37mSearch for this bin: '$sEMRBin'" . PHP_EOL . PHP_EOL

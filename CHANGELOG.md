@@ -1,6 +1,23 @@
 ChangeLog
 =========
 
+## Version 1.6.0 (2013-09-01)
+
+Fixes:
+
+  - [#12](https://github.com/Hi-Media/EmrMonitoring/issues/12) Task timeline not generated and excessive memory consumption
+  - [#11](https://github.com/Hi-Media/EmrMonitoring/issues/11) Output size improperly calculated when only part-m-xxxxx
+
+Features:
+
+  - [#6](https://github.com/Hi-Media/EmrMonitoring/issues/6) Add jobflowid and timestamp in temporary generated filenames
+  - [#3](https://github.com/Hi-Media/EmrMonitoring/issues/3) Add jobflow ID and some parameter values to gnuplot graph
+
+Doc:
+
+  - [#9](https://github.com/Hi-Media/EmrMonitoring/issues/9) Licensed under the Apache License 2.0
+  - [#7](https://github.com/Hi-Media/EmrMonitoring/issues/7) Comment config file
+
 ## Version 1.5.0 (2013-06-22)
 
 Features:
