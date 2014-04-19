@@ -97,12 +97,13 @@ class Monitoring
     }
 
     /**
-     * Returns detailed description of the specified jobflow.
+     * Returns detailed description of the specified jobflow, or empty array if job is unknown.
      *
      * @param string $sJobFlowID jobflow id, e.g. 'j-3PEQM17A7419J'
      * @param string $sSSHTunnelPort port used to establish a connection to the master node
      * and retrieve data from the Hadoop jobtracker
-     * @return array detailed description of the specified jobflow, see resources/job.log for the job array structure
+     * @return array detailed description of the specified jobflow, see resources/job.log for the job array structure,
+     * or empty array if job is unknown.
      * @see resources/job.log for the returned job array structure
      */
     public function getJobFlow ($sJobFlowID, $sSSHTunnelPort)
@@ -113,90 +114,96 @@ class Monitoring
               . " --describe --jobflow $sJobFlowID";
         $aRawResult = $this->exec($sCmd);
         $aDesc = json_decode(implode("\n", $aRawResult), true);
-        $aJob = $aDesc['JobFlows'][0];
-        $this->computeElapsedTimes($aJob['ExecutionStatusDetail']);
+        if (count($aDesc['JobFlows']) == 0) {
+            $aJob = array();
+        } else {
+            $aJob = $aDesc['JobFlows'][0];
+            $this->computeElapsedTimes($aJob['ExecutionStatusDetail']);
 
-        $aJob['Instances']['MaxTotalPrice'] = 0;
-        foreach ($aJob['Instances']['InstanceGroups'] as $iIdx => $aJobIGroup) {
-            $sRegion = substr($aJob['Instances']['Placement']['AvailabilityZone'], 0, -1);
-            list($sInstanceType, $sSize) = explode('.', $aJobIGroup['InstanceType']);
-            $fPrice = $this->oEMRInstancePrices->getUSDPrice($sRegion, $sInstanceType, $sSize);
-            $aJob['Instances']['InstanceGroups'][$iIdx]['OnDemandPrice'] = $fPrice;
+            $aJob['Instances']['MaxTotalPrice'] = 0;
+            foreach ($aJob['Instances']['InstanceGroups'] as $iIdx => $aJobIGroup) {
+                $sRegion = substr($aJob['Instances']['Placement']['AvailabilityZone'], 0, -1);
+                list($sInstanceType, $sSize) = explode('.', $aJobIGroup['InstanceType']);
+                $fPrice = $this->oEMRInstancePrices->getUSDPrice($sRegion, $sInstanceType, $sSize);
+                $aJob['Instances']['InstanceGroups'][$iIdx]['OnDemandPrice'] = $fPrice;
 
-            if ($aJobIGroup['Market'] == 'SPOT') {
-                $sZone = $aJob['Instances']['Placement']['AvailabilityZone'];
-                try {
-                    $fPrice = $this->getSpotInstanceCurrentPricing($aJobIGroup['InstanceType'], $sZone);
-                    $aJob['Instances']['InstanceGroups'][$iIdx]['AskPriceError'] = null;
-                } catch (\RuntimeException $oException) {
-                    $fPrice = 0;
-                    $aJob['Instances']['InstanceGroups'][$iIdx]['AskPriceError'] = $oException;
-                }
-                $aJob['Instances']['InstanceGroups'][$iIdx]['AskPrice'] = $fPrice;
-                $fPrice = min($fPrice, $aJob['Instances']['InstanceGroups'][$iIdx]['OnDemandPrice']);
-            }
-
-            $this->computeElapsedTimes($aJob['Instances']['InstanceGroups'][$iIdx]);
-            if (! empty($aJob['Instances']['InstanceGroups'][$iIdx]['ElapsedTimeToEndDateTime']) && ! empty($fPrice)) {
-                $iRoundedHours = ceil($aJob['Instances']['InstanceGroups'][$iIdx]['ElapsedTimeToEndDateTime']/3600);
-                $aJob['Instances']['MaxTotalPrice'] += $iRoundedHours*$fPrice*$aJobIGroup['InstanceRequestCount'];
-            }
-        }
-
-        foreach ($aJob['Steps'] as $iKey => $aJobStep) {
-            $this->computeElapsedTimes($aJob['Steps'][$iKey]['ExecutionStatusDetail']);
-            if ($aJobStep['StepConfig']['Name'] == 'Run Pig Script') {
-
-                $aArgs = $aJobStep['StepConfig']['HadoopJarStep']['Args'];
-                $sArgs = implode(', ', $aArgs);
-
-                // PigScript
-                preg_match('/, -f, ([^,]+)/i', $sArgs, $aMatches);
-                $aJob['Steps'][$iKey]['PigScript'] = $aMatches[1];
-
-                // Extract Pig parameters
-                preg_match_all("/, -p, ([A-Za-z_-]+)=('[^']+'|[^'][^,]+)/i", $sArgs, $aMatches, PREG_SET_ORDER);
-                $aPigParams = array('INPUT' => '', 'OUTPUT' => '');
-                foreach ($aMatches as $aMatch) {
-                    if (substr($aMatch[2], 0, 1) == "'") {
-                        $aMatch[2] = substr($aMatch[2], 1, -1);
+                if ($aJobIGroup['Market'] == 'SPOT') {
+                    $sZone = $aJob['Instances']['Placement']['AvailabilityZone'];
+                    try {
+                        $fPrice = $this->getSpotInstanceCurrentPricing($aJobIGroup['InstanceType'], $sZone);
+                        $aJob['Instances']['InstanceGroups'][$iIdx]['AskPriceError'] = null;
+                    } catch (\RuntimeException $oException) {
+                        $fPrice = 0;
+                        $aJob['Instances']['InstanceGroups'][$iIdx]['AskPriceError'] = $oException;
                     }
-                    $aPigParams[$aMatch[1]] = $aMatch[2];
+                    $aJob['Instances']['InstanceGroups'][$iIdx]['AskPrice'] = $fPrice;
+                    $fPrice = min($fPrice, $aJob['Instances']['InstanceGroups'][$iIdx]['OnDemandPrice']);
                 }
 
-                // PigInput & PigInputSize
-                if (! empty($aPigParams['INPUT'])) {
-                    $sSize = $this->getS3ObjectSize($aPigParams['INPUT']);
-                    $sPigInputSize = ($sSize == '0' ? '–' : $sSize);
-                } else {
-                    $sPigInputSize = '–';
+                $this->computeElapsedTimes($aJob['Instances']['InstanceGroups'][$iIdx]);
+                if (! empty($aJob['Instances']['InstanceGroups'][$iIdx]['ElapsedTimeToEndDateTime'])
+                    && ! empty($fPrice)
+                ) {
+                    $iRoundedHours = ceil($aJob['Instances']['InstanceGroups'][$iIdx]['ElapsedTimeToEndDateTime']/3600);
+                    $aJob['Instances']['MaxTotalPrice'] += $iRoundedHours*$fPrice*$aJobIGroup['InstanceRequestCount'];
                 }
-                $aJob['Steps'][$iKey]['PigInput'] = $aPigParams['INPUT'];
-                $aJob['Steps'][$iKey]['PigInputSize'] = $sPigInputSize;
+            }
 
-                // PigOutput & PigOutputSize
-                if (! empty($aPigParams['OUTPUT'])) {
-                    $sSize = $this->getS3ObjectSize($aPigParams['OUTPUT'] . '/part-(m|r)-*');
-                    $sPigOutputSize = ($sSize == '0' ? '–' : $sSize);
-                } else {
-                    $sPigOutputSize = '–';
-                }
-                $aJob['Steps'][$iKey]['PigOutput'] = $aPigParams['OUTPUT'];
-                $aJob['Steps'][$iKey]['PigOutputSize'] = $sPigOutputSize;
+            foreach ($aJob['Steps'] as $iKey => $aJobStep) {
+                $this->computeElapsedTimes($aJob['Steps'][$iKey]['ExecutionStatusDetail']);
+                if ($aJobStep['StepConfig']['Name'] == 'Run Pig Script') {
 
-                // Save others parameters
-                unset($aPigParams['INPUT']);
-                unset($aPigParams['OUTPUT']);
-                $aJob['Steps'][$iKey]['PigOtherParameters'] = $aPigParams;
+                    $aArgs = $aJobStep['StepConfig']['HadoopJarStep']['Args'];
+                    $sArgs = implode(', ', $aArgs);
 
-                // ClusterSummary & SubJobsSummary
-                if ($aJobStep['ExecutionStatusDetail']['State'] == 'RUNNING') {
-                    $this->openSSHTunnel($aJob, $sSSHTunnelPort);
-                    list($aClusterSummary, $aSubJobsSummary, $sError) =
-                        $this->getHadoopJobTrackerContent($sSSHTunnelPort);
-                    $aJob['Steps'][$iKey]['ClusterSummary'] = $aClusterSummary;
-                    $aJob['Steps'][$iKey]['SubJobsSummary'] = $aSubJobsSummary;
-                    $aJob['Steps'][$iKey]['Error'] = $sError;
+                    // PigScript
+                    preg_match('/, -f, ([^,]+)/i', $sArgs, $aMatches);
+                    $aJob['Steps'][$iKey]['PigScript'] = $aMatches[1];
+
+                    // Extract Pig parameters
+                    preg_match_all("/, -p, ([A-Za-z_-]+)=('[^']+'|[^'][^,]+)/i", $sArgs, $aMatches, PREG_SET_ORDER);
+                    $aPigParams = array('INPUT' => '', 'OUTPUT' => '');
+                    foreach ($aMatches as $aMatch) {
+                        if (substr($aMatch[2], 0, 1) == "'") {
+                            $aMatch[2] = substr($aMatch[2], 1, -1);
+                        }
+                        $aPigParams[$aMatch[1]] = $aMatch[2];
+                    }
+
+                    // PigInput & PigInputSize
+                    if (! empty($aPigParams['INPUT'])) {
+                        $sSize = $this->getS3ObjectSize($aPigParams['INPUT']);
+                        $sPigInputSize = ($sSize == '0' ? '–' : $sSize);
+                    } else {
+                        $sPigInputSize = '–';
+                    }
+                    $aJob['Steps'][$iKey]['PigInput'] = $aPigParams['INPUT'];
+                    $aJob['Steps'][$iKey]['PigInputSize'] = $sPigInputSize;
+
+                    // PigOutput & PigOutputSize
+                    if (! empty($aPigParams['OUTPUT'])) {
+                        $sSize = $this->getS3ObjectSize($aPigParams['OUTPUT'] . '/part-(m|r)-*');
+                        $sPigOutputSize = ($sSize == '0' ? '–' : $sSize);
+                    } else {
+                        $sPigOutputSize = '–';
+                    }
+                    $aJob['Steps'][$iKey]['PigOutput'] = $aPigParams['OUTPUT'];
+                    $aJob['Steps'][$iKey]['PigOutputSize'] = $sPigOutputSize;
+
+                    // Save others parameters
+                    unset($aPigParams['INPUT']);
+                    unset($aPigParams['OUTPUT']);
+                    $aJob['Steps'][$iKey]['PigOtherParameters'] = $aPigParams;
+
+                    // ClusterSummary & SubJobsSummary
+                    if ($aJobStep['ExecutionStatusDetail']['State'] == 'RUNNING') {
+                        $this->openSSHTunnel($aJob, $sSSHTunnelPort);
+                        list($aClusterSummary, $aSubJobsSummary, $sError) =
+                            $this->getHadoopJobTrackerContent($sSSHTunnelPort);
+                        $aJob['Steps'][$iKey]['ClusterSummary'] = $aClusterSummary;
+                        $aJob['Steps'][$iKey]['SubJobsSummary'] = $aSubJobsSummary;
+                        $aJob['Steps'][$iKey]['Error'] = $sError;
+                    }
                 }
             }
         }

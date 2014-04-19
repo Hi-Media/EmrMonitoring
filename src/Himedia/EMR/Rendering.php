@@ -146,6 +146,16 @@ class Rendering
     }
 
     /**
+     * Display error message about unkown job flow id.
+     *
+     * @param string $sJobflowId jobflow id, e.g. 'j-3PEQM17A7419J'
+     */
+    public function displayUnkownJob ($sJobflowId)
+    {
+        $this->oLogger->error("Unkown job flow id: $sJobflowId");
+    }
+
+    /**
      * Display general status of the specified job:
      * master public DNS name, log URI, zone, normalized hours, status, init/start/end date.
      *
