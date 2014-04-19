@@ -2,9 +2,6 @@
 
 namespace Himedia\EMR;
 
-use Himedia\EMR\Monitoring;
-use Himedia\EMR\Rendering;
-
 /**
  * Unique controller.
  *
@@ -127,24 +124,28 @@ class Controller
         $sJobflowId = $aParameters['jobflow-id'];
         $iSSHTunnelPort = (int)$aParameters['ssh-tunnel-port'];
         $aJob = $this->oMonitoring->getJobFlow($sJobflowId, $iSSHTunnelPort);
-        $this->oRendering->displayJobName($aJob['Name']);
-        $this->oRendering->displayJobGeneralStatus($aJob);
-        $this->oRendering->displayJobInstances($aJob);
-        $this->oRendering->displayJobSteps($aJob);
+        if (empty($aJob)) {
+            $this->oRendering->displayUnkownJob($sJobflowId);
+        } else {
+            $this->oRendering->displayJobName($aJob['Name']);
+            $this->oRendering->displayJobGeneralStatus($aJob);
+            $this->oRendering->displayJobInstances($aJob);
+            $this->oRendering->displayJobSteps($aJob);
 
-        list($sRawSummary, $aErrorMsg, $aS3LogSteps, $iMaxTs, $iMaxNbTasks, $sGnuplotData)
-            = $this->oMonitoring->getLogSummary($sJobflowId, $aJob, $sTmpPath);
-        $this->oRendering->displayJobSummary(
-            $aJob,
-            $sRawSummary,
-            $aErrorMsg,
-            $aS3LogSteps,
-            $iMaxTs,
-            $iMaxNbTasks,
-            $sGnuplotData,
-            $this->aConfig['inc_dir'] . '/plot.script',
-            $sTmpPath
-        );
+            list($sRawSummary, $aErrorMsg, $aS3LogSteps, $iMaxTs, $iMaxNbTasks, $sGnuplotData)
+                = $this->oMonitoring->getLogSummary($sJobflowId, $aJob, $sTmpPath);
+            $this->oRendering->displayJobSummary(
+                $aJob,
+                $sRawSummary,
+                $aErrorMsg,
+                $aS3LogSteps,
+                $iMaxTs,
+                $iMaxNbTasks,
+                $sGnuplotData,
+                $this->aConfig['inc_dir'] . '/plot.script',
+                $sTmpPath
+            );
+        }
         echo PHP_EOL;
     }
 
@@ -159,6 +160,7 @@ class Controller
         $iSSHTunnelPort = (int)$aParameters['ssh-tunnel-port'];
         $aJob = $this->oMonitoring->getJobFlow($sJobflowId, $iSSHTunnelPort);
         if (! empty($aParameters['accumulator-logger'])) {
+            /* @var $oLogger AccumulatorLogger */
             $oLogger = $aParameters['accumulator-logger'];
             $aJob['DebugMessages'] = $oLogger->getAccumulatedMessages();
         }
