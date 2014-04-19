@@ -2,9 +2,6 @@
 
 namespace Himedia\EMR;
 
-use Himedia\EMR\Monitoring;
-use Himedia\EMR\Rendering;
-
 /**
  * Unique controller.
  *
@@ -163,6 +160,7 @@ class Controller
         $iSSHTunnelPort = (int)$aParameters['ssh-tunnel-port'];
         $aJob = $this->oMonitoring->getJobFlow($sJobflowId, $iSSHTunnelPort);
         if (! empty($aParameters['accumulator-logger'])) {
+            /* @var $oLogger AccumulatorLogger */
             $oLogger = $aParameters['accumulator-logger'];
             $aJob['DebugMessages'] = $oLogger->getAccumulatedMessages();
         }

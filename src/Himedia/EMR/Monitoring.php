@@ -100,13 +100,13 @@ class Monitoring
      * Returns detailed description of the specified jobflow, or empty array if job is unknown.
      *
      * @param string $sJobFlowID jobflow id, e.g. 'j-3PEQM17A7419J'
-     * @param string $sSSHTunnelPort port used to establish a connection to the master node
+     * @param int $iSSHTunnelPort port used to establish a connection to the master node
      * and retrieve data from the Hadoop jobtracker
      * @return array detailed description of the specified jobflow, see resources/job.log for the job array structure,
      * or empty array if job is unknown.
      * @see resources/job.log for the returned job array structure
      */
-    public function getJobFlow ($sJobFlowID, $sSSHTunnelPort)
+    public function getJobFlow ($sJobFlowID, $iSSHTunnelPort)
     {
         $sCmd = $this->aConfig['emr_cli_bin']
               . ' --access-id ' . $this->aConfig['aws_access_key']
@@ -197,9 +197,9 @@ class Monitoring
 
                     // ClusterSummary & SubJobsSummary
                     if ($aJobStep['ExecutionStatusDetail']['State'] == 'RUNNING') {
-                        $this->openSSHTunnel($aJob, $sSSHTunnelPort);
+                        $this->openSSHTunnel($aJob, $iSSHTunnelPort);
                         list($aClusterSummary, $aSubJobsSummary, $sError) =
-                            $this->getHadoopJobTrackerContent($sSSHTunnelPort);
+                            $this->getHadoopJobTrackerContent($iSSHTunnelPort);
                         $aJob['Steps'][$iKey]['ClusterSummary'] = $aClusterSummary;
                         $aJob['Steps'][$iKey]['SubJobsSummary'] = $aSubJobsSummary;
                         $aJob['Steps'][$iKey]['Error'] = $sError;
@@ -220,6 +220,7 @@ class Monitoring
      * @see http://pig.apache.org/docs/r0.7.0/piglatin_ref2.html#LOAD
      * @see http://hadoop.apache.org/docs/current/api/org/apache/hadoop/fs/FileSystem.html \
      *      #globStatus(org.apache.hadoop.fs.Path)
+     * @return string size in bytes of S3 objects concerned by the specified $sPigPattern.
      */
     private function getS3ObjectSize ($sPigPattern)
     {
@@ -276,19 +277,20 @@ class Monitoring
     /**
      * Retrieves content of the Hadoop jobtracker running on the master node.
      *
-     * @param $sSSHTunnelPort port used to establish a connection to the master node
+     * @param int $iSSHTunnelPort port used to establish a connection to the master node
      * and retrieve data from the Hadoop jobtracker
      * @return array ($aClusterSummary, $aSubJobsSummary, $sError)
      */
-    private function getHadoopJobTrackerContent ($sSSHTunnelPort)
+    private function getHadoopJobTrackerContent ($iSSHTunnelPort)
     {
         $aClusterSummary = array();
         $aSubJobsSummary = array();
         $sError = '';
+        $sHtmlContent = '';
 
         $oDomDoc = new \DOMDocument();
         try {
-            $sHtmlContent = file_get_contents("http://localhost:$sSSHTunnelPort/jobtracker.jsp");
+            $sHtmlContent = file_get_contents("http://localhost:$iSSHTunnelPort/jobtracker.jsp");
         } catch (\ErrorException $oException) {
             $sError = $oException->getMessage();
         }
@@ -452,10 +454,8 @@ class Monitoring
             }
         }
 
-        $aLocalJobLogPaths = array();
         $iMaxTs = 0;
         $iMaxNbTasks = 0;
-        $sGnuplotData = '';
 
         // Get raw job logs
         $sLogURIJobs = $sLogURI . "$sJobFlowID/jobs/";
@@ -609,7 +609,7 @@ class Monitoring
     /**
      * Converts timestamps of XML files into s3://logURI/<sJobFlowID>/jobs/ into Unix timestamps
      *
-     * @param string timestamps with 13 characters
+     * @param string $sTs with 13 characters
      * @return int Unix timestamp (10 digits)
      * @see extractHistory()
      */
