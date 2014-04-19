@@ -195,7 +195,7 @@ class Rendering
         $fMaxTotalPrice = $aJob['Instances']['MaxTotalPrice'];
         $sMsg = str_pad('Norm. hours, price: ', 23, ' ')
               . (empty($sNormInstanceHours) ? '–' : $sNormInstanceHours .'h')
-              . ', {C.price}' . ($fMaxTotalPrice == 0 ? '–' : '≤ $' . $fMaxTotalPrice);
+              . ', {C.price}' . ($fMaxTotalPrice == 0 ? '–' : '≤ $' . $fMaxTotalPrice) . ' (EC2+EMR)';
         $this->oLogger->info($sMsg);
         $this->displayStatusAndDates($aJob['ExecutionStatusDetail']);
 
@@ -270,7 +270,7 @@ class Rendering
      * <pre>
      * Instances
      *     Master Instance Group
-     *         Detail:                MASTER, ON_DEMAND, 0/1 m1.xlarge, $0.6 /h/instance
+     *         Detail:                MASTER, ON_DEMAND, 0/1 m1.xlarge, $0.6 /h/instance (EC2+EMR)
      *         Status:                ENDED, Job flow terminated
      *         Init/start/end date:   2013-06-10 13:06:39  /  2013-06-10 13:10:00 (+00:03:21)
      *                                                     /  2013-06-10 13:13:43 (+00:03:43)
@@ -303,11 +303,15 @@ class Rendering
                 }
             }
             if ($sMarket == 'SPOT') {
-                $fPrice = 'bid:$' . $aJobIGroup['BidPrice'] . ' ask:' . $sAskPrice;
-            } elseif (! empty($aJobIGroup['OnDemandPrice'])) {
-                $fPrice = '$' . $aJobIGroup['OnDemandPrice'];
+                $fPrice = 'bid:$' . $aJobIGroup['BidPrice'] . ' ask:' . $sAskPrice
+                        . ' EMR:$' . $aJobIGroup['EMRPrice'];
+                $sInfo = '';
+            } elseif (! empty($aJobIGroup['EC2Price'])) {
+                $fPrice = '$' . ($aJobIGroup['EC2Price'] + $aJobIGroup['EMRPrice']);
+                $sInfo = ' (EC2+EMR)';
             } else {
                 $fPrice = '';
+                $sInfo = '';
             }
 
             $sMsg = $aJobIGroup['InstanceRunningCount'] . '/' . $aJobIGroup['InstanceRequestCount'];
@@ -318,6 +322,7 @@ class Rendering
                 . '{C.' . $this->getColorAccordingToRatio($fRatio) . '}' . $sMsg
                 . '{C.info} ' . $aJobIGroup['InstanceType']
                 . ', {C.price}' . (empty($fPrice) ? '–' : $fPrice . ' /h/instance')
+                . $sInfo
             );
             if (isset($aJobIGroup['AskPriceError']) && $aJobIGroup['AskPriceError'] instanceof \RuntimeException) {
                 $sMsg = 'Error when fetching spot instance pricing!'

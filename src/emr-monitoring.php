@@ -26,7 +26,7 @@ use Himedia\EMR\EMRInstancePrices;
 use Himedia\EMR\Monitoring;
 use Himedia\EMR\Rendering;
 use Psr\Log\LogLevel;
-use Ulrichsg\Getopt;
+use Ulrichsg\Getopt\Getopt;
 
 require(dirname(__FILE__) . '/inc/bootstrap.php');
 
