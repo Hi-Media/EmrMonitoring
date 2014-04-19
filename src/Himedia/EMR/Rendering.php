@@ -146,6 +146,16 @@ class Rendering
     }
 
     /**
+     * Display error message about unkown job flow id.
+     *
+     * @param string $sJobflowId jobflow id, e.g. 'j-3PEQM17A7419J'
+     */
+    public function displayUnkownJob ($sJobflowId)
+    {
+        $this->oLogger->error("Unkown job flow id: $sJobflowId");
+    }
+
+    /**
      * Display general status of the specified job:
      * master public DNS name, log URI, zone, normalized hours, status, init/start/end date.
      *
@@ -238,10 +248,11 @@ class Rendering
     }
 
     /**
-     * Display colored status of a jobflow, an instance or a step.
+     * Return colored message about status of a jobflow, an instance or a step.
      *
      * @param string $sStatus
      * @param string $sStateChangeReason
+     * @return string colored message about status of a jobflow, an instance or a step.
      * @see $aStatusColors
      */
     private function getColoredStatus ($sStatus, $sStateChangeReason)
@@ -338,7 +349,7 @@ class Rendering
             3 => 'discreet_ok',
             4 => 'ok'
         );
-        return $aColors[floor($fRatio / 0.25)];
+        return $aColors[(int)floor($fRatio / 0.25)];
     }
 
     /**
@@ -471,7 +482,7 @@ class Rendering
      *         (job_201306060840_) 0001
      * </pre>
      *
-     * @param array see $aJob resources/job.log for the job array structure
+     * @param array $aJob resources/job.log for the job array structure
      * @param string $sRawSummary content of job stats section of s3://path/to/steps/stderr files
      * @param array $aErrorsMsg list of error messages (string)
      * @param array $aS3LogSteps list of s3://path/to/steps/stderr pathes
