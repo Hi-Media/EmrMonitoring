@@ -46,7 +46,7 @@ class AccumulatorLogger extends AbstractLogger
     /**
      * Constructor.
      *
-     * @param string $iMinMsgLevel threshold required to log message, must be defined in \Psr\Log\LogLevel
+     * @param string $sMinMsgLevel threshold required to log message, must be defined in \Psr\Log\LogLevel
      * @throws \Psr\Log\InvalidArgumentException if calling this method with a level not defined in \Psr\Log\LogLevel
      */
     public function __construct ($sMinMsgLevel = LogLevel::DEBUG)
@@ -62,6 +62,7 @@ class AccumulatorLogger extends AbstractLogger
      * @param string $sMessage message with placeholders
      * @param array $aContext context array
      * @throws \Psr\Log\InvalidArgumentException if calling this method with a level not defined in \Psr\Log\LogLevel
+     * @return null|void
      */
     public function log ($sMsgLevel, $sMessage, array $aContext = array())
     {

@@ -33,46 +33,7 @@ class EMRInstancePrices
      * @var array
      */
     private static $aDefaultConfig = array(
-        'pricing_emr_json_url' => 'http://aws.amazon.com/elasticmapreduce/pricing/pricing-emr.json',
-    );
-
-    /**
-     * List of EC2 instance types with mapping between JSON name and official name.
-     * @var array
-     */
-    private static $aInstanceTypeMapping = array(
-        'clustercompresi' => 'cc1',
-        'clustercomputei' => 'cc1',
-        'clustergpui' => 'cg1',
-        'clustergpuresi' => 'cg1',
-        'hicpuodi' => 'c1',
-        'hicpuresi' => 'c1',
-        'hiioodi' => 'hi1',
-        'hiioresi' => 'hi1',
-        'himemodi' => 'm2',
-        'himemresi' => 'm2',
-        'historeodi' => 'hs1',
-        'stdodi' => 'm1',
-        'stdresi' => 'm1',
-        'uodi' => 't1',
-        'uresi' => 't1',
-        'secgenstdodi' => 'm3',
-        'secgenstdresi' => 'm3'
-    );
-
-    /**
-     * List of EC2 instance sizes with mapping between JSON name and official name.
-     * @var array
-     */
-    private static $aInstanceSizeMapping = array(
-        'lg' => 'large',
-        'med' => 'medium',
-        'sm' => 'small',
-        'u' => 'micro',
-        'xl' => 'xlarge',
-        'xxl' => '2xlarge',
-        'xxxxl' => '4xlarge',
-        'xxxxxxxxl' => '8xlarge'
+        'pricing_emr_json_url' => 'https://a0.awsstatic.com/pricing/1/emr/pricing-emr.min.js',
     );
 
     /**
@@ -131,62 +92,74 @@ class EMRInstancePrices
     private function loadData ()
     {
         if (count($this->aData) == 0) {
-            $sUrl = $this->aConfig['pricing_emr_json_url'];
-            $aData = json_decode(file_get_contents($sUrl), true);
+            $sURL = $this->aConfig['pricing_emr_json_url'];
+            $sContent = file_get_contents($sURL);
+            if (preg_match('/callback\((.*)\);$/ms', $sContent, $aMatches) !==1) {
+                throw new \RuntimeException("Content of '$sURL' not handled: $sContent");
+            }
+            $sBadJSON = $aMatches[1];
+            $sJSON = preg_replace('/(?<!")(\w+):/', '"$1":', $sBadJSON);
+            $aData = json_decode($sJSON, true);
 
-            foreach ($aData['config']['regions'] as $iIdx => $aRegion) {
+            foreach ($aData['config']['regions'] as $idxRegion => $aRegion) {
                 $sRegion = self::$aRegionMapping[$aRegion['region']];
                 $aRegion['region'] = $sRegion;
                 $aData['config']['regions'][$sRegion] = $aRegion;
-                unset($aData['config']['regions'][$iIdx]);
+                unset($aData['config']['regions'][$idxRegion]);
 
                 $aNewRegion = &$aData['config']['regions'][$sRegion];
-                foreach ($aNewRegion['instanceTypes'] as $iIdx => $aTypes) {
-                    $sType = self::$aInstanceTypeMapping[strtolower($aTypes['type'])];
-                    $aTypes['type'] = $sType;
-                    $aNewRegion['instanceTypes'][$sType] = $aTypes;
-                    unset($aNewRegion['instanceTypes'][$iIdx]);
+                foreach ($aNewRegion['instanceTypes'] as $idxType => $aType) {
 
-                    $aNewTypes = &$aNewRegion['instanceTypes'][$sType];
-                    foreach ($aNewTypes['sizes'] as $iIdx => $aSize) {
-                        $sSize = self::$aInstanceSizeMapping[$aSize['size']];
+                    foreach ($aType['sizes'] as $idxSize => $aSize) {
+                        if (preg_match('/^([^.]+)\.([^.]+)$/', $aSize['size'], $aMatches) !== 1) {
+                            $sMsg = "Size format not handled: '" . $aSize['size']
+                                  . "'. Region: " . print_r($aRegion, true);
+                            throw new \RuntimeException($sMsg);
+                        }
+                        $aType['type'] = $aMatches[1];
+                        $sSize = $aMatches[2];
                         $aSize['size'] = $sSize;
-                        $aNewTypes['sizes'][$sSize] = $aSize;
-                        unset($aNewTypes['sizes'][$iIdx]);
+                        $aType['sizes'][$sSize] = $aSize;
+                        unset($aType['sizes'][$idxSize]);
 
-                        $aNewSize = &$aNewTypes['sizes'][$sSize];
-                        foreach ($aNewSize['valueColumns'] as $iIdx => $aPrice) {
+                        $aNewSize = &$aType['sizes'][$sSize];
+                        foreach ($aNewSize['valueColumns'] as $idxPrice => $aPrice) {
                             if ($aPrice['name'] == 'ec2') {
                                 $aNewSize['valueColumns']['ec2'] = $aPrice;
-                                unset($aNewSize['valueColumns'][$iIdx]);
+                                unset($aNewSize['valueColumns'][$idxPrice]);
                             }
                             if ($aPrice['name'] == 'emr') {
                                 $aNewSize['valueColumns']['emr'] = $aPrice;
-                                unset($aNewSize['valueColumns'][$iIdx]);
+                                unset($aNewSize['valueColumns'][$idxPrice]);
                             }
                         }
+                        $aNewRegion['instanceTypes'][$aType['type']] = $aType;
                     }
+                    unset($aNewRegion['instanceTypes'][$idxType]);
                 }
             }
+            $this->aData = $aData;
         }
-        $this->aData = $aData;
     }
 
     /**
-     * Returns EC2 plus the additional EMR price of an instance with the specified type, size and region.
+     * Returns both EC2 and additional EMR price of an instance with the specified type, size and region.
      *
      * @param string $sRegion EC2 instance region
      * @param string $sInstanceType EC2 instance type
      * @param string $sSize EC2 instance size
-     * @return float EC2 plus the additional EMR price of an instance with the specified type, size and region.
+     * @return array both EC2 and additional EMR price (float) of an instance with the specified type, size and region.
      */
     public function getUSDPrice ($sRegion, $sInstanceType, $sSize)
     {
         if (isset($this->aData['config']['regions'][$sRegion]['instanceTypes'][$sInstanceType]['sizes'][$sSize])) {
             $aData = $this->aData['config']['regions'][$sRegion]['instanceTypes'][$sInstanceType]['sizes'][$sSize];
-            return $aData['valueColumns']['ec2']['prices']['USD'] + $aData['valueColumns']['emr']['prices']['USD'];
+            $fEC2Price = (float)$aData['valueColumns']['ec2']['prices']['USD'];
+            $fEMRPrice = (float)$aData['valueColumns']['emr']['prices']['USD'];
         } else {
-            return 0;
+            $fEC2Price = 0;
+            $fEMRPrice = 0;
         }
+        return array($fEC2Price, $fEMRPrice);
     }
 }

@@ -146,6 +146,16 @@ class Rendering
     }
 
     /**
+     * Display error message about unkown job flow id.
+     *
+     * @param string $sJobflowId jobflow id, e.g. 'j-3PEQM17A7419J'
+     */
+    public function displayUnkownJob ($sJobflowId)
+    {
+        $this->oLogger->error("Unkown job flow id: $sJobflowId");
+    }
+
+    /**
      * Display general status of the specified job:
      * master public DNS name, log URI, zone, normalized hours, status, init/start/end date.
      *
@@ -185,7 +195,7 @@ class Rendering
         $fMaxTotalPrice = $aJob['Instances']['MaxTotalPrice'];
         $sMsg = str_pad('Norm. hours, price: ', 23, ' ')
               . (empty($sNormInstanceHours) ? '–' : $sNormInstanceHours .'h')
-              . ', {C.price}' . ($fMaxTotalPrice == 0 ? '–' : '≤ $' . $fMaxTotalPrice);
+              . ', {C.price}' . ($fMaxTotalPrice == 0 ? '–' : '≤ $' . $fMaxTotalPrice) . ' (EC2+EMR)';
         $this->oLogger->info($sMsg);
         $this->displayStatusAndDates($aJob['ExecutionStatusDetail']);
 
@@ -238,10 +248,11 @@ class Rendering
     }
 
     /**
-     * Display colored status of a jobflow, an instance or a step.
+     * Return colored message about status of a jobflow, an instance or a step.
      *
      * @param string $sStatus
      * @param string $sStateChangeReason
+     * @return string colored message about status of a jobflow, an instance or a step.
      * @see $aStatusColors
      */
     private function getColoredStatus ($sStatus, $sStateChangeReason)
@@ -259,7 +270,7 @@ class Rendering
      * <pre>
      * Instances
      *     Master Instance Group
-     *         Detail:                MASTER, ON_DEMAND, 0/1 m1.xlarge, $0.6 /h/instance
+     *         Detail:                MASTER, ON_DEMAND, 0/1 m1.xlarge, $0.6 /h/instance (EC2+EMR)
      *         Status:                ENDED, Job flow terminated
      *         Init/start/end date:   2013-06-10 13:06:39  /  2013-06-10 13:10:00 (+00:03:21)
      *                                                     /  2013-06-10 13:13:43 (+00:03:43)
@@ -292,11 +303,15 @@ class Rendering
                 }
             }
             if ($sMarket == 'SPOT') {
-                $fPrice = 'bid:$' . $aJobIGroup['BidPrice'] . ' ask:' . $sAskPrice;
-            } elseif (! empty($aJobIGroup['OnDemandPrice'])) {
-                $fPrice = '$' . $aJobIGroup['OnDemandPrice'];
+                $fPrice = 'bid:$' . $aJobIGroup['BidPrice'] . ' ask:' . $sAskPrice
+                        . ' EMR:$' . $aJobIGroup['EMRPrice'];
+                $sInfo = '';
+            } elseif (! empty($aJobIGroup['EC2Price'])) {
+                $fPrice = '$' . ($aJobIGroup['EC2Price'] + $aJobIGroup['EMRPrice']);
+                $sInfo = ' (EC2+EMR)';
             } else {
                 $fPrice = '';
+                $sInfo = '';
             }
 
             $sMsg = $aJobIGroup['InstanceRunningCount'] . '/' . $aJobIGroup['InstanceRequestCount'];
@@ -307,6 +322,7 @@ class Rendering
                 . '{C.' . $this->getColorAccordingToRatio($fRatio) . '}' . $sMsg
                 . '{C.info} ' . $aJobIGroup['InstanceType']
                 . ', {C.price}' . (empty($fPrice) ? '–' : $fPrice . ' /h/instance')
+                . $sInfo
             );
             if (isset($aJobIGroup['AskPriceError']) && $aJobIGroup['AskPriceError'] instanceof \RuntimeException) {
                 $sMsg = 'Error when fetching spot instance pricing!'
@@ -338,7 +354,7 @@ class Rendering
             3 => 'discreet_ok',
             4 => 'ok'
         );
-        return $aColors[floor($fRatio / 0.25)];
+        return $aColors[(int)floor($fRatio / 0.25)];
     }
 
     /**
@@ -471,7 +487,7 @@ class Rendering
      *         (job_201306060840_) 0001
      * </pre>
      *
-     * @param array see $aJob resources/job.log for the job array structure
+     * @param array $aJob resources/job.log for the job array structure
      * @param string $sRawSummary content of job stats section of s3://path/to/steps/stderr files
      * @param array $aErrorsMsg list of error messages (string)
      * @param array $aS3LogSteps list of s3://path/to/steps/stderr pathes

@@ -1,9 +1,30 @@
 # EMR Monitoring
 
 [![Latest stable version](https://poser.pugx.org/himedia/emr-monitoring/v/stable.png "Latest stable version")](https://packagist.org/packages/himedia/emr-monitoring)
+[![Dependency Status](https://www.versioneye.com/user/projects/535293ebfe0d074f38000057/badge.png)](https://www.versioneye.com/user/projects/535293ebfe0d074f38000057)
 
 Command line tool for monitoring Amazon Elastic MapReduce ([Amazon EMR](http://aws.amazon.com/elasticmapreduce/)) jobflows
 and analyze past jobflows.
+
+## Table of Contents
+
+  * [Overview](#overview)
+  * [Description](#description)
+    * [Retrieve information from many places](#retrieve-information-from-many-places)
+    * [All that information is gathered in one screen](#all-that-information-is-gathered-in-one-screen)
+    * [Task timeline](#task-timeline)
+  * [Installing](#installing)
+    * [Git clone](#git-clone)
+    * [Configuration](#configuration)
+    * [Dependencies](#dependencies)
+  * [Usage](#usage)
+    * [Command line options](#command-line-options)
+    * [With a finished jobflow](#with-a-finished-jobflow)
+    * [With a new jobflow](#with-a-new-jobflow)
+  * [Documentation](#documentation)
+  * [Copyrights & licensing](#copyrights--licensing)
+  * [ChangeLog](#changelog)
+  * [Git branching model](#git-branching-model)
 
 ## Overview
 
@@ -14,21 +35,21 @@ and analyze past jobflows.
 ### Retrieve information from many places
 
   1. Amazon EMR via [Amazon Elastic MapReduce Ruby Client](http://aws.amazon.com/developertools/2264) to get description of a jobflow:
-  
+
     ```bash
 $ elastic-mapreduce --describe <jobflowid>…
     ```
 
-  2. Amazon EC2 via [Amazon EC2 API Tools](http://aws.amazon.com/developertools/351) 
+  2. Amazon EC2 via [Amazon EC2 API Tools](http://aws.amazon.com/developertools/351)
   to retrieve history of spots instances price:
-  
+
     ```bash
 $ ec2-describe-spot-price-history …
     ```
 
-  3. Amazon S3 via [S3cmd](http://s3tools.org/s3cmd) to get size of both input and output files, to retrieve potential 
+  3. Amazon S3 via [S3cmd](http://s3tools.org/s3cmd) to get size of both input and output files, to retrieve potential
   errors and to get log summary:
-  
+
     ```bash
 $ s3cmd ls <input|output>
 $ s3cmd get s3://…/steps/…/stderr
@@ -37,16 +58,16 @@ $ s3cmd get s3://…/jobs/job_…
 
   4. Amazon Elastic MapReduce Pricing of On-Demand instances via this [URL](http://aws.amazon.com/elasticmapreduce/pricing/)
   and its underlying [JSON service](http://aws.amazon.com/elasticmapreduce/pricing/pricing-emr.json).
-  
-  5. [Hadoop JobTracker](http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-manage-view-web-interfaces.html) 
+
+  5. [Hadoop JobTracker](http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-manage-view-web-interfaces.html)
   running on the master node and accessed by an automatic SSH tunnel:
-  
+
     ```bash
 $ ssh -N -L 12345:localhost:9100 hadoop@<MasterPublicDnsName> …
 $ wget http://localhost:12345/jobtracker.jsp
     ```
 
-  6. Additionally, **EMR Monitoring** computes elapsed times between various events 
+  6. Additionally, **EMR Monitoring** computes elapsed times between various events
   and realizes an estimation of the jobflow's total cost.
 
 ### All that information is gathered in one screen
@@ -64,21 +85,21 @@ Result with a completed jobflow *(click for full resolution image)*:
 ##### Price
 
   * The ask price for spot instances comes in real time from EC2 API Tools.
-  * The total price in general section is the sum of the prices of each instance group, 
+  * The total price in general section is the sum of the prices of each instance group,
   *i.e.* for each group: `<instance-price> × <number-of-instances> × ceil(<number-of-hours>)`.
-  
+
 ##### Elapsed times
 
   * Elapsed times in gray measure the time elapsed between initialization and start date of instance/step,
   and between start date and end date of instance/step.
   * When start date or end date is unknown, then elapsed times are computed according to the local time
   and a `≈` sign is added.
-  
+
 ##### Completion percentages
 
-Completion percentages are computed from Hadoop JobTracker data and are **NOT** 
+Completion percentages are computed from Hadoop JobTracker data and are **NOT**
 the number of remaining tasks divided by the number of completed tasks.
-  
+
 ##### Error messages
 
 Error messages, if any, are always displayed:
@@ -102,7 +123,7 @@ Result with a completed jobflow *(click for full resolution image)*:
 
 ### Git clone
 
-Create a folder, *e.g.* `/usr/local/lib/emr-monitoring`, and `cd` into it. 
+Create a folder, *e.g.* `/usr/local/lib/emr-monitoring`, and `cd` into it.
 Then clone the repository (the folder must be empty!):
 
 ```bash
@@ -153,7 +174,7 @@ Read <http://getcomposer.org/doc/00-intro.md#installation-nix> for more informat
 
 #### EMR CLI
 
-[Amazon Elastic MapReduce Ruby Client](http://aws.amazon.com/developertools/2264) 
+[Amazon Elastic MapReduce Ruby Client](http://aws.amazon.com/developertools/2264)
 is needed to get description of a jobflow.
 *Warning: it requires Ruby 1.8.7 and is not compatible with later versions of Ruby.*
 
@@ -181,7 +202,7 @@ Create a file named `/usr/local/lib/elastic-mapreduce-cli/credentials.json` with
 
 The `key-pair-file` key is especially used to open a SSH tunnel to the master node and consult Hadoop JobTracker.
 
-If necessary, adapt `emr_cli_bin`, `aws_access_key` and `aws_secret_key` keys 
+If necessary, adapt `emr_cli_bin`, `aws_access_key` and `aws_secret_key` keys
 of `$aConfig['Himedia\EMR']` in `conf/config.php`.
 
 Read <http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-cli-install.html> for more information.
@@ -259,30 +280,30 @@ $ src/emr-monitoring.php [-h|--help]
 ```
 Usage
     emr_monitoring.php [OPTION]…
- 
+
 Options
     -h, --help
         Display this help.
-     
+
     -l, --list-all-jobflows
         List all jobflows in the last 2 weeks.
-     
+
     -j, --jobflow-id <jobflowid>
         Display statistics on any <jobflowid>, finished or in progress.
         ⇒ to monitor a jobflow in real-time: watch -n10 --color emr_monitoring.php -j <jobflowid>
-     
+
     --list-input-files
         With -j, list all S3 input files really loaded by Hadoop instance of the completed <jobflowid>.
         Disable --json.
-        
+
     --json
         With -j, convert statistics to JSON format.
         Overridden by --list-input-files.
-     
+
     -p, --ssh-tunnel-port <port>
-        With -j, specify the <port> used to establish a connection to the master node and retrieve data 
+        With -j, specify the <port> used to establish a connection to the master node and retrieve data
         from the Hadoop jobtracker.
-     
+
     -d, --debug
         Enable debug mode and list all shell commands.
 ```
@@ -316,23 +337,23 @@ $ /usr/local/lib/elastic-mapreduce-cli/elastic-mapreduce \
     ```bash
 $ src/emr-monitoring.php -l
     ```
-    
+
     ![All jobflows](doc/images/list-all-jobflows.png "All jobflows")
-    
+
 3. Start monitoring of the jobflow:
 
     ```bash
 $ watch -n15 --color src/emr-monitoring.php -j j-88OW7Z7O3T9H
     ```
-    
+
     You can easily view the task timeline with, for example, [Eye of Gnome](http://projects.gnome.org/eog/):
-    
+
     ```bash
 $ eog <image-path> &
     ```
 
 ## Documentation
-[API documentation](http://htmlpreview.github.io/?https://github.com/Hi-Media/EmrMonitoring/blob/stable/doc/api/index.html) generated by [ApiGen](http://apigen.org/) 
+[API documentation](http://htmlpreview.github.io/?https://github.com/Hi-Media/EmrMonitoring/blob/stable/doc/api/index.html) generated by [ApiGen](http://apigen.org/)
 and included in the `doc/api` folder.
 
 ## Copyrights & licensing
