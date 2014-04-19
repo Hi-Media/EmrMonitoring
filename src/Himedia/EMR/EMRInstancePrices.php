@@ -143,20 +143,23 @@ class EMRInstancePrices
     }
 
     /**
-     * Returns EC2 plus the additional EMR price of an instance with the specified type, size and region.
+     * Returns both EC2 and additional EMR price of an instance with the specified type, size and region.
      *
      * @param string $sRegion EC2 instance region
      * @param string $sInstanceType EC2 instance type
      * @param string $sSize EC2 instance size
-     * @return float EC2 plus the additional EMR price of an instance with the specified type, size and region.
+     * @return array both EC2 and additional EMR price (float) of an instance with the specified type, size and region.
      */
     public function getUSDPrice ($sRegion, $sInstanceType, $sSize)
     {
         if (isset($this->aData['config']['regions'][$sRegion]['instanceTypes'][$sInstanceType]['sizes'][$sSize])) {
             $aData = $this->aData['config']['regions'][$sRegion]['instanceTypes'][$sInstanceType]['sizes'][$sSize];
-            return $aData['valueColumns']['ec2']['prices']['USD'] + $aData['valueColumns']['emr']['prices']['USD'];
+            $fEC2Price = (float)$aData['valueColumns']['ec2']['prices']['USD'];
+            $fEMRPrice = (float)$aData['valueColumns']['emr']['prices']['USD'];
         } else {
-            return 0;
+            $fEC2Price = 0;
+            $fEMRPrice = 0;
         }
+        return array($fEC2Price, $fEMRPrice);
     }
 }

@@ -124,28 +124,29 @@ class Monitoring
             foreach ($aJob['Instances']['InstanceGroups'] as $iIdx => $aJobIGroup) {
                 $sRegion = substr($aJob['Instances']['Placement']['AvailabilityZone'], 0, -1);
                 list($sInstanceType, $sSize) = explode('.', $aJobIGroup['InstanceType']);
-                $fPrice = $this->oEMRInstancePrices->getUSDPrice($sRegion, $sInstanceType, $sSize);
-                $aJob['Instances']['InstanceGroups'][$iIdx]['OnDemandPrice'] = $fPrice;
+                list($fEC2Price, $fEMRPrice) = $this->oEMRInstancePrices->getUSDPrice($sRegion, $sInstanceType, $sSize);
+                $aJob['Instances']['InstanceGroups'][$iIdx]['EC2Price'] = $fEC2Price;
+                $aJob['Instances']['InstanceGroups'][$iIdx]['EMRPrice'] = $fEMRPrice;
 
                 if ($aJobIGroup['Market'] == 'SPOT') {
                     $sZone = $aJob['Instances']['Placement']['AvailabilityZone'];
                     try {
-                        $fPrice = $this->getSpotInstanceCurrentPricing($aJobIGroup['InstanceType'], $sZone);
+                        $fEC2Price = $this->getSpotInstanceCurrentPricing($aJobIGroup['InstanceType'], $sZone);
                         $aJob['Instances']['InstanceGroups'][$iIdx]['AskPriceError'] = null;
                     } catch (\RuntimeException $oException) {
-                        $fPrice = 0;
+                        $fEC2Price = 0;
                         $aJob['Instances']['InstanceGroups'][$iIdx]['AskPriceError'] = $oException;
                     }
-                    $aJob['Instances']['InstanceGroups'][$iIdx]['AskPrice'] = $fPrice;
-                    $fPrice = min($fPrice, $aJob['Instances']['InstanceGroups'][$iIdx]['OnDemandPrice']);
+                    $aJob['Instances']['InstanceGroups'][$iIdx]['AskPrice'] = $fEC2Price;
                 }
 
                 $this->computeElapsedTimes($aJob['Instances']['InstanceGroups'][$iIdx]);
                 if (! empty($aJob['Instances']['InstanceGroups'][$iIdx]['ElapsedTimeToEndDateTime'])
-                    && ! empty($fPrice)
+                    && ! empty($fEC2Price)
                 ) {
                     $iRoundedHours = ceil($aJob['Instances']['InstanceGroups'][$iIdx]['ElapsedTimeToEndDateTime']/3600);
-                    $aJob['Instances']['MaxTotalPrice'] += $iRoundedHours*$fPrice*$aJobIGroup['InstanceRequestCount'];
+                    $aJob['Instances']['MaxTotalPrice'] += ($fEC2Price + $fEMRPrice) * $iRoundedHours
+                                                         * $aJobIGroup['InstanceRequestCount'];
                 }
             }
 
@@ -388,13 +389,24 @@ class Monitoring
             $aDates['ElapsedTimeToEndDateTime'] = null;
 
         } else {
+            // Compute ElapsedTimeToStartDateTime:
             $oCreationDate = new \DateTime('@' . (int)$aDates['CreationDateTime']);
-            $mTs = ($aDates['StartDateTime'] === null ? null : '@' . (int)$aDates['StartDateTime']);
-            $oStartDate = new \DateTime($mTs);
-            $aDates['ElapsedTimeToStartDateTime'] =
-                max(0, $oStartDate->getTimestamp() - $oCreationDate->getTimestamp());
+            if ($aDates['StartDateTime'] === null && $aDates['EndDateTime'] !== null) {
+                $aDates['ElapsedTimeToStartDateTime'] = null;
+            } else {
+                $mTs = ($aDates['StartDateTime'] === null ? null : '@' . (int)$aDates['StartDateTime']);
+                $oStartDate = new \DateTime($mTs);
+                $aDates['ElapsedTimeToStartDateTime'] =
+                    max(0, $oStartDate->getTimestamp() - $oCreationDate->getTimestamp());
+            }
 
-            if ($aDates['StartDateTime'] === null) {
+            // Compute ElapsedTimeToEndDateTime:
+            if ($aDates['StartDateTime'] === null && $aDates['EndDateTime'] !== null) {
+                $mTs = '@' . (int)$aDates['EndDateTime'];
+                $oEndDate = new \DateTime($mTs);
+                $aDates['ElapsedTimeToEndDateTime'] =
+                    max(0, $oEndDate->getTimestamp() - $oCreationDate->getTimestamp());
+            } elseif ($aDates['StartDateTime'] === null) {
                 $aDates['ElapsedTimeToEndDateTime'] = null;
             } else {
                 $mTs = ($aDates['EndDateTime'] === null ? null : '@' . (int)$aDates['EndDateTime']);
